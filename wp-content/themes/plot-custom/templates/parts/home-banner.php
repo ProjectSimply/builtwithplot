@@ -14,7 +14,7 @@
 
                     <div class="homeBanner__item homeBanner__item--button homeBanner__item--buttonDesktop">
                     
-                        <a target="_blank" href="<?= get_field('home_banner_link') ?>" class="button homeBanner__button"><?= get_field('home_banner_button_text') ?></a>
+                        <a href="<?= get_field('home_banner_link') ?>" class="button homeBanner__button"><?= get_field('home_banner_button_text') ?></a>
         
                     </div>
 
