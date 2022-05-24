@@ -2326,6 +2326,9 @@ body {
   --red: #F55252;
   --dark-purple: #B569B8;
   --sky: #7AE5E5;
+  --navy: #263346;
+  --southFacingPurple: #C29DFF;
+  --brockWellBg: #265840;
 }
 
 a {
@@ -2428,22 +2431,6 @@ a {
 
 .page-features .footer__demo {
   background-color: var(--mint);
-}
-
-.beta {
-  background-color: var(--red);
-  font-size: 0.9rem;
-  color: white;
-  position: fixed;
-  width: 6rem;
-  height: 4rem;
-  padding-top: 0.3rem;
-  text-align: center;
-  text-indent: -0.2rem;
-  left: 0;
-  transform: rotate3d(0, 0, 1, 45deg);
-  transform-origin: 0 0;
-  bottom: 0;
 }
 
 @media screen and (min-width: 640px) {
@@ -4941,16 +4928,31 @@ html.burgerOpen .menuToggle--cross {
   transition: color 0.2s ease-in-out, fill 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
+body.home .homeBanner:after {
+  background-color: var(--navy);
+}
+body.home .homeBanner:before {
+  background-color: var(--navy);
+}
+body.home .homeBanner__title,
+body.home .homeBanner__subtitle,
+body.home .mainMenu a {
+  color: white;
+}
+body.home .siteMainHeader__logo path,
+body.home .menuToggle--burger path {
+  fill: white;
+}
 body.home .homeBanner__asset.homeBanner__asset--1 path {
-  fill: var(--yellow);
+  fill: var(--southFacingPurple);
   transition: fill 1s ease-out;
 }
 body.home .homeBanner__asset.homeBanner__asset--2 path {
-  fill: var(--mint);
+  fill: var(--southFacingPurple);
   transition: fill 1s ease-out;
 }
 body.home .mobile3D__screen:after {
-  background-image: url(../img/heros/africa-oye/Screen.jpg);
+  background-image: url(../img/heros/south-facing/Screen.jpg);
 }
 body.home[data-current-theme] .homeBanner__asset.homeBanner__asset--1 path, body.home[data-current-theme] .homeBanner__asset.homeBanner__asset--2 path {
   fill: rgba(255, 255, 255, 0.1);
@@ -4963,93 +4965,98 @@ body.home .mobile3D__side--right:before {
 }
 body.home .mobile3D__side--right:after,
 body.home .mobile3D__side--left:after {
-  background-image: url(../img/heros/africa-oye/Right.jpg);
+  background-image: url(../img/heros/south-facing/Right.jpg);
 }
 
-body.home[data-previous-theme=home] .homeBanner:before, body.home[data-previous-theme=africaoye] .homeBanner:before {
-  background-color: white;
+body.home[data-previous-theme=home] .homeBanner:before,
+body.home[data-previous-theme=southfacing] .homeBanner:before,
+body.home[data-previous-theme=southfacing] .homeBanner:before {
+  background-color: var(--navy);
 }
-body.home[data-previous-theme=home] .mobile3D__screen:before, body.home[data-previous-theme=africaoye] .mobile3D__screen:before {
-  background-image: url(../img/heros/africa-oye/Screen.jpg);
+body.home[data-previous-theme=home] .mobile3D__screen:before,
+body.home[data-previous-theme=southfacing] .mobile3D__screen:before,
+body.home[data-previous-theme=southfacing] .mobile3D__screen:before {
+  background-image: url(../img/heros/south-facing/Screen.jpg);
 }
-body.home[data-previous-theme=home] .mobile3D__side--right:before, body.home[data-previous-theme=africaoye] .mobile3D__side--right:before {
-  background-image: url(../img/heros/africa-oye/Right.jpg);
+body.home[data-previous-theme=home] .mobile3D__side--right:before,
+body.home[data-previous-theme=southfacing] .mobile3D__side--right:before,
+body.home[data-previous-theme=southfacing] .mobile3D__side--right:before {
+  background-image: url(../img/heros/south-facing/Right.jpg);
 }
-body.home[data-previous-theme=home] .mobile3D__side--left:before, body.home[data-previous-theme=africaoye] .mobile3D__side--left:before {
-  background-image: url(../img/heros/africa-oye/Left.jpg);
+body.home[data-previous-theme=home] .mobile3D__side--left:before,
+body.home[data-previous-theme=southfacing] .mobile3D__side--left:before,
+body.home[data-previous-theme=southfacing] .mobile3D__side--left:before {
+  background-image: url(../img/heros/south-facing/Left.jpg);
 }
 
-body.home[data-current-theme=arts] .homeBanner:after {
-  background-color: #E90030;
+body.home[data-current-theme=brockwell] .homeBanner:after {
+  background-color: #F7CD47;
 }
-body.home[data-current-theme=arts] .homeBanner__title,
-body.home[data-current-theme=arts] .homeBanner__subtitle,
-body.home[data-current-theme=arts] .mainMenu a {
+body.home[data-current-theme=brockwell] .homeBanner__title,
+body.home[data-current-theme=brockwell] .homeBanner__subtitle,
+body.home[data-current-theme=brockwell] .mainMenu a {
+  color: var(--white);
+}
+body.home[data-current-theme=brockwell] .siteMainHeader__logo path,
+body.home[data-current-theme=brockwell] .menuToggle--burger path {
+  fill: var(--white);
+}
+body.home[data-current-theme=brockwell] .mobile3D__screen:after {
+  background-image: url(../img/heros/brock-well/Screen.jpg);
+}
+body.home[data-current-theme=brockwell] .mobile3D__side--right:after {
+  background-image: url(../img/heros/brock-well/Right.jpg);
+}
+body.home[data-current-theme=brockwell] .mobile3D__side--left:after {
+  background-image: url(../img/heros/brock-well/Left.jpg);
+}
+
+body.home[data-previous-theme=brockwell] .homeBanner:before {
+  background-color: #F7CD47;
+}
+body.home[data-previous-theme=brockwell] .mobile3D__screen:before {
+  background-image: url(../img/heros/brock-well/Screen.jpg);
+}
+body.home[data-previous-theme=brockwell] .mobile3D__side--right:before {
+  background-image: url(../img/heros/brock-well/Right.jpg);
+}
+body.home[data-previous-theme=brockwell] .mobile3D__side--left:before {
+  background-image: url(../img/heros/brock-well/Left.jpg);
+}
+
+body.home[data-current-theme=mightyhoopla] .homeBanner:after {
+  background-color: #6908CF;
+}
+body.home[data-current-theme=mightyhoopla] .homeBanner__title,
+body.home[data-current-theme=mightyhoopla] .homeBanner__subtitle,
+body.home[data-current-theme=mightyhoopla] .mainMenu a {
   color: white;
 }
-body.home[data-current-theme=arts] .siteMainHeader__logo path,
-body.home[data-current-theme=arts] .menuToggle--burger path {
+body.home[data-current-theme=mightyhoopla] .siteMainHeader__logo path,
+body.home[data-current-theme=mightyhoopla] .menuToggle--burger path {
   fill: white;
 }
-body.home[data-current-theme=arts] .mobile3D__screen:after {
-  background-image: url(../img/heros/arts-and-kraft/Screen.jpg);
+body.home[data-current-theme=mightyhoopla] .mobile3D__screen:after {
+  background-image: url(../img/heros/mighty-hoopla/Screen.jpg);
 }
-body.home[data-current-theme=arts] .mobile3D__side--right:after {
-  background-image: url(../img/heros/arts-and-kraft/Right.jpg);
+body.home[data-current-theme=mightyhoopla] .mobile3D__side--right:after {
+  background-image: url(../img/heros/mighty-hoopla/Right.jpg);
 }
-body.home[data-current-theme=arts] .mobile3D__side--left:after {
-  background-image: url(../img/heros/arts-and-kraft/Left.jpg);
-}
-
-body.home[data-previous-theme=arts] .homeBanner:before {
-  background-color: #E90030;
-}
-body.home[data-previous-theme=arts] .mobile3D__screen:before {
-  background-image: url(../img/heros/arts-and-kraft/Screen.jpg);
-}
-body.home[data-previous-theme=arts] .mobile3D__side--right:before {
-  background-image: url(../img/heros/arts-and-kraft/Right.jpg);
-}
-body.home[data-previous-theme=arts] .mobile3D__side--left:before {
-  background-image: url(../img/heros/arts-and-kraft/Left.jpg);
+body.home[data-current-theme=mightyhoopla] .mobile3D__side--left:after {
+  background-image: url(../img/heros/mighty-hoopla/Left.jpg);
 }
 
-body.home[data-current-theme=sounds] .homeBanner:after {
-  background: linear-gradient(0deg, #841559 0%, #321735 100%);
+body.home[data-previous-theme=mightyhoopla] .homeBanner:before {
+  background-color: #6908CF;
 }
-body.home[data-current-theme=sounds] .homeBanner__title,
-body.home[data-current-theme=sounds] .mainMenu a,
-body.home[data-current-theme=sounds] .homeBanner__subtitle {
-  color: white;
+body.home[data-previous-theme=mightyhoopla] .mobile3D__screen:before {
+  background-image: url(../img/heros/mighty-hoopla/Screen.jpg);
 }
-body.home[data-current-theme=sounds] .siteMainHeader__logo path,
-body.home[data-current-theme=sounds] .menuToggle--burger path {
-  fill: white;
+body.home[data-previous-theme=mightyhoopla] .mobile3D__side--right:before {
+  background-image: url(../img/heros/mighty-hoopla/Right.jpg);
 }
-body.home[data-current-theme=sounds].smallScreen .mobile3D__phone {
-  transform: rotate3d(-3, 5, 0, -25deg);
-}
-body.home[data-current-theme=sounds] .mobile3D__screen:after {
-  background-image: url(../img/heros/sound-ways/Screen.jpg);
-}
-body.home[data-current-theme=sounds] .mobile3D__side--right:after {
-  background-image: url(../img/heros/sound-ways/Right.jpg);
-}
-body.home[data-current-theme=sounds] .mobile3D__side--left:after {
-  background-image: url(../img/heros/sound-ways/Left.jpg);
-}
-
-body.home[data-previous-theme=sounds] .homeBanner:before {
-  background: linear-gradient(0deg, #841559 0%, #321735 100%);
-}
-body.home[data-previous-theme=sounds] .mobile3D__screen:before {
-  background-image: url(../img/heros/sound-ways/Screen.jpg);
-}
-body.home[data-previous-theme=sounds] .mobile3D__side--right:before {
-  background-image: url(../img/heros/sound-ways/Right.jpg);
-}
-body.home[data-previous-theme=sounds] .mobile3D__side--left:before {
-  background-image: url(../img/heros/sound-ways/Left.jpg);
+body.home[data-previous-theme=mightyhoopla] .mobile3D__side--left:before {
+  background-image: url(../img/heros/mighty-hoopla/Left.jpg);
 }
 
 body.home[data-current-theme=africaoye] .homeBanner:after {
@@ -5058,305 +5065,27 @@ body.home[data-current-theme=africaoye] .homeBanner:after {
 body.home[data-current-theme=africaoye].smallScreen .mobile3D__phone {
   transform: rotate3d(3, 5, 0, 45deg);
 }
+body.home[data-current-theme=africaoye] .mobile3D__screen:after {
+  background-image: url(../img/heros/africa-oye/Screen.jpg);
+}
+body.home[data-current-theme=africaoye] .mobile3D__side--right:after {
+  background-image: url(../img/heros/africa-oye/Right.jpg);
+}
+body.home[data-current-theme=africaoye] .mobile3D__side--left:after {
+  background-image: url(../img/heros/africa-oye/Left.jpg);
+}
 
 body.home[data-previous-theme=africaoye] .homeBanner:before {
   background-color: #FFBD00;
 }
-
-body.home[data-current-theme=casa] .homeBanner:after {
-  background-color: #F3A238;
+body.home[data-previous-theme=africaoye] .mobile3D__screen:before {
+  background-image: url(../img/heros/africa-oye/Screen.jpg);
 }
-body.home[data-current-theme=casa] .homeBanner__title,
-body.home[data-current-theme=casa] .homeBanner__subtitle,
-body.home[data-current-theme=casa] .mainMenu a {
-  color: white;
+body.home[data-previous-theme=africaoye] .mobile3D__side--right:before {
+  background-image: url(../img/heros/africa-oye/Right.jpg);
 }
-body.home[data-current-theme=casa] .siteMainHeader__logo path,
-body.home[data-current-theme=casa] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=casa].smallScreen .mobile3D__phone {
-  transform: rotate3d(3, 5, 0, 25deg);
-}
-body.home[data-current-theme=casa] .mobile3D__screen:after {
-  background-image: url(../img/heros/mi-casa/Screen.jpg);
-}
-body.home[data-current-theme=casa] .mobile3D__side--right:after {
-  background-image: url(../img/heros/mi-casa/Right.jpg);
-}
-body.home[data-current-theme=casa] .mobile3D__side--left:after {
-  background-image: url(../img/heros/mi-casa/Left.jpg);
-}
-
-body.home[data-previous-theme=casa] .homeBanner:before {
-  background-color: #F3A238;
-}
-body.home[data-previous-theme=casa] .mobile3D__screen:before {
-  background-image: url(../img/heros/mi-casa/Screen.jpg);
-}
-body.home[data-previous-theme=casa] .mobile3D__side--right:before {
-  background-image: url(../img/heros/mi-casa/Right.jpg);
-}
-body.home[data-previous-theme=casa] .mobile3D__side--left:before {
-  background-image: url(../img/heros/mi-casa/Left.jpg);
-}
-
-body.home[data-current-theme=future] .homeBanner:after {
-  background-color: #FC7F3A;
-}
-body.home[data-current-theme=future] .homeBanner__title,
-body.home[data-current-theme=future] .homeBanner__subtitle,
-body.home[data-current-theme=future] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=future] .siteMainHeader__logo path,
-body.home[data-current-theme=future] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=future].smallScreen .mobile3D__phone {
-  transform: rotate3d(-3, 5, 0, -25deg);
-}
-body.home[data-current-theme=future] .mobile3D__screen:after {
-  background-image: url(../img/heros/back-in-the-future/Screen.jpg);
-}
-body.home[data-current-theme=future] .mobile3D__side--right:after {
-  background-image: url(../img/heros/back-in-the-future/Right.jpg);
-}
-body.home[data-current-theme=future] .mobile3D__side--left:after {
-  background-image: url(../img/heros/back-in-the-future/Right.jpg);
-}
-
-body.home[data-previous-theme=future] .homeBanner:before {
-  background-color: #FC7F3A;
-}
-body.home[data-previous-theme=future] .mobile3D__screen:before {
-  background-image: url(../img/heros/back-in-the-future/Screen.jpg);
-}
-body.home[data-previous-theme=future] .mobile3D__side--right:before {
-  background-image: url(../img/heros/back-in-the-future/Right.jpg);
-}
-body.home[data-previous-theme=future] .mobile3D__side--left:before {
-  background-image: url(../img/heros/back-in-the-future/Right.jpg);
-}
-
-body.home[data-current-theme=rhythm] .homeBanner:after {
-  background-color: #FFF035;
-}
-body.home[data-current-theme=rhythm].smallScreen .mobile3D__phone {
-  transform: rotate3d(3, 5, 0, 25deg);
-}
-body.home[data-current-theme=rhythm] .mobile3D__screen:after {
-  background-image: url(../img/heros/rhythm-and-waves/Screen.jpg);
-}
-body.home[data-current-theme=rhythm] .mobile3D__side--right:after {
-  background-image: url(../img/heros/rhythm-and-waves/Right.jpg);
-}
-body.home[data-current-theme=rhythm] .mobile3D__side--left:after {
-  background-image: url(../img/heros/rhythm-and-waves/Left.jpg);
-}
-
-body.home[data-previous-theme=rhythm] .homeBanner:before {
-  background-color: #FFF035;
-}
-body.home[data-previous-theme=rhythm] .mobile3D__screen:before {
-  background-image: url(../img/heros/rhythm-and-waves/Screen.jpg);
-}
-body.home[data-previous-theme=rhythm] .mobile3D__side--right:before {
-  background-image: url(../img/heros/rhythm-and-waves/Right.jpg);
-}
-body.home[data-previous-theme=rhythm] .mobile3D__side--left:before {
-  background-image: url(../img/heros/rhythm-and-waves/Left.jpg);
-}
-
-body.home[data-current-theme=highest] .homeBanner:after {
-  background-color: #FD9898;
-}
-body.home[data-current-theme=highest] .homeBanner__title,
-body.home[data-current-theme=highest] .homeBanner__subtitle,
-body.home[data-current-theme=highest] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=highest] .siteMainHeader__logo path,
-body.home[data-current-theme=highest] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=highest].smallScreen .mobile3D__phone {
-  transform: rotate3d(3, 5, 0, 45deg);
-}
-body.home[data-current-theme=highest] .mobile3D__screen:after {
-  background-image: url(../img/heros/highest-point/Screen.jpg);
-}
-body.home[data-current-theme=highest] .mobile3D__side--right:after {
-  background-image: url(../img/heros/highest-point/Right.jpg);
-}
-body.home[data-current-theme=highest] .mobile3D__side--left:after {
-  background-image: url(../img/heros/highest-point/Left.jpg);
-}
-
-body.home[data-previous-theme=highest] .homeBanner:before {
-  background-color: #FD9898;
-}
-body.home[data-previous-theme=highest] .mobile3D__screen:before {
-  background-image: url(../img/heros/highest-point/Screen.jpg);
-}
-body.home[data-previous-theme=highest] .mobile3D__side--right:before {
-  background-image: url(../img/heros/highest-point/Right.jpg);
-}
-body.home[data-previous-theme=highest] .mobile3D__side--left:before {
-  background-image: url(../img/heros/highest-point/Left.jpg);
-}
-
-body.home[data-current-theme=box] .homeBanner:after {
-  background-color: #1F0087;
-}
-body.home[data-current-theme=box] .homeBanner__title,
-body.home[data-current-theme=box] .homeBanner__subtitle,
-body.home[data-current-theme=box] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=box] .siteMainHeader__logo path,
-body.home[data-current-theme=box] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=box].smallScreen .mobile3D__phone {
-  transform: rotate3d(3, 5, 0, 25deg);
-}
-body.home[data-current-theme=box] .mobile3D__screen:after {
-  background-image: url(../img/heros/the-box/Screen.jpg);
-}
-body.home[data-current-theme=box] .mobile3D__side--right:after {
-  background-image: url(../img/heros/the-box/Right.jpg);
-}
-body.home[data-current-theme=box] .mobile3D__side--left:after {
-  background-image: url(../img/heros/the-box/Left.jpg);
-}
-
-body.home[data-previous-theme=box] .homeBanner:before {
-  background-color: #1F0087;
-}
-body.home[data-previous-theme=box] .mobile3D__screen:before {
-  background-image: url(../img/heros/the-box/Screen.jpg);
-}
-body.home[data-previous-theme=box] .mobile3D__side--right:before {
-  background-image: url(../img/heros/the-box/Right.jpg);
-}
-body.home[data-previous-theme=box] .mobile3D__side--left:before {
-  background-image: url(../img/heros/the-box/Left.jpg);
-}
-
-body.home[data-current-theme=inter] .homeBanner:after {
-  background-color: #171E43;
-}
-body.home[data-current-theme=inter] .homeBanner__title, body.home[data-current-theme=inter] .homeBanner__subtitle {
-  color: white;
-}
-body.home[data-current-theme=inter] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=inter] .siteMainHeader__logo path,
-body.home[data-current-theme=inter] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=inter].smallScreen .mobile3D__phone {
-  transform: rotate3d(-3, 5, 0, -25deg);
-}
-body.home[data-current-theme=inter] .mobile3D__screen:after {
-  background-image: url(../img/heros/gas-giant/Screen.jpg);
-}
-body.home[data-current-theme=inter] .mobile3D__side--right:after {
-  background-image: url(../img/heros/gas-giant/Right.jpg);
-}
-body.home[data-current-theme=inter] .mobile3D__side--left:after {
-  background-image: url(../img/heros/gas-giant/Right.jpg);
-}
-
-body.home[data-previous-theme=inter] .homeBanner:before {
-  background-color: #171E43;
-}
-body.home[data-previous-theme=inter] .mobile3D__screen:before {
-  background-image: url(../img/heros/gas-giant/Screen.jpg);
-}
-body.home[data-previous-theme=inter] .mobile3D__side--right:before {
-  background-image: url(../img/heros/gas-giant/Right.jpg);
-}
-body.home[data-previous-theme=inter] .mobile3D__side--left:before {
-  background-image: url(../img/heros/gas-giant/Right.jpg);
-}
-
-body.home[data-current-theme=halftone] .homeBanner:after {
-  background: linear-gradient(0deg, #6f596a 0%, #0078ca 100%);
-}
-body.home[data-current-theme=halftone] .homeBanner__title,
-body.home[data-current-theme=halftone] .homeBanner__subtitle,
-body.home[data-current-theme=halftone] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=halftone] .siteMainHeader__logo path,
-body.home[data-current-theme=halftone] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=halftone].smallScreen .mobile3D__phone {
-  transform: rotate3d(1, 5, 0, 25deg);
-}
-body.home[data-current-theme=halftone] .mobile3D__screen:after {
-  background-image: url(../img/heros/halftone-point/Screen.jpg);
-}
-body.home[data-current-theme=halftone] .mobile3D__side--right:after {
-  background-image: url(../img/heros/halftone-point/Right.jpg);
-}
-body.home[data-current-theme=halftone] .mobile3D__side--left:after {
-  background-image: url(../img/heros/halftone-point/Right.jpg);
-}
-
-body.home[data-previous-theme=halftone] .homeBanner:before {
-  background: linear-gradient(0deg, #6f596a 0%, #0078ca 100%);
-}
-body.home[data-previous-theme=halftone] .mobile3D__screen:before {
-  background-image: url(../img/heros/halftone-point/Screen.jpg);
-}
-body.home[data-previous-theme=halftone] .mobile3D__side--right:before {
-  background-image: url(../img/heros/halftone-point/Right.jpg);
-}
-body.home[data-previous-theme=halftone] .mobile3D__side--left:before {
-  background-image: url(../img/heros/halftone-point/Right.jpg);
-}
-
-body.home[data-current-theme=deep] .homeBanner:after {
-  background: #003046;
-}
-body.home[data-current-theme=deep] .homeBanner__title,
-body.home[data-current-theme=deep] .homeBanner__subtitle,
-body.home[data-current-theme=deep] .mainMenu a {
-  color: white;
-}
-body.home[data-current-theme=deep] .siteMainHeader__logo path,
-body.home[data-current-theme=deep] .menuToggle--burger path {
-  fill: white;
-}
-body.home[data-current-theme=deep].smallScreen .mobile3D__phone {
-  transform: rotate3d(-1, 3, 0, -35deg);
-}
-body.home[data-current-theme=deep] .mobile3D__screen:after {
-  background-image: url(../img/heros/deep-state/Screen.jpg);
-}
-body.home[data-current-theme=deep] .mobile3D__side--right:after {
-  background-image: url(../img/heros/deep-state/Right.jpg);
-}
-body.home[data-current-theme=deep] .mobile3D__side--left:after {
-  background-image: url(../img/heros/deep-state/Left.jpg);
-}
-
-body.home[data-previous-theme=deep] .homeBanner:before {
-  background: #003046;
-}
-body.home[data-previous-theme=deep] .mobile3D__screen:before {
-  background-image: url(../img/heros/deep-state/Screen.jpg);
-}
-body.home[data-previous-theme=deep] .mobile3D__side--right:before {
-  background-image: url(../img/heros/deep-state/Right.jpg);
-}
-body.home[data-previous-theme=deep] .mobile3D__side--left:before {
-  background-image: url(../img/heros/deep-state/Left.jpg);
+body.home[data-previous-theme=africaoye] .mobile3D__side--left:before {
+  background-image: url(../img/heros/africa-oye/Left.jpg);
 }
 
 .pricingSection__mainFeatures {

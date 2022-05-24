@@ -24,18 +24,10 @@
         mouseMoveAnimationFrame : null,
         currentSlide : 0,
         themes: [
-            'casa',
-            'deep',
-            'highest',
-            'rhythm',
-            'inter',
-            'sounds',
-            'box',
-            'halftone',
-            'future',
-            'arts',
-            'africaoye'
-            
+            'brockwell',
+            'mightyhoopla',
+            'africaoye',
+            'southfacing',
         ],
 
         init: () => {
@@ -143,7 +135,7 @@
             if(Home.dom.header.classList.contains('defaultHeader'))
                 Home.dom.header.classList.remove('defaultHeader') 
 
-            Home.timer(3000)
+            Home.timer(4000)
 
         },
 
@@ -167,7 +159,7 @@
                 // If we reach the end of the themes, reset to first theme
                 Home.currentSlide >= Home.themes.length - 1 ? Home.currentSlide = 0 : Home.currentSlide++
 
-                Home.timer(7000)
+                Home.timer(4000)
 
             }, time)
 

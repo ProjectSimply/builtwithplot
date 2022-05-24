@@ -10,19 +10,37 @@
 }
 
 body.home {
+    .homeBanner:after {
+        background-color: var(--navy);
+    }
+
+    .homeBanner:before {
+        background-color: var(--navy);
+    }
+
+    .homeBanner__title,
+    .homeBanner__subtitle,
+    .mainMenu a {
+        color: white;
+    }
+
+    .siteMainHeader__logo path,
+    .menuToggle--burger path {
+        fill: white;
+    }
+
     .homeBanner__asset.homeBanner__asset--1 path {
-        fill: var(--yellow);
+        fill: var(--southFacingPurple);
         transition: fill 1s ease-out;
     }
 
     .homeBanner__asset.homeBanner__asset--2 path {
-        fill: var(--mint);
+        fill: var(--southFacingPurple);
         transition: fill 1s ease-out;
-
     }
 
     .mobile3D__screen:after {
-        background-image: url(../img/heros/africa-oye/Screen.jpg); 
+        background-image: url(../img/heros/south-facing/Screen.jpg); 
     }
 
     &[data-current-theme] .homeBanner__asset.homeBanner__asset--1 path,
@@ -39,14 +57,159 @@ body.home {
 
     .mobile3D__side--right:after,
     .mobile3D__side--left:after {
-
-        background-image: url(../img/heros/africa-oye/Right.jpg);
+        background-image: url(../img/heros/south-facing/Right.jpg);
     }
 }
 
-body.home[data-previous-theme="home"],body.home[data-previous-theme="africaoye"]  {
+// 
+// South facing
+// 
+body.home[data-previous-theme="home"],
+body.home[data-previous-theme="southfacing"],
+body.home[data-previous-theme="southfacing"]  {
     .homeBanner:before {
-        background-color: white;
+        background-color: var(--navy);
+    }
+    
+    .mobile3D__screen:before {
+        background-image: url(../img/heros/south-facing/Screen.jpg);
+    }
+
+     .mobile3D__side--right:before
+    {
+        background-image: url(../img/heros/south-facing/Right.jpg);
+    }
+    .mobile3D__side--left:before {
+        background-image: url(../img/heros/south-facing/Left.jpg);
+    }
+}
+
+// 
+// Brock Well
+// 
+body.home[data-current-theme="brockwell"] {
+    .homeBanner:after {
+        background-color: #F7CD47;
+    }
+
+    .homeBanner__title,
+    .homeBanner__subtitle,
+    .mainMenu a {
+        color: var(--white);
+    }
+
+    .siteMainHeader__logo path,
+    .menuToggle--burger path {
+        fill: var(--white);
+    }
+
+    .mobile3D__screen:after {
+        background-image: url(../img/heros/brock-well/Screen.jpg);
+    }
+
+    .mobile3D__side--right:after
+    {
+        background-image: url(../img/heros/brock-well/Right.jpg);
+    }
+    .mobile3D__side--left:after {
+        background-image: url(../img/heros/brock-well/Left.jpg);
+    }
+
+}
+
+body.home[data-previous-theme="brockwell"] {
+    .homeBanner:before {
+        background-color: #F7CD47;
+    }
+
+    .mobile3D__screen:before {
+        background-image: url(../img/heros/brock-well/Screen.jpg);
+    }
+
+    .mobile3D__side--right:before { background-image: url(../img/heros/brock-well/Right.jpg) }
+    .mobile3D__side--left:before { background-image: url(../img/heros/brock-well/Left.jpg) }
+
+}
+
+// 
+// Mighty Hoopla
+// 
+body.home[data-current-theme="mightyhoopla"] {
+    .homeBanner:after {
+        background-color: #6908CF;
+    }
+
+    .homeBanner__title,
+    .homeBanner__subtitle,
+    .mainMenu a {
+        color: white;
+    }
+
+    .siteMainHeader__logo path,
+    .menuToggle--burger path {
+        fill: white;
+    }
+
+    .mobile3D__screen:after {
+        background-image: url(../img/heros/mighty-hoopla/Screen.jpg);
+    }
+
+    .mobile3D__side--right:after
+    {
+        background-image: url(../img/heros/mighty-hoopla/Right.jpg);
+    }
+    .mobile3D__side--left:after {
+        background-image: url(../img/heros/mighty-hoopla/Left.jpg);
+    }
+
+}
+
+body.home[data-previous-theme="mightyhoopla"] {
+    .homeBanner:before {
+        background-color: #6908CF;
+    }
+
+    .mobile3D__screen:before {
+        background-image: url(../img/heros/mighty-hoopla/Screen.jpg);
+    }
+
+     .mobile3D__side--right:before
+    {
+        background-image: url(../img/heros/mighty-hoopla/Right.jpg);
+    }
+    .mobile3D__side--left:before {
+        background-image: url(../img/heros/mighty-hoopla/Left.jpg);
+    }
+}
+
+//
+// africaoye
+// 
+body.home[data-current-theme="africaoye"] {
+    .homeBanner:after {
+        background-color: #FFBD00;
+    }
+
+    &.smallScreen .mobile3D__phone {
+        transform: rotate3d(3, 5, 0, 45deg);
+    }
+
+    .mobile3D__screen:after {
+        background-image: url(../img/heros/africa-oye/Screen.jpg);
+    }
+
+    .mobile3D__side--right:after
+    {
+        background-image: url(../img/heros/africa-oye/Right.jpg);
+    }
+    .mobile3D__side--left:after {
+        background-image: url(../img/heros/africa-oye/Left.jpg);
+    }
+}
+
+body.home[data-previous-theme="africaoye"]  {
+    .homeBanner:before {
+        background-color: #FFBD00;
     }
 
     .mobile3D__screen:before {
@@ -59,556 +222,5 @@ body.home[data-previous-theme="home"],body.home[data-previous-theme="africaoye"]
     }
     .mobile3D__side--left:before {
         background-image: url(../img/heros/africa-oye/Left.jpg);
-    }
-}
-
-
-body.home[data-current-theme="arts"] {
-    .homeBanner:after {
-        background-color: #E90030;
-    }
-
-
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/arts-and-kraft/Screen.jpg);
-    }
-
-    .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/arts-and-kraft/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/arts-and-kraft/Left.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="arts"] {
-    .homeBanner:before {
-        background-color: #E90030;
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/arts-and-kraft/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/arts-and-kraft/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/arts-and-kraft/Left.jpg);
-    }
-}
-
-
-
-body.home[data-current-theme="sounds"] {
-    .homeBanner:after {
-        background: linear-gradient(0deg, rgba(132,21,89,1) 0%, rgba(50,23,53,1) 100%);
-    }
-
-
-    .homeBanner__title,
-    .mainMenu a,
-    .homeBanner__subtitle {
-        color: white;
-    }
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(-3, 5, 0, -25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/sound-ways/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/sound-ways/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/sound-ways/Left.jpg);
-    }
-}
-
-body.home[data-previous-theme="sounds"] {
-    .homeBanner:before {
-        background: linear-gradient(0deg, rgba(132,21,89,1) 0%, rgba(50,23,53,1) 100%);
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/sound-ways/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/sound-ways/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/sound-ways/Left.jpg);
-    }
-}
-
-body.home[data-current-theme="africaoye"] {
-    .homeBanner:after {
-        background-color: #FFBD00;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(3, 5, 0, 45deg);
-    }
-
-
-}
-
-body.home[data-previous-theme="africaoye"] {
-    .homeBanner:before {
-        background-color: #FFBD00;
-    }
-
-}
-
-
-
-body.home[data-current-theme="casa"] {
-    .homeBanner:after {
-        background-color:  #F3A238;
-    }
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(3, 5, 0, 25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/mi-casa/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/mi-casa/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/mi-casa/Left.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="casa"] {
-    .homeBanner:before {
-        background-color:  #F3A238;
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/mi-casa/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/mi-casa/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/mi-casa/Left.jpg);
-    }
-}
-
-body.home[data-current-theme="future"] {
-    .homeBanner:after {
-        background-color:  #FC7F3A;
-    }
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(-3, 5, 0, -25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/back-in-the-future/Screen.jpg);
-    }
-
-    .mobile3D__side--right:after {
-        background-image: url(../img/heros/back-in-the-future/Right.jpg);
-    }
-
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/back-in-the-future/Right.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="future"] {
-    .homeBanner:before {
-        background-color:  #FC7F3A;
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/back-in-the-future/Screen.jpg);
-    }
-
-    .mobile3D__side--right:before {
-        background-image: url(../img/heros/back-in-the-future/Right.jpg);
-    }
-
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/back-in-the-future/Right.jpg);
-    }
-}
-
-body.home[data-current-theme="rhythm"] {
-    .homeBanner:after {
-        background-color:  #FFF035;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(3, 5, 0, 25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/rhythm-and-waves/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/rhythm-and-waves/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/rhythm-and-waves/Left.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="rhythm"] {
-    .homeBanner:before {
-        background-color:  #FFF035;
-    }
-
-     .mobile3D__screen:before {
-        background-image: url(../img/heros/rhythm-and-waves/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/rhythm-and-waves/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/rhythm-and-waves/Left.jpg);
-    }
-}
-
-body.home[data-current-theme="highest"] {
-    .homeBanner:after {
-        background-color:  #FD9898;
-    }
-
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(3, 5, 0, 45deg);
-    }
-
-     .mobile3D__screen:after {
-        background-image: url(../img/heros/highest-point/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/highest-point/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/highest-point/Left.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="highest"] {
-    .homeBanner:before {
-        background-color:  #FD9898;
-    }
-
-      .mobile3D__screen:before {
-        background-image: url(../img/heros/highest-point/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/highest-point/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/highest-point/Left.jpg);
-    }
-}
-
-body.home[data-current-theme="box"] {
-    .homeBanner:after {
-        background-color:  #1F0087;
-    }
-
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(3, 5, 0, 25deg);
-    }
-
-       .mobile3D__screen:after {
-        background-image: url(../img/heros/the-box/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/the-box/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/the-box/Left.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="box"] {
-    .homeBanner:before {
-        background-color:  #1F0087;
-    }
-
-      .mobile3D__screen:before {
-        background-image: url(../img/heros/the-box/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/the-box/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/the-box/Left.jpg);
-    }
-}
-
-body.home[data-current-theme="inter"] {
-    .homeBanner:after {
-        background-color:  #171E43;
-    }
-
-
-    .homeBanner__title,.homeBanner__subtitle {
-        color: white;
-    }
-
-    
-    .mainMenu a {
-        color: white;
-    }
-
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(-3, 5, 0, -25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/gas-giant/Screen.jpg);
-    }
-
-    .mobile3D__side--right:after {
-        background-image: url(../img/heros/gas-giant/Right.jpg);
-    }
-
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/gas-giant/Right.jpg);
-    }
-
-}
-
-body.home[data-previous-theme="inter"] {
-    .homeBanner:before {
-        background-color:  #171E43;
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/gas-giant/Screen.jpg);
-    }
-
-    .mobile3D__side--right:before {
-        background-image: url(../img/heros/gas-giant/Right.jpg);
-    }
-
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/gas-giant/Right.jpg);
-    }
-}
-
-body.home[data-current-theme="halftone"] {
-    .homeBanner:after {
-        background: linear-gradient(0deg, rgba(111,89,106,1) 0%, rgba(0,120,202,1) 100%);
-
-    }
-
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(1, 5, 0, 25deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/halftone-point/Screen.jpg);
-    }
-
-    .mobile3D__side--right:after {
-        background-image: url(../img/heros/halftone-point/Right.jpg);
-    }
-
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/halftone-point/Right.jpg);
-    }
-}
-
-body.home[data-previous-theme="halftone"] {
-    .homeBanner:before {
-        background: linear-gradient(0deg, rgba(111,89,106,1) 0%, rgba(0,120,202,1) 100%);
-
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/halftone-point/Screen.jpg);
-    }
-
-    .mobile3D__side--right:before {
-        background-image: url(../img/heros/halftone-point/Right.jpg);
-    }
-
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/halftone-point/Right.jpg);
-    }
-}
-
-body.home[data-current-theme="deep"] {
-    .homeBanner:after {
-        background: #003046;
-
-    }
-
-
-    .homeBanner__title,
-    .homeBanner__subtitle,
-    .mainMenu a {
-        color: white;
-    }
-
-
-
-    .siteMainHeader__logo path,
-    .menuToggle--burger path {
-        fill: white;
-    }
-
-    &.smallScreen .mobile3D__phone {
-        transform: rotate3d(-1, 3, 0, -35deg);
-    }
-
-    .mobile3D__screen:after {
-        background-image: url(../img/heros/deep-state/Screen.jpg);
-    }
-
-     .mobile3D__side--right:after
-    {
-        background-image: url(../img/heros/deep-state/Right.jpg);
-    }
-    .mobile3D__side--left:after {
-        background-image: url(../img/heros/deep-state/Left.jpg);
-    }
-}
-
-body.home[data-previous-theme="deep"] {
-    .homeBanner:before {
-        background: #003046;
-
-    }
-
-    .mobile3D__screen:before {
-        background-image: url(../img/heros/deep-state/Screen.jpg);
-    }
-
-     .mobile3D__side--right:before
-    {
-        background-image: url(../img/heros/deep-state/Right.jpg);
-    }
-    .mobile3D__side--left:before {
-        background-image: url(../img/heros/deep-state/Left.jpg);
     }
 }

@@ -12,57 +12,25 @@
 
 
 <div id="preload">
+
+    <!-- South Facing -->
+    <img src="<?= IMAGES ?>/heros/south-facing/Screen.jpg" width="1" height="1" alt="south facing image Screen" />
+    <img src="<?= IMAGES ?>/heros/south-facing/Left.jpg" width="1" height="1" alt="south facing image Left" />
+    <img src="<?= IMAGES ?>/heros/south-facing/Right.jpg" width="1" height="1" alt="south facing image Right" />
+
+    <!-- Brock Well -->
+    <img src="<?= IMAGES ?>/heros/brock-well/Screen.jpg" width="1" height="1" alt="Brock Well image Screen" />
+    <img src="<?= IMAGES ?>/heros/brock-well/Left.jpg" width="1" height="1" alt="Brock Well image Left" />
+    <img src="<?= IMAGES ?>/heros/brock-well/Right.jpg" width="1" height="1" alt="Brock Well image Right" />
+
+    <!-- Mighty Hoopla -->
+    <img src="<?= IMAGES ?>/heros/mighty-hoopla/Screen.jpg" width="1" height="1" alt="Image 01" />
+    <img src="<?= IMAGES ?>/heros/mighty-hoopla/Left.jpg" width="1" height="1" alt="Image 01" />
+    <img src="<?= IMAGES ?>/heros/mighty-hoopla/Right.jpg" width="1" height="1" alt="Image 01" />
+
     <!-- Africa oye -->
     <img src="<?= IMAGES ?>/heros/africa-oye/Screen.jpg" width="1" height="1" alt="Image 01" />
     <img src="<?= IMAGES ?>/heros/africa-oye/Left.jpg" width="1" height="1" alt="Image 01" />
     <img src="<?= IMAGES ?>/heros/africa-oye/Right.jpg" width="1" height="1" alt="Image 01" />
 
-    <!-- arts-and-kraft -->
-    <img src="<?= IMAGES ?>/heros/arts-and-kraft/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/arts-and-kraft/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/arts-and-kraft/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Back in the future -->
-    <img src="<?= IMAGES ?>/heros/back-in-the-future/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/back-in-the-future/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/back-in-the-future/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Deep State -->
-    <img src="<?= IMAGES ?>/heros/deep-state/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/deep-state/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/deep-state/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Gas Giant -->
-    <img src="<?= IMAGES ?>/heros/gas-giant/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/gas-giant/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Halftone Point -->
-    <img src="<?= IMAGES ?>/heros/halftone-point/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/halftone-point/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/halftone-point/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Highest Point  -->
-    <img src="<?= IMAGES ?>/heros/highest-point/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/highest-point/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/highest-point/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Mi Casa -->
-    <img src="<?= IMAGES ?>/heros/mi-casa/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/mi-casa/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/mi-casa/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- rhythm and waves -->
-    <img src="<?= IMAGES ?>/heros/rhythm-and-waves/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/rhythm-and-waves/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/rhythm-and-waves/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- Sound ways -->
-    <img src="<?= IMAGES ?>/heros/sound-ways/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/sound-ways/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/sound-ways/Right.jpg" width="1" height="1" alt="Image 01" />
-
-    <!-- The Box -->
-    <img src="<?= IMAGES ?>/heros/the-box/Screen.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/the-box/Left.jpg" width="1" height="1" alt="Image 01" />
-    <img src="<?= IMAGES ?>/heros/the-box/Right.jpg" width="1" height="1" alt="Image 01" />
 </div>

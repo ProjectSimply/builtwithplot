@@ -16,22 +16,6 @@
     
     
 }
-
-.beta {
-    background-color: var(--red);
-    font-size: 0.9rem;
-    color: white;
-    position: fixed;
-    width: 6rem;
-    height: 4rem;
-    padding-top: .3rem;
-    text-align: center;
-    text-indent: -.2rem;
-    left:0;
-    transform: rotate3d(0,0,1,45deg);
-    transform-origin: 0 0;
-    bottom:0;
-}
     
     .footer__cta {
         @include medium {
