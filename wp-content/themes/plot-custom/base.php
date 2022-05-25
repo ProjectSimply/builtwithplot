@@ -43,8 +43,6 @@
 
     <?php plotGetTemplatePart('parts/footer-javascript'); ?>
 
-    <div class="beta">BETA</div>
-
     <?php wp_footer(); ?>
 
     <?php plotGetTemplatePart('parts/live-reload'); ?>

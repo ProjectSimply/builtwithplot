@@ -8,11 +8,11 @@
 		Carousels		= require('../../../plot-core/src/js/carousels'),
 		Smooth 			= require('../../../plot-core/src/js/plot-smooth-scroll'),
 		FAQs 			= require('../../../plot-core/src/js/faqs'),
-		// CustomMouse 	= require('../../../plot-core/src/js/custom-mouse'),
 		Home			= require('./pages/home'),
 		RollerText      = require('./components/roller-text'),
 		Pricing         = require('./pages/pricing'),
 		Artists			= require('./pages/artists'),
+		Testimonials	= require('./components/testimonials'),
 		Schedule		= require('./pages/schedule'),
 		News 			= require('./pages/news'),
 	    Main
@@ -30,11 +30,6 @@
 			FAQs.init()
 			RollerText.init()
 			Main.fireConversionSnippetsIfOnThankYouPage()
-			// CustomMouse.init({
-			// 	'a' 				: 'anchorHover',
-			// 	'.altHoverTarget'	: 'altHover'
-			// })
-
 
 			//Pages
         	if(Plot.isPage('home'))
@@ -58,6 +53,9 @@
 		  	} else {
 		    	window.hsConversationsOnReady = [Main.hubspot];
 		  	}
+
+			if(document.querySelector('.JS--testimonials'))
+				Testimonials.init()
 
 		},
 		

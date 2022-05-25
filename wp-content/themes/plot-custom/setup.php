@@ -1,7 +1,7 @@
 <?php 
 
 //Use this for cache busting on deployments. Incrementing by 1, will add this as a query string on JS and CSS. 
-define('SITE_VERSION', 1.06); 
+define('SITE_VERSION', 1.07); 
 
 define('ARTISTS_PER_PAGE', 12); 
 define('PERFORMANCES_PER_PAGE', 24); 

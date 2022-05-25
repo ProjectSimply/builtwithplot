@@ -4306,6 +4306,22 @@ div#preload {
   position: relative;
 }
 
+.testimonial__innerWrap {
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+}
+
+.flickity-slider {
+  width: 100%;
+}
+
+.testimonial__item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+}
+
 .testimonial__title {
   margin-bottom: var(--vs);
 }
@@ -4349,6 +4365,7 @@ div#preload {
   width: 60vw;
   max-width: 350px;
   max-height: 350px;
+  z-index: -1;
 }
 .testimonial__crossWrap path {
   fill: var(--green);
