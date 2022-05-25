@@ -22,15 +22,34 @@
 
         <div class="planToggle__price planToggle__price--annual">
 
-            <p><span class="planToggle__noWrap">£<span class="planToggle__num"><?= get_field('annual_plan_price'); ?></span> p/m</span></p>
+            <p>
+                <span class="planToggle__noWrap">
+                    <span class="JS--currency">£</span>
+                    <span class="planToggle__num JS--price--annual">
+                        <?= get_field('annual_plan_price'); ?>
+                    </span> 
+                    p/m
+                </span>
+            </p>
 
-            <span class="small">Billed annually at £3000</span>
+            <span class="small">
+                Billed annually at 
+                <span class="JS--annualTotal">£3000</span>
+            </span>
 
         </div>
 
         <div class="planToggle__price planToggle__price--monthly">
 
-            <p><span class="planToggle__noWrap">£<span class="planToggle__num"><?= get_field('monthly_plan_price'); ?></span> p/m</span></p>
+            <p>
+                <span class="planToggle__noWrap">
+                    <span class="JS--currency">£</span>
+                    <span class="planToggle__num JS--price--monthly">
+                        <?= get_field('monthly_plan_price');?>
+                    </span> 
+                    p/m
+                </span>
+            </p>
 
             <span class="small">Billed monthly</span>
 

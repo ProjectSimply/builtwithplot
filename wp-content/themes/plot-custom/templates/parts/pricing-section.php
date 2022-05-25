@@ -8,7 +8,7 @@
 
             <div class="pricingSection__list" data-plot-smooth-scroll-element>
 
-                <span class="small">What’s included:</span>
+                <span class="small">What's included:</span>
 
                 <?php while ( has_sub_field('main_features_included')) : ?>
 

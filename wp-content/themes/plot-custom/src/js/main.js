@@ -11,7 +11,7 @@
 		// CustomMouse 	= require('../../../plot-core/src/js/custom-mouse'),
 		Home			= require('./pages/home'),
 		RollerText      = require('./components/roller-text'),
-		TogglePrice     = require('./components/toggle-price'),
+		Pricing         = require('./pages/pricing'),
 		Artists			= require('./pages/artists'),
 		Schedule		= require('./pages/schedule'),
 		News 			= require('./pages/news'),
@@ -47,7 +47,7 @@
 				Artists.init()
 
 			if(Plot.isPage('pricing'))
-				TogglePrice.init()
+				Pricing.init()
 
 			News.init()
 			
