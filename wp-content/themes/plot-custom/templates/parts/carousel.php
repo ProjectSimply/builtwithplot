@@ -4,7 +4,7 @@
 
         <?php if(get_field('carousel_title')) : ?>
 
-            <h2 class="carouselSection__title growIn"><?= get_field('carousel_title') ?></h2>
+            <h2 class="growIn"><?= get_field('carousel_title') ?></h2>
 
         <?php endif; ?>
 
