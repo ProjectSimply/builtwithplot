@@ -46,7 +46,7 @@
                 .then(res => res.json())
                 .then(payload => {
                     
-                    if(payload.location.continent.code == 'US') {
+                    if(payload.location.country.code == 'US') {
 
                         // Switch to dollar
                         Pricing.dom.currencySymbols.map(symbol => symbol.textContent = '$')
