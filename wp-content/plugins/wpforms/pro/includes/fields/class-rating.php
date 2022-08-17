@@ -94,12 +94,15 @@ class WPForms_Rating_Text extends WPForms_Field {
 				case 'star':
 					$emoji = '⭐';
 					break;
+
 				case 'heart':
 					$emoji = '❤️';
 					break;
+
 				case 'thumb':
 					$emoji = '👍';
 					break;
+
 				default:
 					$emoji = '🙂';
 					break;
@@ -318,19 +321,19 @@ class WPForms_Rating_Text extends WPForms_Field {
 			)
 		);
 
-		// Hide label.
-		$this->field_option( 'label_hide', $field );
-
 		// Custom CSS classes.
 		$this->field_option( 'css', $field );
+
+		// Hide label.
+		$this->field_option( 'label_hide', $field );
 
 		// Options close markup.
 		$this->field_option(
 			'advanced-options',
 			$field,
-			array(
+			[
 				'markup' => 'close',
-			)
+			]
 		);
 	}
 
@@ -356,12 +359,15 @@ class WPForms_Rating_Text extends WPForms_Field {
 			case 'star':
 				$icon_class = 'fa-star';
 				break;
+
 			case 'heart':
 				$icon_class = 'fa-heart';
 				break;
+
 			case 'thumb':
 				$icon_class = 'fa-thumbs-up';
 				break;
+
 			case 'smiley':
 				$icon_class = 'fa-smile-o';
 				break;
@@ -372,9 +378,11 @@ class WPForms_Rating_Text extends WPForms_Field {
 			case 'small':
 				$icon_size_css = '18';
 				break;
+
 			case 'medium':
 				$icon_size_css = '28';
 				break;
+
 			case 'large':
 				$icon_size_css = '38';
 				break;

@@ -2,6 +2,8 @@
 
 namespace WPForms\Pro\Admin\Entries\Export;
 
+use WPForms\Pro\Admin\Entries\Helpers;
+
 /**
  * HTML-related stuff for Admin page.
  *
@@ -39,8 +41,8 @@ class Admin {
 	 */
 	public function hooks() {
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-		add_action( 'wpforms_admin_tools_export_top', array( $this, 'display_entries_export_form' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'wpforms_admin_tools_export_top', [ $this, 'display_entries_export_form' ] );
 	}
 
 	/**
@@ -50,12 +52,15 @@ class Admin {
 	 */
 	public function display_entries_export_form() {
 
+		wp_enqueue_style( 'wpforms-flatpickr' );
+		wp_enqueue_script( 'wpforms-flatpickr' );
+		wp_enqueue_script( 'wpforms-tools-entries-export' );
 		?>
 		<div class="wpforms-setting-row tools">
 
-			<h3><?php esc_html_e( 'Export Entries', 'wpforms' ); ?></h3>
+			<h4><?php esc_html_e( 'Export Entries', 'wpforms' ); ?></h4>
 
-			<p><?php esc_html_e( 'Select a form to export entries, then select the fields you would like to include. You can also define search and date filters to further personalize the list of entries you want to retrieve. WPForms will generate a downloadable CSV of your entries.', 'wpforms' ); ?></p>
+			<p><?php esc_html_e( 'Select a form to export entries, then select the fields you would like to include. You can also define search and date filters to further personalize the list of entries you want to retrieve. WPForms will generate a downloadable CSV/XLSX file of your entries.', 'wpforms' ); ?></p>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-tools&view=export' ) ); ?>" id="wpforms-tools-entries-export">
 				<input type="hidden" name="action" value="wpforms_tools_entries_export_step">
@@ -78,6 +83,8 @@ class Admin {
 						<h5><?php esc_html_e( 'Additional Information', 'wpforms' ); ?></h5>
 						<?php $this->display_additional_info_block(); ?>
 					</section>
+
+					<?php $this->display_export_options_block(); ?>
 
 					<section class="wp-clearfix" id="wpforms-tools-entries-export-options-date">
 						<h5><?php esc_html_e( 'Custom Date Range', 'wpforms' ); ?></h5>
@@ -117,10 +124,10 @@ class Admin {
 		// Retrieve available forms.
 		$forms = wpforms()->form->get(
 			'',
-			array(
+			[
 				'orderby' => 'title',
 				'cap'     => 'view_entries_form_single',
-			)
+			]
 		);
 
 		$form_id = $this->export->data['get_args']['form_id'];
@@ -128,7 +135,7 @@ class Admin {
 		if ( ! empty( $forms ) ) {
 			?>
 			<span class="choicesjs-select-wrap">
-				<select id="wpforms-tools-entries-export-selectform" class="choicesjs-select" name="form">
+				<select id="wpforms-tools-entries-export-selectform" class="choicesjs-select" name="form" data-search="true" data-choices-position="bottom">
 					<option value="" placeholder><?php esc_attr_e( 'Select a Form', 'wpforms' ); ?></option>
 					<?php
 					foreach ( $forms as $form ) {
@@ -161,25 +168,36 @@ class Admin {
 		$fields    = $this->export->data['get_args']['fields'];
 
 		if ( empty( $form_data['fields'] ) ) {
-			printf( '<span>%s</span>', $this->export->errors['form_empty'] ); // phpcs:ignore
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			printf( '<span>%s</span>', $this->export->errors['form_empty'] );
 
 			return;
 		}
 
+		$this->display_select_all_toggle();
+
 		$i = 0;
+
 		foreach ( $form_data['fields'] as $id => $field ) {
 			if ( in_array( $field['type'], $this->export->configuration['disallowed_fields'], true ) ) {
 				continue;
 			}
-			/* translators: %d - Field ID. */
-			$name = ! empty( $field['label'] ) ? trim( wp_strip_all_tags( $field['label'] ) ) : sprintf( esc_html__( 'Field #%d', 'wpforms' ), (int) $id );
+
+			$name = ! empty( $field['label'] )
+				? trim( wp_strip_all_tags( $field['label'] ) )
+				: sprintf( /* translators: %d - Field ID. */
+					esc_html__( 'Field #%d', 'wpforms' ),
+					(int) $id
+				);
+
 			printf(
-				'<label><input type="checkbox" name="fields[%d]" value="%d"%s> %s</label>',
-				$i,
+				'<label><input type="checkbox" name="fields[%1$d]" value="%2$d" %3$s> %4$s</label>',
+				(int) $i,
 				(int) $id,
 				esc_attr( $this->get_checked_property( $id, $fields ) ),
 				esc_html( $name )
 			);
+
 			$i ++;
 		}
 	}
@@ -194,23 +212,63 @@ class Admin {
 		$additional_info        = $this->export->data['get_args']['additional_info'];
 		$additional_info_fields = $this->export->additional_info_fields;
 
+		$this->display_select_all_toggle( false );
+
 		$i = 0;
+
 		foreach ( $additional_info_fields as $slug => $label ) {
-			if ( 'geodata' === $slug && ! class_exists( 'WPForms_Geolocation' ) ) {
+
+			if (
+				$slug === 'pginfo'
+				&& ! ( class_exists( 'WPForms_Paypal_Standard' ) || class_exists( '\WPFormsStripe\Loader' ) || class_exists( '\WPFormsAuthorizeNet\Loader' ) || class_exists( '\WPFormsSquare\Plugin' ) || class_exists( '\WPFormsPaypalCommerce\Plugin' ) )
+			) {
 				continue;
 			}
-			if ( 'pginfo' === $slug && ! ( class_exists( 'WPForms_Paypal_Standard' ) || function_exists( 'wpforms_stripe' ) ) ) {
-				continue;
-			}
+
 			printf(
-				'<label><input type="checkbox" name="additional_info[%d]" value="%s"%s> %s</label>',
-				$i,
+				'<label><input type="checkbox" name="additional_info[%1$d]" value="%2$s" %3$s> %4$s</label>',
+				(int) $i,
 				esc_attr( $slug ),
 				esc_attr( $this->get_checked_property( $slug, $additional_info, '' ) ),
 				esc_html( $label )
 			);
+
 			$i ++;
 		}
+	}
+
+	/**
+	 * Export options block.
+	 *
+	 * @since 1.6.5
+	 */
+	private function display_export_options_block() {
+
+		$export_option  = $this->export->data['get_args']['export_options'];
+		$export_options = $this->export->export_options_fields;
+
+		if ( empty( $export_options ) ) {
+			return;
+		}
+
+		echo '<section class="wp-clearfix" id="wpforms-tools-entries-export-options-type-info">';
+		echo '<h5>' . esc_html__( 'Export Options', 'wpforms' ) . '</h5>';
+
+		$i = 0;
+
+		foreach ( $export_options as $slug => $label ) {
+			printf(
+				'<label><input type="checkbox" name="export_options[%1$d]" value="%2$s" %3$s> %4$s</label>',
+				(int) $i,
+				esc_attr( $slug ),
+				esc_attr( $this->get_checked_property( $slug, $export_option, '' ) ),
+				esc_html( $label )
+			);
+
+			$i ++;
+		}
+
+		echo '</section>';
 	}
 
 	/**
@@ -220,29 +278,46 @@ class Admin {
 	 */
 	public function display_search_block() {
 
-		$search    = $this->export->data['get_args']['search'];
-		$form_data = $this->export->data['form_data'];
-
+		$search           = $this->export->data['get_args']['search'];
+		$form_data        = $this->export->data['form_data'];
+		$advanced_options = Helpers::get_search_fields_advanced_options();
 		?>
 		<select name="search[field]" class="wpforms-search-box-field" id="wpforms-tools-entries-export-options-search-field">
-			<option value="any" <?php selected( 'any', $search['field'], true ); ?>><?php esc_html_e( 'Any form field', 'wpforms' ); ?></option>
-			<?php
-			if ( ! empty( $form_data['fields'] ) ) {
-				foreach ( $form_data['fields'] as $id => $field ) {
-					if ( in_array( $field['type'], $this->export->configuration['disallowed_fields'], true ) ) {
-						continue;
+			<optgroup label="<?php esc_attr_e( 'Form fields', 'wpforms' ); ?>">
+				<option value="any" <?php selected( 'any', $search['field'], true ); ?>><?php esc_html_e( 'Any form field', 'wpforms' ); ?></option>
+				<?php
+				if ( ! empty( $form_data['fields'] ) ) {
+					foreach ( $form_data['fields'] as $id => $field ) {
+						if ( in_array( $field['type'], $this->export->configuration['disallowed_fields'], true ) ) {
+							continue;
+						}
+						/* translators: %d - Field ID. */
+						$name = ! empty( $field['label'] ) ? wp_strip_all_tags( $field['label'] ) : sprintf( esc_html__( 'Field #%d', 'wpforms' ), (int) $id );
+
+						printf(
+							'<option value="%d" %s>%s</option>',
+							(int) $id,
+							esc_attr( selected( $id, $search['field'], false ) ),
+							esc_html( $name )
+						);
 					}
-					/* translators: %d - Field ID. */
-					$name = ! empty( $field['label'] ) ? wp_strip_all_tags( $field['label'] ) : sprintf( esc_html__( 'Field #%d', 'wpforms' ), (int) $id );
-					printf(
-						'<option value="%d" %s>%s</option>',
-						(int) $id,
-						esc_attr( selected( $id, $search['field'], false ) ),
-						esc_html( $name )
-					);
 				}
-			}
-			?>
+				?>
+			</optgroup>
+			<?php if ( ! empty( $advanced_options ) ) : ?>
+				<optgroup label="<?php esc_attr_e( 'Advanced Options', 'wpforms' ); ?>">
+					<?php
+					foreach ( $advanced_options as $val => $name ) {
+						printf(
+							'<option value="%s" %s>%s</option>',
+							esc_attr( $val ),
+							selected( $val, $search['field'], false ),
+							esc_html( $name )
+						);
+					}
+					?>
+				</optgroup>
+			<?php endif; // Advanced options group. ?>
 		</select>
 		<select name="search[comparison]" class="wpforms-search-box-comparison">
 			<option value="contains" <?php selected( 'contains', $search['comparison'] ); ?>><?php esc_html_e( 'contains', 'wpforms' ); ?></option>
@@ -262,7 +337,7 @@ class Admin {
 	 */
 	public function scripts() {
 
-		if ( ! $this->export->is_tools_export_page() ) {
+		if ( ! wpforms_is_admin_page( 'tools' ) ) {
 			return;
 		}
 
@@ -272,29 +347,29 @@ class Admin {
 		 *  Styles.
 		 */
 
-		wp_enqueue_style(
+		wp_register_style(
 			'wpforms-flatpickr',
-			WPFORMS_PLUGIN_URL . 'assets/css/flatpickr.min.css',
-			array(),
-			'4.6.3'
+			WPFORMS_PLUGIN_URL . 'assets/lib/flatpickr/flatpickr.min.css',
+			[],
+			'4.6.9'
 		);
 
 		/*
 		 *  Scripts.
 		 */
 
-		wp_enqueue_script(
+		wp_register_script(
 			'wpforms-flatpickr',
-			WPFORMS_PLUGIN_URL . 'assets/js/flatpickr.min.js',
-			array( 'jquery' ),
-			'4.6.3',
+			WPFORMS_PLUGIN_URL . 'assets/lib/flatpickr/flatpickr.min.js',
+			[ 'jquery' ],
+			'4.6.9',
 			true
 		);
 
-		wp_enqueue_script(
+		wp_register_script(
 			'wpforms-tools-entries-export',
-			WPFORMS_PLUGIN_URL . "pro/assets/js/admin/tools-entries-export{$min}.js",
-			array( 'jquery', 'wpforms-flatpickr' ),
+			WPFORMS_PLUGIN_URL . "assets/pro/js/admin/tools-entries-export{$min}.js",
+			[ 'jquery', 'wpforms-flatpickr' ],
 			WPFORMS_VERSION,
 			true
 		);
@@ -314,21 +389,40 @@ class Admin {
 	 *
 	 * @param string $val     Value.
 	 * @param array  $arr     Array of values.
-	 * @param string $default ' checked' OR ''.
+	 * @param string $default Either ' checked' OR ''.
 	 *
 	 * @return string
 	 */
 	public function get_checked_property( $val, $arr, $default = ' checked' ) {
 
-		$checked = ' checked' !== $default ? '' : $default;
+		$checked = $default !== ' checked' ? '' : $default;
+
 		if ( empty( $arr ) || ! is_array( $arr ) ) {
 			return $checked;
 		}
+
 		$checked = ' checked';
+
 		if ( ! in_array( $val, $arr, true ) ) {
 			$checked = '';
 		}
 
 		return $checked;
+	}
+
+	/**
+	 * Display "Select All" checkbox toggle for a list of options.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @param bool $checked Whether to check the box. Defaults to checked.
+	 */
+	private function display_select_all_toggle( $checked = true ) {
+
+		printf(
+			'<label class="wpforms-toggle-all"><input type="checkbox"%s> %s</label>',
+			esc_attr( $checked ? ' checked' : '' ),
+			esc_html__( 'Select All', 'wpforms' )
+		);
 	}
 }

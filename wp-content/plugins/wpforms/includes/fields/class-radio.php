@@ -17,7 +17,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 		// Define field type information.
 		$this->name     = esc_html__( 'Multiple Choice', 'wpforms-lite' );
 		$this->type     = 'radio';
-		$this->icon     = 'fa-list-ul';
+		$this->icon     = 'fa-dot-circle-o';
 		$this->order    = 110;
 		$this->defaults = array(
 			1 => array(
@@ -106,7 +106,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 		$choices  = $field['choices'];
 		$dynamic  = wpforms_get_field_dynamic_choices( $field, $form_id, $form_data );
 
-		if ( $dynamic ) {
+		if ( $dynamic !== false ) {
 			$choices              = $dynamic;
 			$field['show_values'] = true;
 		}
@@ -253,7 +253,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			array(
 				'slug'    => 'random',
 				'content' => $this->field_element(
-					'checkbox',
+					'toggle',
 					$field,
 					array(
 						'slug'    => 'random',
@@ -275,13 +275,13 @@ class WPForms_Field_Radio extends WPForms_Field {
 				array(
 					'slug'    => 'show_values',
 					'content' => $this->field_element(
-						'checkbox',
+						'toggle',
 						$field,
 						array(
 							'slug'    => 'show_values',
 							'value'   => isset( $field['show_values'] ) ? $field['show_values'] : '0',
 							'desc'    => esc_html__( 'Show Values', 'wpforms-lite' ),
-							'tooltip' => esc_html__( 'Check this to manually set form field values.', 'wpforms-lite' ),
+							'tooltip' => esc_html__( 'Check this option to manually set form field values.', 'wpforms-lite' ),
 						),
 						false
 					),
@@ -295,25 +295,25 @@ class WPForms_Field_Radio extends WPForms_Field {
 		// Display format.
 		$this->field_option( 'input_columns', $field );
 
-		// Hide label.
-		$this->field_option( 'label_hide', $field );
-
-		// Custom CSS classes.
-		$this->field_option( 'css', $field );
-
 		// Dynamic choice auto-populating toggle.
 		$this->field_option( 'dynamic_choices', $field );
 
 		// Dynamic choice source.
 		$this->field_option( 'dynamic_choices_source', $field );
 
+		// Custom CSS classes.
+		$this->field_option( 'css', $field );
+
+		// Hide label.
+		$this->field_option( 'label_hide', $field );
+
 		// Options close markup.
 		$this->field_option(
 			'advanced-options',
 			$field,
-			array(
+			[
 				'markup' => 'close',
-			)
+			]
 		);
 	}
 
@@ -500,7 +500,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			$post                      = get_post( $value_raw );
 
 			if ( ! empty( $post ) && ! is_wp_error( $post ) && $data['dynamic_post_type'] === $post->post_type ) {
-				$data['value'] = esc_html( $post->post_title );
+				$data['value'] = esc_html( wpforms_get_post_title( $post ) );
 			}
 		} elseif ( 'taxonomy' === $dynamic && ! empty( $field['dynamic_taxonomy'] ) ) {
 
@@ -511,7 +511,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			$term                     = get_term( $value_raw, $data['dynamic_taxonomy'] );
 
 			if ( ! empty( $term ) && ! is_wp_error( $term ) ) {
-				$data['value'] = esc_html( $term->name );
+				$data['value'] = esc_html( wpforms_get_term_name( $term ) );
 			}
 		} else {
 

@@ -28,14 +28,14 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 	 */
 	public function get_columns() {
 
-		return array(
+		return [
 			'id'       => '',
 			'entry_id' => '%d',
 			'form_id'  => '%d',
 			'field_id' => '%d',
 			'value'    => '%s',
 			'date'     => '%s',
-		);
+		];
 	}
 
 	/**
@@ -45,13 +45,13 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 	 */
 	public function get_column_defaults() {
 
-		return array(
+		return [
 			'entry_id' => '',
 			'form_id'  => '',
 			'field_id' => '',
 			'value'    => '',
 			'date'     => date( 'Y-m-d H:i:s' ),
-		);
+		];
 	}
 
 	/**
@@ -64,11 +64,11 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 	 *
 	 * @return array|int
 	 */
-	public function get_fields( $args = array(), $count = false ) {
+	public function get_fields( $args = [], $count = false ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		global $wpdb;
 
-		$defaults = array(
+		$defaults = [
 			'select'        => 'all',
 			'number'        => 30,
 			'offset'        => 0,
@@ -81,7 +81,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 			'date'          => '',
 			'orderby'       => 'id',
 			'order'         => 'DESC',
-		);
+		];
 
 		$args = apply_filters(
 			'wpforms_entry_fields_get_fields_args',
@@ -99,11 +99,12 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 
 		$possible_select_values = apply_filters(
 			'wpforms_entries_fields_get_fields_select',
-			array(
+			[
 				'all'       => '*',
 				'entry_ids' => '`entry_id`',
-			)
+			]
 		);
+
 		if ( array_key_exists( $args['select'], $possible_select_values ) ) {
 			$select = esc_sql( $possible_select_values[ $args['select'] ] );
 		}
@@ -111,16 +112,20 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		/*
 		 * Modify the WHERE.
 		 */
-		$where = array(
+		$where = [
 			'default' => '1=1',
-		);
+		];
 
 		// Allowed int arg items.
-		$keys = array( 'id', 'entry_id', 'form_id', 'field_id' );
+		$keys = [ 'id', 'entry_id', 'form_id', 'field_id' ];
+
 		foreach ( $keys as $key ) {
 			// Value `$args[ $key ]` can be a natural number and a numeric string.
 			// We should skip empty string values, but continue working with '0'.
-			if ( ! is_array( $args[ $key ] ) && ( ! is_numeric( $args[ $key ] ) || 0 === $args[ $key ] ) ) {
+			if (
+				! is_array( $args[ $key ] ) &&
+				( ! is_numeric( $args[ $key ] ) || $args[ $key ] === 0 )
+			) {
 				continue;
 			}
 
@@ -135,48 +140,48 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 
 		// Processing value and value_compare.
 		if ( ! empty( $args['value'] ) ) {
+
+			$escaped_value   = esc_sql( $args['value'] );
+			$condition_value = '';
+
 			switch ( $args['value_compare'] ) {
 				case '': // Preserving backward compatibility.
 				case 'is':
-					$where['arg_value'] = "`value` = '" . esc_sql( $args['value'] ) . "'";
+					$condition_value = " = '{$escaped_value}'";
 					break;
 
 				case 'is_not':
-					$where['arg_value'] = "`value` <> '" . esc_sql( $args['value'] ) . "'";
+					$condition_value = " <> '{$escaped_value}'";
 					break;
 
 				case 'contains':
-					$where['arg_value'] = "`value` LIKE '%" . esc_sql( $args['value'] ) . "%'";
+					$condition_value = " LIKE '%{$escaped_value}%'";
 					break;
 
 				case 'contains_not':
-					$where['arg_value'] = "`value` NOT LIKE '%" . esc_sql( $args['value'] ) . "%'";
+					$condition_value = " NOT LIKE '%{$escaped_value}%'";
 					break;
 			}
-		} else {
-			// Empty value should be allowed in case certain comparisons are used.
-			if (
-				$args['value_compare'] === 'is' ||
-				$args['value_compare'] === 'is_not'
-			) {
-				switch ( $args['value_compare'] ) {
-					case 'is':
-						$where['arg_value'] = "`value` = ''";
-						break;
 
-					case 'is_not':
-						$where['arg_value'] = "`value` <> ''";
-						break;
-				}
-			}
+			$where['arg_value'] = '`value`' . $condition_value;
+
+		// Empty value should be allowed in case certain comparisons are used.
+		} elseif ( $args['value_compare'] === 'is' ) {
+
+			$where['arg_value'] = "`value` = ''";
+
+		} elseif ( $args['value_compare'] === 'is_not' ) {
+
+			$where['arg_value'] = "`value` <> ''";
+
 		}
 
 		// Process dates.
 		if ( ! empty( $args['date'] ) ) {
 			// We can pass array and treat it as a range from:to.
 			if ( is_array( $args['date'] ) && count( $args['date'] ) === 2 ) {
-				$date_start = wpforms_get_day_period_date( 'start_of_day', strtotime( $args['date'][0] ) );
-				$date_end   = wpforms_get_day_period_date( 'end_of_day', strtotime( $args['date'][1] ) );
+				$date_start = wpforms_get_day_period_date( 'start_of_day', strtotime( $args['date'][0] ), 'Y-m-d H:i:s', true );
+				$date_end   = wpforms_get_day_period_date( 'end_of_day', strtotime( $args['date'][1] ), 'Y-m-d H:i:s', true );
 
 				if ( ! empty( $date_start ) && ! empty( $date_end ) ) {
 					$where['arg_date_start'] = "`date` >= '{$date_start}'";
@@ -189,8 +194,8 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 				 * So we generate start and end MySQL dates for the specified day.
 				 */
 				$timestamp  = strtotime( $args['date'] );
-				$date_start = wpforms_get_day_period_date( 'start_of_day', $timestamp );
-				$date_end   = wpforms_get_day_period_date( 'end_of_day', $timestamp );
+				$date_start = wpforms_get_day_period_date( 'start_of_day', $timestamp, 'Y-m-d H:i:s', true );
+				$date_end   = wpforms_get_day_period_date( 'end_of_day', $timestamp, 'Y-m-d H:i:s', true );
 
 				if ( ! empty( $date_start ) && ! empty( $date_end ) ) {
 					$where['arg_date_start'] = "`date` >= '{$date_start}'";
@@ -224,19 +229,19 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		 * Retrieve the results.
 		 */
 
-		if ( true === $count ) {
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		if ( $count === true ) {
 
-			// @codingStandardsIgnoreStart
-			$results = absint( $wpdb->get_var(
-				"SELECT COUNT({$this->primary_key})
-				FROM {$this->table_name}
-				WHERE {$where_sql};"
-			) );
-			// @codingStandardsIgnoreEnd
+			$results = absint(
+				$wpdb->get_var(
+					"SELECT COUNT({$this->primary_key})
+					FROM {$this->table_name}
+					WHERE {$where_sql};"
+				)
+			);
 
 		} else {
 
-			// @codingStandardsIgnoreStart
 			$results = $wpdb->get_results(
 				"SELECT {$select}
 				FROM {$this->table_name}
@@ -244,10 +249,121 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 				ORDER BY {$args['orderby']} {$args['order']}
 				LIMIT {$args['offset']}, {$args['number']};"
 			);
-			// @codingStandardsIgnoreEnd
+
 		}
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $results;
+	}
+
+	/**
+	 * Save all fields of the entry.
+	 *
+	 * @since 1.7.3
+	 *
+	 * @param array $fields    Fields.
+	 * @param array $form_data Form data.
+	 * @param int   $entry_id  Entry id.
+	 * @param bool  $update    Update field if it exists.
+	 *
+	 * @return void
+	 */
+	public function save( $fields, $form_data, $entry_id, $update = false ) {
+
+		if ( ! $entry_id ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$date = isset( $form_data['date'] ) ? $form_data['date'] : date( 'Y-m-d H:i:s' );
+
+		foreach ( $fields as $field ) {
+			$this->save_field( $field, $form_data, $entry_id, $update, $date );
+		}
+	}
+
+	/**
+	 * Save one field of the entry.
+	 *
+	 * @since 1.7.3
+	 *
+	 * @param array  $field     Field.
+	 * @param array  $form_data Form data.
+	 * @param int    $entry_id  Entry id.
+	 * @param bool   $update    Update field if it exists.
+	 * @param string $date      Date.
+	 *
+	 * @return void
+	 */
+	private function save_field( $field, $form_data, $entry_id, $update, $date ) {
+
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+		/**
+		 * Filter entry field before saving.
+		 *
+		 * @since 1.4.3
+		 *
+		 * @param array $fields    Fields data array.
+		 * @param array $form_data Form data.
+		 * @param int   $entry_id  Entry id.
+		 */
+		$field = apply_filters( 'wpforms_entry_save_fields', $field, $form_data, $entry_id );
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+
+		if ( ! isset( $field['id'], $field['value'] ) || $field['value'] === '' ) {
+			return;
+		}
+
+		$form_id        = $form_data['id'];
+		$field_id       = $field['id'];
+		$entry_field_id = null;
+
+		if ( $update ) {
+			$entry_field_id = $this->get_entry_field_id( $entry_id, $form_id, $field_id );
+		}
+
+		$data = [
+			'entry_id' => $entry_id,
+			'form_id'  => absint( $form_id ),
+			'field_id' => absint( $field_id ),
+			'value'    => $field['value'],
+			'date'     => $date,
+		];
+
+		if ( $entry_field_id ) {
+			$this->update( $entry_field_id, $data );
+
+			return;
+		}
+
+		$this->add( $data );
+	}
+
+	/**
+	 * Get entry field id.
+	 *
+	 * @since 1.7.3
+	 *
+	 * @param int $entry_id Entry id.
+	 * @param int $form_id  Form id.
+	 * @param int $field_id Field id.
+	 *
+	 * @return string|null
+	 */
+	private function get_entry_field_id( $entry_id, $form_id, $field_id ) {
+
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT id FROM $this->table_name WHERE entry_id = %d AND form_id = %d AND field_id = %d LIMIT 1",
+				$entry_id,
+				$form_id,
+				$field_id
+			)
+		);
 	}
 
 	/**
@@ -270,7 +386,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 			$charset_collate .= " COLLATE {$wpdb->collate}";
 		}
 
-		$sql = "CREATE TABLE {$this->table_name} (
+		$sql = "CREATE TABLE IF NOT EXISTS {$this->table_name} (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			entry_id bigint(20) NOT NULL,
 			form_id bigint(20) NOT NULL,

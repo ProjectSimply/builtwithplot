@@ -2,8 +2,10 @@
 
 namespace WPForms\Pro\Admin\Entries\Export;
 
-use \Goodby\CSV\Export\Standard\Exporter;
-use \Goodby\CSV\Export\Standard\ExporterConfig;
+use Exception;
+// phpcs:ignore WPForms.PHP.UseStatement.UnusedUseStatement
+use WP_Filesystem_Base;
+use WPForms\Helpers\Transient;
 
 /**
  * File-related routines.
@@ -42,9 +44,9 @@ class File {
 	 */
 	public function hooks() {
 
-		add_action( 'wpforms_tools_init', array( $this, 'entries_export_download_file' ) );
-		add_action( 'wpforms_tools_init', array( $this, 'single_entry_export_download_file' ) );
-		add_action( 'admin_init', array( $this, 'remove_old_export_files' ) );
+		add_action( 'wpforms_tools_init', [ $this, 'entries_export_download_file' ] );
+		add_action( 'wpforms_tools_init', [ $this, 'single_entry_export_download_file' ] );
+		add_action( Export::TASK_CLEANUP, [ $this, 'remove_old_export_files' ] );
 	}
 
 	/**
@@ -52,10 +54,11 @@ class File {
 	 *
 	 * @since 1.5.5
 	 *
-	 * @param array $export_data  Export data array.
 	 * @param array $request_data Request data array.
+	 *
+	 * @throws Exception Exception.
 	 */
-	public function write_csv( $export_data, $request_data ) {
+	public function write_csv( $request_data ) {
 
 		$export_file = $this->get_tmpfname( $request_data );
 
@@ -63,14 +66,85 @@ class File {
 			return;
 		}
 
-		// Include Exporter.
-		require_once WPFORMS_PLUGIN_DIR . 'vendor/autoload.php';
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		$f         = fopen( 'php://temp', 'wb+' );
+		$enclosure = '"';
 
-		$config = new ExporterConfig();
-		$config->setDelimiter( $this->export->configuration['csv_export_separator'] );
-		$config->setFileMode( 'a' );
-		$exporter = new Exporter( $config );
-		$exporter->export( $export_file, $export_data );
+		fputcsv( $f, $request_data['columns_row'], $this->export->configuration['csv_export_separator'], $enclosure );
+
+		$entry_handler = wpforms()->get( 'entry' );
+
+		for ( $i = 1; $i <= $request_data['total_steps']; $i ++ ) {
+
+			$entries = $entry_handler->get_entries( $request_data['db_args'] );
+
+			foreach ( $this->export->ajax->get_entry_data( $entries ) as $entry ) {
+				fputcsv( $f, $entry, $this->export->configuration['csv_export_separator'], $enclosure );
+			}
+
+			$request_data['db_args']['offset'] = $i * $this->export->configuration['entries_per_step'];
+		}
+
+		rewind( $f );
+
+		$file_contents = stream_get_contents( $f );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+		fclose( $f );
+
+		$this->put_contents( $export_file, $file_contents );
+	}
+
+	/**
+	 * Write data to .xlsx file.
+	 *
+	 * @since 1.6.5
+	 *
+	 * @param array $request_data Request data array.
+	 *
+	 * @throws Exception Exception.
+	 */
+	public function write_xlsx( $request_data ) {
+
+		$export_file = $this->get_tmpfname( $request_data );
+
+		if ( empty( $export_file ) ) {
+			return;
+		}
+
+		$writer = new \XLSXWriter();
+
+		$writer->setTempDir( $this->get_tmpdir() );
+
+		$sheet_name = 'WPForms';
+
+		$widths = [];
+
+		$request_data['columns_row'] = $this->unique_column_labels( $request_data['columns_row'] );
+
+		foreach ( $request_data['columns_row'] as $header ) {
+			$widths[] = strlen( $header ) + 2;
+		}
+
+		$writer->writeSheetHeader( $sheet_name, array_fill_keys( $request_data['columns_row'], 'string' ), [ 'widths' => $widths ] );
+
+		$entry_handler = wpforms()->get( 'entry' );
+
+		for ( $i = 1; $i <= $request_data['total_steps']; $i ++ ) {
+
+			$entries = $entry_handler->get_entries( $request_data['db_args'] );
+
+			foreach ( $this->export->ajax->get_entry_data( $entries ) as $entry ) {
+
+				$writer->writeSheetRow( $sheet_name, $entry, [ 'wrap_text' => true ] );
+			}
+
+			$request_data['db_args']['offset'] = $i * $this->export->configuration['entries_per_step'];
+		}
+
+		$file_contents = $writer->writeToString();
+
+		$this->put_contents( $export_file, $file_contents );
 	}
 
 	/**
@@ -86,6 +160,7 @@ class File {
 		$upload_path = $upload_dir['path'];
 
 		$export_path = trailingslashit( $upload_path ) . 'export';
+
 		if ( ! file_exists( $export_path ) ) {
 			wp_mkdir_p( $export_path );
 		}
@@ -119,7 +194,8 @@ class File {
 		}
 
 		$export_dir  = $this->get_tmpdir();
-		$export_file = $export_dir . '/' . sanitize_key( $request_data['request_id'] );
+		$export_file = $export_dir . '/' . sanitize_key( $request_data['request_id'] ) . '.tmp';
+
 		touch( $export_file );
 
 		return $export_file;
@@ -145,37 +221,49 @@ class File {
 
 	/**
 	 * Output the file.
+	 * The WPFORMS_SAVE_ENTRIES_PATH is introduced for facilitating e2e tests.
+	 * When the constant is used, download isn't prompted and the file gets downloaded in the provided path.
 	 *
 	 * @since 1.6.0.2
 	 *
 	 * @param array $request_data Request data.
 	 *
-	 * @throws \Exception In case of file error.
+	 * @throws Exception In case of file error.
 	 */
 	public function output_file( $request_data ) {
 
 		$export_file = $this->get_tmpfname( $request_data );
 
 		if ( empty( $export_file ) ) {
-			throw new \Exception( $this->export->errors['unknown_request'] );
+			throw new Exception( $this->export->errors['unknown_request'] );
 		}
 
 		clearstatcache( true, $export_file );
 
 		if ( ! is_readable( $export_file ) || is_dir( $export_file ) ) {
-			throw new \Exception( $this->export->errors['file_not_readable'] );
+			throw new Exception( $this->export->errors['file_not_readable'] );
 		}
 
-		if ( @filesize( $export_file ) === 0 ) { //phpcs:ignore
-			throw new \Exception( $this->export->errors['file_empty'] );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( @filesize( $export_file ) === 0 ) {
+			throw new Exception( $this->export->errors['file_empty'] );
 		}
 
 		$entry_suffix = ! empty( $request_data['db_args']['entry_id'] ) ? '-entry-' . $request_data['db_args']['entry_id'] : '';
 
-		$file_name = 'wpforms-' . $request_data['db_args']['form_id'] . '-' . sanitize_file_name( get_the_title( $request_data['db_args']['form_id'] ) ) . $entry_suffix . '-' . current_time( 'Y-m-d-H-i-s' ) . '.csv';
-		$this->http_headers( $file_name );
+		$file_name = 'wpforms-' . $request_data['db_args']['form_id'] . '-' . sanitize_file_name( get_the_title( $request_data['db_args']['form_id'] ) ) . $entry_suffix . '-' . current_time( 'Y-m-d-H-i-s' ) . '.' . $request_data['type'];
 
-		readfile( $export_file ); // phpcs:ignore
+		if ( defined( 'WPFORMS_SAVE_ENTRIES_PATH' ) ) {
+			$this->put_contents( WPFORMS_SAVE_ENTRIES_PATH . $file_name, file_get_contents( $export_file ) );
+		} else {
+			$this->http_headers( $file_name );
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
+			readfile( $export_file );
+		}
+
+		// Schedule clean up.
+		$this->schedule_remove_old_export_files();
 
 		exit;
 	}
@@ -185,13 +273,13 @@ class File {
 	 *
 	 * @since 1.5.5
 	 *
-	 * @throws \Exception Try-catch.
+	 * @throws Exception Try-catch.
 	 */
 	public function entries_export_download_file() {
 
 		$args = $this->export->data['get_args'];
 
-		if ( 'wpforms_tools_entries_export_download' !== $args['action'] ) {
+		if ( $args['action'] !== 'wpforms_tools_entries_export_download' ) {
 			return;
 		}
 
@@ -202,37 +290,38 @@ class File {
 				! wp_verify_nonce( $args['nonce'], 'wpforms-tools-entries-export-nonce' ) ||
 				! wpforms_current_user_can( 'view_entries' )
 			) {
-				throw new \Exception( $this->export->errors['security'] );
+				throw new Exception( $this->export->errors['security'] );
 			}
 
 			// Check for request_id.
 			if ( empty( $args['request_id'] ) ) {
-				throw new \Exception( $this->export->errors['unknown_request'] );
+				throw new Exception( $this->export->errors['unknown_request'] );
 			}
 
 			// Get stored request data.
-			$request_data = get_transient( 'wpforms-tools-entries-export-request-' . $args['request_id'] );
+			$request_data = Transient::get( 'wpforms-tools-entries-export-request-' . $args['request_id'] );
 
 			$this->output_file( $request_data );
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			// phpcs:disable
 			$error = $this->export->errors['common'] . '<br>' . $e->getMessage();
 			if ( wpforms_debug() ) {
 				$error .= '<br><b>WPFORMS DEBUG</b>: ' . $e->__toString();
 			}
 			$error = str_replace( "'", '&#039;', $error );
+			$js_error = str_replace( "\n", '', $error );
 
 			echo "
 			<script>
 				( function() {
 					var w = window;
-					if ( w.frameElement != null &&
-						 w.frameElement.nodeName === 'IFRAME' &&
-						 w.parent.jQuery )
-					{
-						w.parent.jQuery( w.parent.document ).trigger( 'csv_file_error', [ '" . str_replace( "\n", '', $error ) . "' ] );
-						w.parent.WPFormsEntriesExport.displaySubmitSpinner( false );
+					if (
+						w.frameElement !== null &&
+						w.frameElement.nodeName === 'IFRAME' &&
+						w.parent.jQuery
+					) {
+						w.parent.jQuery( w.parent.document ).trigger( 'csv_file_error', [ '" . wp_slash( $js_error ) . "' ] );
 					}
 				} )();
 			</script>
@@ -253,7 +342,7 @@ class File {
 
 		$args = $this->export->data['get_args'];
 
-		if ( 'wpforms_tools_single_entry_export_download' !== $args['action'] ) {
+		if ( $args['action'] !== 'wpforms_tools_single_entry_export_download' ) {
 			return;
 		}
 
@@ -261,12 +350,12 @@ class File {
 
 			// Check for form_id.
 			if ( empty( $args['form_id'] ) ) {
-				throw new \Exception( $this->export->errors['unknown_form_id'] );
+				throw new Exception( $this->export->errors['unknown_form_id'] );
 			}
 
 			// Check for entry_id.
 			if ( empty( $args['entry_id'] ) ) {
-				throw new \Exception( $this->export->errors['unknown_entry_id'] );
+				throw new Exception( $this->export->errors['unknown_entry_id'] );
 			}
 
 			// Security check.
@@ -274,7 +363,7 @@ class File {
 				! wp_verify_nonce( $args['nonce'], 'wpforms-tools-single-entry-export-nonce' ) ||
 				! wpforms_current_user_can( 'view_entries' )
 			) {
-				throw new \Exception( $this->export->errors['security'] );
+				throw new Exception( $this->export->errors['security'] );
 			}
 
 			// Get stored request data.
@@ -282,39 +371,54 @@ class File {
 
 			$this->export->ajax->request_data = $request_data;
 
-			// Get export data.
-			$export_data = $this->export->ajax->get_data();
-
-			// Writing to csv file.
-			$this->write_csv( $export_data, $request_data );
+			if ( empty( $request_data['type'] ) || $request_data['type'] === 'csv' ) {
+				$this->write_csv( $request_data );
+			} elseif ( $request_data['type'] === 'xlsx' ) {
+				$this->write_xlsx( $request_data );
+			}
 
 			$this->output_file( $request_data );
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 
 			$error = $this->export->errors['common'] . '<br>' . $e->getMessage();
+
 			if ( wpforms_debug() ) {
 				$error .= '<br><b>WPFORMS DEBUG</b>: ' . $e->__toString();
 			}
 
-			\WPForms_Admin_Notice::error( $error );
+			\WPForms\Admin\Notice::error( $error );
 		}
 	}
 
 	/**
-	 * Garbage clearing.
-	 * Actually we need to clear only temporary files
-	 * because transients clears automagically.
+	 * Register a cleanup task to remove temp export files.
 	 *
-	 * TODO: rewrite to use wp-cron or actions scheduler.
+	 * @since 1.6.5
+	 */
+	public function schedule_remove_old_export_files() {
+
+		$tasks = wpforms()->get( 'tasks' );
+
+		if ( $tasks->is_scheduled( Export::TASK_CLEANUP ) !== false ) {
+			return;
+		}
+
+		$tasks->create( Export::TASK_CLEANUP )
+			  ->recurring( time() + 60, $this->export->configuration['request_data_ttl'] )
+			  ->params()
+			  ->register();
+	}
+
+	/**
+	 * Clear temporary files.
 	 *
 	 * @since 1.5.5
+	 * @since 1.6.5 Stop using transients. Now we use ActionScheduler for this task.
 	 */
 	public function remove_old_export_files() {
 
-		if ( (bool) get_transient( 'wpforms_entries_export_tmpdata_cleared' ) ) {
-			return;
-		}
+		clearstatcache();
 
 		$files = glob( $this->get_tmpdir() . '/*' );
 		$now   = time();
@@ -322,12 +426,92 @@ class File {
 		foreach ( $files as $file ) {
 			if (
 				is_file( $file ) &&
+				pathinfo( $file, PATHINFO_BASENAME ) !== 'index.html' &&
 				( $now - filemtime( $file ) ) > $this->export->configuration['request_data_ttl']
 			) {
 				unlink( $file );
 			}
 		}
+	}
 
-		set_transient( 'wpforms_entries_export_tmpdata_cleared', 'yes', HOUR_IN_SECONDS );
+	/**
+	 * Adds numeric incrementation to the column label.
+	 *
+	 * PHP_XLSXWriter library has a bug resulting with malformed exported file when two or more columns has the same label.
+	 * To workaround, this method adds "_{num}" at the end of duplicated labels.
+	 *
+	 * @see https://github.com/mk-j/PHP_XLSXWriter/issues/92
+	 *
+	 * @since 1.7.4
+	 *
+	 * @param array $columns_row Exported data header labels.
+	 *
+	 * @return array Exported data header labels.
+	 */
+	private function unique_column_labels( $columns_row ) {
+
+		$performed = [];
+
+		foreach ( $columns_row as $id => $label ) {
+			if ( ! isset( $performed[ $label ] ) ) {
+				$performed[ $label ] = 1;
+
+				continue;
+			}
+
+			$performed[ $label ]++;
+
+			$columns_row[ $id ] = sprintf( '%s (%d)', $label, $performed[ $label ] );
+		}
+
+		return $columns_row;
+	}
+
+	/*
+	 * Put file contents using WP Filesystem.
+	 *
+	 * @since 1.7.3
+	 *
+	 * @param string $export_file   Export filename.
+	 * @param string $file_contents File contents.
+	 *
+	 * @throws Exception Exception.
+	 * @noinspection ThrowRawExceptionInspection
+	 */
+	private function put_contents( $export_file, $file_contents ) {
+
+		// @todo Add support for other filesystems.
+		$filesystem = $this->get_filesystem_direct();
+
+		if ( ! $filesystem ) {
+			throw new Exception( $this->export->errors['no_direct_access'] );
+		}
+
+		$filesystem->put_contents(
+			$export_file,
+			$file_contents
+		);
+	}
+
+	/**
+	 * Get direct filesystem.
+	 *
+	 * @since 1.7.4
+	 *
+	 * @return WP_Filesystem_Base|null
+	 */
+	private function get_filesystem_direct() {
+
+		global $wp_filesystem;
+
+		if ( ! $wp_filesystem && ! WP_Filesystem() ) {
+			return null;
+		}
+
+		if ( $wp_filesystem->method !== 'direct' ) {
+			return null;
+		}
+
+		return $wp_filesystem;
 	}
 }

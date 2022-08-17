@@ -1,9 +1,9 @@
-=== Advanced Forms ===
-Contributors: fabianlindfors
-Tags: af, advanced, forms, form, acf, advanced, custom, fields, flexible, developer, developer-friendly
+=== Advanced Forms for ACF ===
+Contributors: philkurth, fabianlindfors
+Tags: acf, advanced custom fields, acf form, form builder, contact form, frontend editing
 Requires at least: 3.6.0
-Tested up to: 5.4.0
-Stable tag: 1.6.9
+Tested up to: 6.0.1
+Stable tag: 1.9.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,30 +11,40 @@ Flexible and developer-friendly forms using the power of Advanced Custom Fields
 
 == Description ==
 
-*Requires ACF PRO v5*
+[Documentation](https://advancedforms.github.io) | [Purchase Pro](https://hookturn.io/downloads/advanced-forms-pro)
 
-Documentation: [advancedforms.github.io](https://advancedforms.github.io)
+Advanced Forms is a WordPress plugin for creating front-end forms using [Advanced Custom Fields](https://advancedcustomfields.com). It supports all ACF field types, including repeaters and flexible content fields, and provides the same field editing interface you are already familiar with. *Advanced Forms requires ACF PRO v5.7 or later*.
 
-Advanced Forms lets you build flexible forms using the power of Advanced Custom Fields. The plugin has been built with developers in mind and offers a large variety of helper functions and customization hooks.
+- **Email notifications**: Configure an unlimited number of email notifications, including support for dynamic recipients and field includes.
+- **AJAX submissions**: Use AJAX for a better user experience with faster submissions and no page reloads.
+- **Entries**: Save form submissions as entries with all fields.
+- **Spam protection**: Every form is protected against spam using a honeypot. If you need more sophisticated spam protection, Advanced Forms Pro includes support for reCAPTCHA.
+- **Restrictions**: Place limits on your form using the built-in restrictions or [create your own](https://advancedforms.github.io/guides/advanced/adding-custom-restrictions/):
+    + Limit the total number of submissions
+    + Limit your form to only logged-in users
+    + Limit the time when your form can be used
+- **User-friendly UI**: Create forms either through the admin panel or programmatically for easy integration.
+- **Gutenberg support**: Add forms to your site using Gutenberg blocks.
+- **Developer-friendly**: Designed for developers with a large variety of hooks and helper functions and [comprehensive documentation](https://advancedforms.github.io).
 
-* Use all the fields provided by ACF, including repeaters and flexible content fields
-* Define forms and fields fully programmatically for easy integration with your theme/plugin, or use the intuitive UI
-* Either use the provided hooks to process form submissions as you wish or let the plugin automatically save them as entries
-* Optionally set up emails to be sent automatically with form submissions
-* Set a maximum number of entries created, limit a form to only logged in users, or schedule a form to only display during certain times. Custom restrictions can be applied by hooking in to a simple filter.
+= Pro =
 
-= Advanced Forms Pro =
+On top of that, **Advanced Forms Pro** offers even more features for advanced use cases. You can purchase a license through [Hookturn](https://hookturn.io/downloads/advanced-forms-pro/) which can be used on an unlimited number of sites.
 
-* Create/edit posts and users with ease
-* Integrate with Slack, Mailchimp, and Zapier
-* Use calculated fields to show live updating content
-* Get direct, priority support
+- **Priority support**: Get direct support with an average response time of 1-2 days.
+- **Post editing**: Set up forms to create and edit posts. Configure the post title, content and status and automatically map your existing ACF fields.
+- **User editing**: Register new users or let people edit their user profile with automatic mapping of your user fields.
+- **Calculated fields**: Give your users immediate feedback as they fill out your form. Calculated fields update live with the values from other fields. Calculated fields are also [fully programmable](https://advancedforms.github.io/pro/configuration/using-calculated-fields/) for more complex calculations.
+- **Slack**: Get a message in [Slack](https://slack.com) for each form submission, including all form data.
+- **Mailchimp**: Create a form to sign users up for your [Mailchimp](https://mailchimp.com) mailing list.
+- **Zapier**: Connect your form to thousands of third-party services using [Zapier](https://zapier.com).
+- **Google reCAPTCHA**: Protect your forms against spam using an invisible captcha.
 
-Available from [hookturn.io](https://hookturn.io/downloads/advanced-forms)
+= Support =
 
-= Developers =
+If you need help, have a feature request, or think you've found a bug, don't hesitate to reach out. Either create a ticket on the [WordPress Support Forums](https://wordpress.org/support/plugin/advanced-forms/) or an issue on [Github](http://github.com/advancedforms/advanced-forms/issues).
 
-Advanced Forms is first and foremost built for developers and allows for simple integration with themes/plugins. Check out the [documentation](https://advancedforms.github.io) for guides and details about functions/hooks.
+For Pro users, please send an email to [support@hookturn.io](mailto:support@hookturn.io?subject=Advanced%20Forms) and we'll respond as fast as we can, most often within 1-2 days.
 
 == Installation ==
 
@@ -43,12 +53,11 @@ Advanced Forms is first and foremost built for developers and allows for simple 
 3. Activate the plugin through the 'Plugins' screen in WordPress.
 4. Read the [documentation](https://advancedforms.github.io) for instructions on how to create, configure, and display forms.
 
-
 == Frequently Asked Questions ==
 
-= Q: Does this plugin only work with ACF PRO v5? =
+= Q: Does this plugin only work with ACF PRO v5.7 or later? =
 
-Yes. Versions 4 or lower of ACF are not supported.
+Yes. Versions 5.6 or lower of ACF are not supported.
 
 == Screenshots ==
 
@@ -57,6 +66,104 @@ Yes. Versions 4 or lower of ACF are not supported.
 3. Example of location rules on an ACF field group
 
 == Changelog ==
+
+= [1.9.2] =
+
+* Added condition to stop ACF file nonces being treated as fields on submission.
+* Added condition to prevent email sending if recipient is false. `af/form/email/recipient` filter can now be used to prevent email sending.
+* Added support for file fields with return type "URL" in merge tags.
+* Fixed issue which could cause duplicate submissions.
+* Added filter `af/form/entry/should_create` to enable dynamically stopping entries from being created.
+* Added hidden label for honeypot field for accessibility compliance.
+* Added `af/field/before_field_wrapper` action.
+* Added `af/field/after_field_wrapper` action.
+* Fixed issue where filter mode wouldn't work.
+
+= 1.9.1 =
+
+*Pro*
+
+* Added filter `af/form/editing/query_param` to change the query parameter used for post editing. The default is `post`.
+* Fixed warnings about undefined `$post` which could show up in the form settings.
+
+= 1.9.0 =
+
+* Added support for Gutenberg with the "Advanced Form" block.
+* Added support for flexible fields in merge tags.
+* Added "af/form/after" action triggered after a form has been rendered.
+* Fixed issue where form couldn't be submitted multiple times when using AJAX and filter mode.
+
+*Pro*
+
+* Added support for configuring a form to create/edit posts and user at the same time.
+* Added option to specify post to edit through a `post` query parameter. 
+
+= 1.8.2 =
+
+* Added support for excluding multiple fields by comma-separating field names in the `exclude_fields` argument on shortcodes.
+* Added automatic hiding of form pages if the page has no fields.
+* Added filter to remove the default HTML email template (`af/form/email/use_template`).
+* Added filter to change the content type of en email (`af/form/email/content_type`).
+* Improved support for duplicating forms with post duplication plugins.
+
+*Pro*
+
+* Fixed issue where users could accidentally submit a reCAPTCHA protected form with large uploads multiple times.
+* Fixed issue where reCAPTCHA protected forms could conflict with other reCAPTCHA instances on the same page.
+
+= 1.8.1 =
+
+* Added optimization to only enqueue stylesheet when a form is displayed.
+* Fixed issue where multi-page forms would briefly show unstyled elements during loading.
+
+*Pro*
+
+* Added support for merge tags in Slack messages.
+* Fixed issue where reCAPTCHA wouldn't work with AJAX submissions.
+* Fixed issue where email could be reset for a user when "Custom format" was selected for the email mapping.
+
+= 1.8.0 =
+
+This version drops support for ACF 5.6 and earlier. Make sure you're running ACF 5.7 or later before installing the update.
+
+* Added support for submissions using AJAX. This enables forms to be submitted without a page reload. Activate it using the `ajax` argument: `[advanced_form form="KEY" ajax="1"]`.
+* Fixed warning which would appear when having multiple versions of Advanced Forms activated at the same time.
+
+*Pro*
+
+* Added new restriction to only let users edit their own posts.
+
+= 1.7.2 =
+
+* Added support for nested group fields in emails and success messages.
+* Added ability to remove fields by returning `false` from the `af/field/before_field` filter.
+* Added filter to control view counter. Use `add_filter( 'af/form/view_counter_enabled', '__return_false' )` to disable the view counter.
+* Fixed incorrect variations for the `af/field/before_render` filter.
+* Fixed incorrect callback order for the `af/form/page_changed` action. Fields were temporarily removed from the form when the action was triggered.
+* Fixed warning when including a non-existent field with a merge tag.
+* Fixed sidebar formatting on the forms page in the admin panel.
+
+*Pro*
+
+* Fixed issue where post title and content could be cleared if their mapped fields were excluded from the form.
+* Added support for custom format for email field in Mailchimp integration.
+
+= 1.7.1 =
+
+* Improved validation handling for multi-page forms. Validation and error messages should now work the same as for regular forms.
+* Fixed issue where comma-separated email addresses wouldn't work.
+
+*Pro*
+
+* Fixed warning which sometimes was triggered by user editing forms.
+
+= 1.7.0 =
+
+*Pro*
+
+* Added support for Google reCAPTCHA. Use an invisible captcha to protect your forms against spam without bothering users.
+* Changed editing to default to create users if no `user` argument is set. `user="new"` is no longer needed.
+* Changed "Map all fields" to never save fields that are used for user passwords. 
 
 = 1.6.9 =
 

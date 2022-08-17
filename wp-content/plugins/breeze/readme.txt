@@ -2,8 +2,8 @@
 Contributors: Cloudways
 Tags: cache,caching, performance, wp-cache, cdn, combine, compress, speed plugin, database cache,gzip, http compression, js cache, minify, optimize, page cache, performance, speed, expire headers
 Requires at least: 4.5
-Tested up to: 5.4.2
-Stable tag: 1.1.7
+Tested up to: 6.0
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ Breeze excels in the following areas:
 
 What makes Breeze WordPress Cache Plugin awesome is that it comes with builtin support for Varnish. If Varnish is not installed on your servers, Breeze will utilize its internal cache mechanism to boost up your WordPress site performance.
 
-**Support:** We love to provide support! Post your questions on the WordPress.org support forums, or if you are a Cloudways Customer you may ask questions on the <a href="https://community.cloudways.com/">Cloudways Community Forum</a>. 
+**Support:** We love to provide support! Post your questions on the WordPress.org support forums, or if you are a Cloudways Customer you may ask questions on the <a href="https://community.cloudways.com/">Cloudways Community Forum</a>.
 
 **Special Thanks:** We would like to give special mention to WP Speed Of Light for being an inspiration for Breeze.
 
@@ -61,11 +61,11 @@ Breeze, by default, supports Varnish. It has been tested to be fully compatible 
 
 = Does Breeze support WooCommerce? =
 
-Breeze is fully compatible with WooCommerce, out of the box. It does not require any special configurations. 
+Breeze is fully compatible with WooCommerce, out of the box. It does not require any special configurations.
 
 = Does Breeze support WordPress Multisite? =
 
-Breeze is fully compatible with WordPress Multisite without the need for any extra configuration. 
+Breeze is fully compatible with WordPress Multisite without the need for any extra configuration.
 
 = How does Breeze handle WordPress multisite? =
 
@@ -73,7 +73,7 @@ Breeze handles all WordPress multisite instances globally. All the settings for 
 
 = Is Breeze compatible with other WordPress Cache plugins? =
 
-We DO NOT recommend using two WordPress cache plugins at the same time on any WordPress website. 
+We DO NOT recommend using two WordPress cache plugins at the same time on any WordPress website.
 We strongly recommend that you use Breeze as the only cache plugin for your website. If there are any other cache plugins installed, please ensure that you have disabled them prior to proceeding with the Breeze installation.
 
 
@@ -87,13 +87,13 @@ Breeze has been tested with popular plugins available on WordPress.org. Please f
 
 = Does Breeze support CDN? =
 
-Breeze supports CDN integration. It allows all static assets (such as images, CSS and JS files) to be served via CDN. 
+Breeze supports CDN integration. It allows all static assets (such as images, CSS and JS files) to be served via CDN.
 
 = What does Breeze's Database Optimization feature do? =
 
-WordPress databases are notorious for storing information like post revisions, spam comments and much more. Over time, databases l become bloated and it is a good practice to clear out unwanted information to reduce database size and improve optimization. 
+WordPress databases are notorious for storing information like post revisions, spam comments and much more. Over time, databases l become bloated and it is a good practice to clear out unwanted information to reduce database size and improve optimization.
 
-Breeze's database optimization cleans out unwanted information in a single click. 
+Breeze's database optimization cleans out unwanted information in a single click.
 
 = Will comments and other dynamic parts of my blog appear immediately? =
 
@@ -101,7 +101,7 @@ Comments will appear upon moderation as per the comment system (or policy) set i
 
 = Can I exclude URLs of individual files and pages from cache? =
 
-You can exclude a file by mentioning its URL or file type (by mentioning file extension) in the exclude fields (available in the Breeze settings). Exclude will not let the cache impact that URL or file type. 
+You can exclude a file by mentioning its URL or file type (by mentioning file extension) in the exclude fields (available in the Breeze settings). Exclude will not let the cache impact that URL or file type.
 
 If Varnish is active, you will need to exclude URLs and file type(s) in the Varnish configuration. If you are hosting WordPress websites on Cloudways servers, follow <a href="https://support.cloudways.com/how-to-exclude-url-from-varnish/">this KB to exclude URLs from the Varnish cache</a>.
 
@@ -144,6 +144,156 @@ Yes. The process of setting up CloudFlare with Breeze is easy. Check out the fol
 Using Gzip, Breeze compresses the request files, further reducing the size of the download files and speeding up the user experience.
 
 == Changelog ==
+
+= 2.0.7 =
+
+ * Fix: In some cases call to undefined function is_plugin_active() shows, it is fixed now by replacing it with a check for class_exist in CURCY and WOOCS plugins.
+ 
+ 
+= 2.0.6 =
+
+ * Fix: Overwrites the TimeZone To UTC of The Events Calendar plugin. 
+ * Fix: currency menu is cached with HTML, changing it with the currency is difficult in CURCY and WOOCS plugins.  
+ * Fix: Preloading links that do not have “href“ attribute or the “href“ attribute contains the value “#” was displaying errors in the console log.   
+ * Fix: Some inline javascript files were not displayed when the option "JS Files With Deferred Loading" had at least one value-added breaking functionality for other JavaScript scripts.   
+
+= 2.0.5 =
+
+ * Add: UI improvement to provide better accessibility and user experience.
+
+
+= 2.0.4 =
+
+ * Add: Improve page load by delaying JavaScript execution. Delay JS is disabled by default for new installations.
+ * Fix: Added JavaScript checks to see if the sortable library is loaded or not, if not then the JS code that requires the library will not execute.
+ * Fix: Undefined variable in Breeze minification scripts. 
+
+= 2.0.3 =
+
+ * Fix:All ajax actions are now restricted to the users that have manage_options capabilities. Vulnerability discovered from patchstack team.
+ * Fix: Administrator has only capable to handle manage_options by default.
+ * Fix: Added restriction to option-tabs-loader.php, if the user does not have manage_options capability, then the tabs will not load.
+
+
+= 2.0.2 =
+
+ * Fix: Atarim - Client Interface Plugin conflict with UI of Breeze in the admin area.
+ * Add: Make LazyLoad for iframes compatible
+ * Add: Control WordPress Heartbeat API. Users can disable it, independently on the admin, post editor page, and frontend.
+ * Add: DNS prefetch on pages.
+ * Add: Improve the handling of warning message while permission is not correct.
+
+= 2.0.1 =
+
+ * Fix: Improved handling of minification in Never Cache URL(s) option.
+
+
+= 2.0.0 =
+
+ * Add: Implement a new UI interface.
+ * Fix: Duplicate script while using the option Move JS Files to Footer.
+ * Fix: Improvise the optimization of WordPress core functions to clean the database correctly.
+ * Fix: Implement condition in .htaccess rules while disable "mod_env”.
+ * Fix: Compatibility issue with Facebook For WooCommerce plugin.
+
+
+= 1.2.6 =
+
+ * Add: Varnish cache will be clear while plugin deactivate.
+ * Add: Enable cache for specific user role.
+ * Add: Disable Emojis to reduce request
+ * Add: Delete breeze options values from database on plugin deletion.
+ * Fix: Compatibility issue of map short codes with GeoDirectory plugin.
+ * Fix: Compatibility issue with Ad Inserter plugin.
+ * Fix: Compatibility issue of minification  with Beaver Builder Plugin.
+ * Fix: Compatibility issue of JS scripts with AMP Plugin.
+ * Fix: Reduce cookie life time span while user posts a comment.
+ * Fix: HTML elements filtered from RestAPI end point of lazy-load scripts.
+ * Fix: Config file of each subsite save with appropriate ID in advance cache file.
+ * Fix: Google Analytics script exclude from Minification.
+
+
+= 1.2.5 =
+
+
+ * Add: URLs containing query strings will not be cached by default.
+ * Add: Ignore specific query strings while serving the cache to improve performance.
+ * Add: Ability to cache URLs with specific query strings variables.
+ * Add: Cache handling of URLs having multiple parameters in one query string.
+ * Add: Exceptional Cache handling for case where permalink is set to PLAIN, which includes links for POST, PAGES, ATTACHMENTS, CATEGORIES, ARCHIVES.
+
+
+= 1.2.4 =
+
+
+ * Add: Functionality to clear ALL cache via Command Line Interface (wp-cli).
+ * Add: Functionality to clear Varnish cache via Command Line Interface (wp-cli).
+ * Add: Functionality to clear Internal cache via Command Line Interface (wp-cli).
+ * Add: While the file Permission is not correct, the warning message has been added.
+ * Fix: Compatibility with Coming Soon Page, Maintenance Mode & Landing Pages by SeedProd.
+ * Fix: improve the handling of warning undefine array key of delay JS script while enable debug mode.
+
+
+
+= 1.2.3 =
+
+
+ * Add: Addition in Media assets rules for browser cacheable objects.
+ * Add: Addition in Font assets rules for browser cacheable object.
+ * Add: Addition in Data interchange rules for browser cacheable objects.
+ * Add: Addition in Manifest files rules for browser cacheable object.
+ * Add: Addition in Gzip compression rules.
+ * Fix: Improvise the handling of the Request header while the varnish is disable
+ * Fix: Improvise the condition of Option "Enable cache for logged-in users"
+ 
+
+
+= 1.2.2 =
+
+ * Add: Export settings via Command Line Interface (wp-cli).
+ * Add: Import settings via Command Line Interface(wp-cli).
+
+
+= 1.2.1 =
+
+ * Fix: improve the handling of warning undefine index of lazy load image while enable debug mode.
+ * Add: Enable/Disable option of Delay JS inline scripts.
+
+= 1.2.0 =
+
+ * Add: “noreferrer noopener” attributes tag on external links when process HTML for caching.
+ * Add: Preload fonts allow to text remain visible during webfont load.
+ * Add: Preload key request of fonts OR CSS file which load fonts from local resource.
+ * Add: Preload links allow to enable preload next page of application.
+ * Add: lazy load display images on a page only when they are visible to the user.
+ * Add: Minimize the impact of third-party code.
+
+= 1.1.11 =
+
+* Fix: Improved handling of forms using nonce in  Permalinks and Options pages.
+
+= 1.1.10 =
+
+* Fix: Apply deferred loading at individual file.
+* Fix: exclude feed url generated by plugin “Facebook for WooCommerce”.
+* Fix: purge site cache in subfolder.
+* Fix: Inventory stock now updated at the Cart page.
+* Fix: Improved Support for the new version of the WooCommerce Booking Calendar plugin.
+* Add: Compatible with EDD and cartflow plugins.
+* Add: pages include shortcode has been exclude by Breeze.
+
+= 1.1.9 =
+
+Add: Improved handling of minification for Query stirng based exclusion in Never Cache These URLs option.
+Add: Increase compatibility with Multilingual .
+
+
+= 1.1.8 =
+* Fix: Cache refresh issue when Varnish is disabled.
+* Fix: Replaced functions deprecated in WordPress 5.5 that were causing warning messages.
+* Fix: Replaced deprecated minification libraries to improve compatibility with PHP 7.x onward.
+* Fix: resolved the warning generated by the Query Monitor plugin.
+* Add: compatibility with PHP 7.4
 
 = 1.1.7 =
 * Fix: Add HTTP and HTTPS for validation of CDN integration.
@@ -252,4 +402,4 @@ Update Breeze through WordPress Admin > Dashboard >Updates. The settings will re
 
 == Requirements ==
 
-PHP 5.3+, PHP7 or 7.1 recommended for better performance, WordPress 4.5+
+PHP 7.x ,PHP 7.4 recommended for better performance, WordPress 4.5+

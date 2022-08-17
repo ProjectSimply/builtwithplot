@@ -1,5 +1,6 @@
 <?php
 
+use WPForms\Helpers\Templates;
 use WPForms\Tasks\Actions\EntryEmailsTask;
 
 /**
@@ -484,7 +485,7 @@ class WPForms_WP_Emails {
 	 */
 	public function process_tag( $string = '' ) {
 
-		return apply_filters( 'wpforms_process_smart_tags', $string, $this->form_data, $this->fields, $this->entry_id );
+		return wpforms_process_smart_tags( $string, $this->form_data, $this->fields, $this->entry_id );
 	}
 
 	/**
@@ -539,17 +540,23 @@ class WPForms_WP_Emails {
 						continue;
 					}
 
-					if ( 'divider' === $field['type'] ) {
+					if ( $field['type'] === 'divider' ) {
 						$field_name = ! empty( $field['label'] ) ? str_repeat( '&mdash;', 3 ) . ' ' . $field['label'] . ' ' . str_repeat( '&mdash;', 3 ) : null;
 						$field_val  = ! empty( $field['description'] ) ? $field['description'] : '';
-					} elseif ( 'pagebreak' === $field['type'] ) {
-						if ( ! empty( $field['position'] ) && 'bottom' === $field['position'] ) {
+					} elseif ( $field['type'] === 'pagebreak' ) {
+						if ( ! empty( $field['position'] ) && $field['position'] === 'bottom' ) {
 							continue;
 						}
 						$title      = ! empty( $field['title'] ) ? $field['title'] : esc_html__( 'Page Break', 'wpforms-lite' );
 						$field_name = str_repeat( '&mdash;', 6 ) . ' ' . $title . ' ' . str_repeat( '&mdash;', 6 );
-					} elseif ( 'html' === $field['type'] ) {
-						$field_name = null;
+					} elseif ( $field['type'] === 'html' ) {
+
+						// If CL is enabled and the field is conditionally hidden, hide it from message.
+						if ( ! empty( $this->form_data['fields'][ $field['id'] ]['conditionals'] ) && ! wpforms_conditional_logic_fields()->field_is_visible( $this->form_data, $field['id'] ) ) {
+							continue;
+						}
+
+						$field_name = ! empty( $field['name'] ) ? $field['name'] : esc_html__( 'HTML / Code Block', 'wpforms-lite' );
 						$field_val  = $field['code'];
 					}
 				} else {
@@ -561,7 +568,7 @@ class WPForms_WP_Emails {
 						continue;
 					}
 
-					$field_name = $this->fields[ $field_id ]['name'];
+					$field_name = isset( $this->fields[ $field_id ]['name'] ) ? $this->fields[ $field_id ]['name'] : '';
 					$field_val  = empty( $this->fields[ $field_id ]['value'] ) && ! is_numeric( $this->fields[ $field_id ]['value'] ) ? '<em>' . esc_html__( '(empty)', 'wpforms-lite' ) . '</em>' : $this->fields[ $field_id ]['value'];
 				}
 
@@ -719,8 +726,14 @@ class WPForms_WP_Emails {
 
 			// Try locating this template file by looping through the template paths.
 			foreach ( $this->get_theme_template_paths() as $template_path ) {
-				if ( file_exists( $template_path . $template_name ) ) {
-					$located = $template_path . $template_name;
+				$validated_path = Templates::validate_safe_path(
+					$template_path . $template_name,
+					[ 'theme', 'plugins' ]
+				);
+
+				if ( $validated_path ) {
+					$located = $validated_path;
+
 					break;
 				}
 			}

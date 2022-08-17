@@ -112,18 +112,16 @@ class WPForms_Updater {
 			$this->$arg = $config[ $arg ];
 		}
 
-		// If the user cannot update plugins, stop processing here.
-		if ( ! current_user_can( 'update_plugins' ) ) {
+		// If the user cannot update plugins, stop processing here. In WP-CLI context
+		// there is no user available, so we should ignore this check in CLI.
+		if ( ! current_user_can( 'update_plugins' ) && ! wpforms_doing_wp_cli() ) {
 			return;
 		}
 
 		// Load the updater hooks and filters.
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_plugins_filter' ) );
-		//add_filter( 'set_site_transient_update_plugins', array( $this, 'set_site_transient_update_plugins' ) );
-		//add_filter( 'transient_update_plugins', array( $this, 'transient_update_plugins' ) );
 		add_filter( 'http_request_args', array( $this, 'http_request_args' ), 10, 2 );
 		add_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
-
 	}
 
 	/**
@@ -137,16 +135,20 @@ class WPForms_Updater {
 	 */
 	public function update_plugins_filter( $value ) {
 
-		// If no update object exists, return early.
-		if ( empty( $value ) ) {
+		// If no update object exists or given value is not an object type, return early.
+		if ( empty( $value ) || ! is_object( $value ) ) {
 			return $value;
 		}
 
 		// Run update check by pinging the external API. If it fails, return the default update object.
 		if ( ! $this->update ) {
-			$this->update = $this->perform_remote_request( 'get-plugin-update', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
+			$this->update = $this->perform_remote_request( 'get-plugin-update', [ 'tgm-updater-plugin' => $this->plugin_slug ] );
+
+			// No update is available.
 			if ( ! $this->update || ! empty( $this->update->error ) ) {
 				$this->update = false;
+
+				$value->no_update[ $this->plugin_path ] = $this->get_no_update();
 
 				return $value;
 			}
@@ -154,8 +156,12 @@ class WPForms_Updater {
 
 		// Infuse the update object with our data if the version from the remote API is newer.
 		if ( isset( $this->update->new_version ) && version_compare( $this->version, $this->update->new_version, '<' ) ) {
-			// The $plugin_update object contains new_version, package, slug and last_update keys.
+			// The $this->update object contains new_version, package, slug and last_update keys.
+			$this->update->old_version             = $this->version;
+			$this->update->plugin                  = $this->plugin_path;
 			$value->response[ $this->plugin_path ] = $this->update;
+		} else {
+			$value->no_update[ $this->plugin_path ] = $this->get_no_update();
 		}
 
 		// Return the update object.
@@ -167,8 +173,8 @@ class WPForms_Updater {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args Array of request args.
-	 * @param string $url The URL to be pinged.
+	 * @param array  $args Array of request args.
+	 * @param string $url  The URL to be pinged.
 	 *
 	 * @return array $args Amended array of request args.
 	 */
@@ -182,9 +188,9 @@ class WPForms_Updater {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object $api The original plugins_api object.
+	 * @param object $api    The original plugins_api object.
 	 * @param string $action The action sent by plugins_api.
-	 * @param array $args Additional args to send to plugins_api.
+	 * @param array  $args   Additional args to send to plugins_api.
 	 *
 	 * @return object $api   New stdClass with plugin information on success, default response on failure.
 	 */
@@ -195,9 +201,9 @@ class WPForms_Updater {
 		// If our plugin matches the request, set our own plugin data, else return the default response.
 		if ( $plugin ) {
 			return $this->set_plugins_api( $api );
-		} else {
-			return $api;
 		}
+
+		return $api;
 	}
 
 	/**
@@ -222,7 +228,7 @@ class WPForms_Updater {
 		}
 
 		// Create a new stdClass object and populate it with our plugin information.
-		$api                        = new stdClass;
+		$api                        = new stdClass();
 		$api->name                  = isset( $this->info->name ) ? $this->info->name : '';
 		$api->slug                  = isset( $this->info->slug ) ? $this->info->slug : '';
 		$api->version               = isset( $this->info->version ) ? $this->info->version : '';
@@ -242,70 +248,87 @@ class WPForms_Updater {
 	}
 
 	/**
-	 * Query the remote URL via wp_remote_post and returns a json decoded response.
+	 * Query the remote URL via wp_remote_get() and returns a json decoded response.
 	 *
 	 * @since 2.0.0
+	 * @since 1.7.2 Switch from POST to GET request.
 	 *
-	 * @param string $action The name of the $_POST action var.
-	 * @param array $body The content to retrieve from the remote URL.
-	 * @param array $headers The headers to send to the remote URL.
+	 * @param string $action        The name of the request action var.
+	 * @param array  $body          The GET query attributes.
+	 * @param array  $headers       The headers to send to the remote URL.
 	 * @param string $return_format The format for returning content from the remote URL.
 	 *
 	 * @return string|bool          Json decoded response on success, false on failure.
 	 */
-	public function perform_remote_request( $action, $body = array(), $headers = array(), $return_format = 'json' ) {
+	public function perform_remote_request( $action, $body = [], $headers = [], $return_format = 'json' ) {
 
-		// Build the body of the request.
-		$body = wp_parse_args(
+		// Request query parameters.
+		$query_params = wp_parse_args(
 			$body,
-			array(
-				'tgm-updater-action'     => $action,
-				'tgm-updater-key'        => $this->key,
-				'tgm-updater-wp-version' => get_bloginfo( 'version' ),
-				'tgm-updater-referer'    => site_url(),
-			)
-		);
-		$body = http_build_query( $body, '', '&' );
-
-		// Build the headers of the request.
-		$headers = wp_parse_args(
-			$headers,
-			array(
-				'Content-Type'   => 'application/x-www-form-urlencoded',
-				'Content-Length' => strlen( $body ),
-			)
+			[
+				'tgm-updater-action'      => $action,
+				'tgm-updater-key'         => $this->key,
+				'tgm-updater-wp-version'  => get_bloginfo( 'version' ),
+				'tgm-updater-php-version' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
+				'tgm-updater-referer'     => site_url(),
+			]
 		);
 
 		// Setup variable for wp_remote_post.
-		$post = array(
+		$args = [
 			'headers' => $headers,
-			'body'    => $body,
-		);
+		];
 
 		// Perform the query and retrieve the response.
-		$response      = wp_remote_post( esc_url_raw( $this->remote_url ), $post );
+		$response      = wp_remote_get( add_query_arg( $query_params, $this->remote_url ), $args );
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$response_body = wp_remote_retrieve_body( $response );
 
 		// Bail out early if there are any errors.
-		if ( 200 !== $response_code || is_wp_error( $response_body ) ) {
+		if ( $response_code !== 200 || is_wp_error( $response_body ) ) {
 			return false;
 		}
 
-		$response_body = json_decode( $response_body );
+		$response_body = json_decode( $response_body, false );
 
 		// A few items need to be converted from an object to an array as that
 		// is what WordPress expects.
 		if ( ! empty( $response_body->package ) ) {
-			if ( ! empty ( $response_body->icons ) ) {
+			if ( ! empty( $response_body->icons ) ) {
 				$response_body->icons = (array) $response_body->icons;
 			}
-			if ( ! empty ( $response_body->banners ) ) {
+			if ( ! empty( $response_body->banners ) ) {
 				$response_body->banners = (array) $response_body->banners;
 			}
 		}
 
 		// Return the json decoded content.
 		return $response_body;
+	}
+
+	/**
+	 * Prepare the "mock" item to the `no_update` property.
+	 * Is required for the enable/disable auto-updates links to correctly appear in UI.
+	 *
+	 * @since 1.6.4
+	 *
+	 * @return object
+	 */
+	protected function get_no_update() {
+
+		return (object) [
+			'id'            => $this->plugin_path,
+			'slug'          => $this->plugin_slug,
+			'plugin'        => $this->plugin_path,
+			'new_version'   => $this->version,
+			'url'           => '',
+			'package'       => '',
+			'icons'         => [],
+			'banners'       => [],
+			'banners_rtl'   => [],
+			'tested'        => '',
+			'requires_php'  => '',
+			'compatibility' => new stdClass(),
+		];
 	}
 }

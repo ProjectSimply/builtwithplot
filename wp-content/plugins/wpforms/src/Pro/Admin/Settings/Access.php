@@ -56,7 +56,7 @@ class Access {
 
 		\wp_enqueue_script(
 			'wpforms-settings-access',
-			\WPFORMS_PLUGIN_URL . "pro/assets/js/admin/settings-access{$min}.js",
+			\WPFORMS_PLUGIN_URL . "assets/pro/js/admin/settings-access{$min}.js",
 			array( 'jquery', 'jquery-confirm' ),
 			\WPFORMS_VERSION,
 			true
@@ -198,7 +198,7 @@ class Access {
 			),
 		);
 
-		return \wpforms_list_insert_after( $tabs, 'integrations', $tab );
+		return \wpforms_list_insert_after( $tabs, 'geolocation', $tab );
 	}
 
 	/**
@@ -214,7 +214,16 @@ class Access {
 
 		$settings[ self::SLUG ][ self::SLUG . '-heading' ] = array(
 			'id'       => self::SLUG . '-heading',
-			'content'  => '<h4>' . \esc_html__( 'Access', 'wpforms' ) . '</h4><p>' . \esc_html__( 'Select the user roles that are allowed access to WPForms.', 'wpforms' ) . '</p>',
+			'content'  => '<h4>' . \esc_html__( 'Access', 'wpforms' ) . '</h4><p>' .
+			\sprintf(  /* translators: %s - WPForms.com access control link. */
+				\esc_html__(
+					'Select the user roles that are allowed to manage different aspects of WPForms. By default, all permissions are provided only to administrator users. Please see our %1$sAccess Controls documentation%2$s for full details.',
+					'wpforms'
+				),
+				'<a href="https://wpforms.com/docs/how-to-set-up-access-controls-in-wpforms/" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			)
+			. '</p>',
 			'type'     => 'content',
 			'no_label' => true,
 			'class'    => array( 'section-heading' ),

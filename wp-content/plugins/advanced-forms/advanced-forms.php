@@ -1,14 +1,17 @@
 <?php
 /*
-	Plugin Name: Advanced Forms
-	Description: Flexible and developer-friendly forms with the power of Advanced Custom Fields.
-	Version: 1.6.9
-	Author: Fabian Lindfors
-	Copyright: Fabian Lindfors
-	Text Domain: advanced-forms
-	Domain Path: /language
-*/
+ * Plugin Name: Advanced Forms
+ * Description: Flexible and developer-friendly forms with the power of Advanced Custom Fields.
+ * Version: 1.9.2.1
+ * Author: Phil Kurth (Hookturn)
+ * Author URI: http://hookturn.io
+ * Copyright: Hookturn Digital
+ * Text Domain: advanced-forms
+ * Domain Path: /language
+ */
 
+
+if ( ! class_exists( 'AF' ) ) :
 
 class AF {
 	
@@ -18,7 +21,7 @@ class AF {
 	 *
 	 * @since 1.2.0
 	 */
-	public $version = '1.6.9';
+	public $version = '1.9.2.1';
 	
 	
 	/**
@@ -93,6 +96,8 @@ class AF {
 		$this->classes['core_emails'] = include( $this->path . 'core/core-emails.php' );
 		$this->classes['core_entries'] = include( $this->path . 'core/core-entries.php' );
 		$this->classes['core_merge_tags'] = include( $this->path . 'core/core-merge-tags.php' );
+		$this->classes['core_gutenberg'] = include( $this->path . 'core/core-gutenberg.php' );
+		$this->classes['core_migrations'] = include( $this->path . 'core/core-migrations.php' );
 
 		// ACF additions (fields, location rules, etc.)
 		$this->classes['acf_additions'] = include( $this->path . 'acf/acf-additions.php' );
@@ -114,12 +119,9 @@ class AF {
 		}
 
 
-		// Include assets
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10, 0 );
-
+		// Enqueue admin assets
 		if ( $this->show_admin ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ), 10, 0 );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ), 10, 0 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ), 10, 0 );
 		}
 
@@ -173,7 +175,7 @@ class AF {
 
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'af-admin-script', $this->url .  'assets/dist/js/admin.js', array( 'jquery' ) );
+		wp_enqueue_script( 'af-admin-script', $this->url .  'assets/dist/js/admin.js', array( 'jquery', 'acf-input' ) );
 
 	}
 
@@ -187,19 +189,6 @@ class AF {
 	function enqueue_admin_styles() {
 
 		wp_enqueue_style( 'af-admin-style', $this->url .  'assets/dist/css/admin.css' );
-
-	}
-
-
-	/**
-	 * Enqueues global styles
-	 *
-	 * @since 1.0.0
-	 *
-	 */
-	function enqueue_styles() {
-
-		wp_enqueue_style( 'af-form-style', $this->url .  'assets/dist/css/form.css' );
 
 	}
 
@@ -310,7 +299,6 @@ class AF {
 
 }
 
-
 /**
  * Helper function to access the global AF object
  * 
@@ -330,3 +318,5 @@ function AF() {
 
 // Initalize plugin
 AF();
+
+endif;

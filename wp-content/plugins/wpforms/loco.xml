@@ -6,10 +6,10 @@
         <directory>.</directory>
       </source>
       <target>
-        <directory>languages</directory>
+        <directory>assets/languages</directory>
       </target>
       <template>
-        <file>languages/wpforms-lite.pot</file>
+        <file>assets/languages/wpforms-lite.pot</file>
       </template>
     </project>
   </domain>
@@ -19,10 +19,10 @@
         <directory>.</directory>
       </source>
       <target>
-        <directory>pro/languages</directory>
+        <directory>assets/pro/languages</directory>
       </target>
       <template>
-        <file>pro/languages/wpforms.pot</file>
+        <file>assets/pro/languages/wpforms.pot</file>
       </template>
     </project>
   </domain>

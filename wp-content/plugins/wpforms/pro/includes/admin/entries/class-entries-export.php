@@ -149,9 +149,7 @@ class WPForms_Entries_Export {
 
 		ignore_user_abort( true );
 
-		if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ), true ) ) {
-			set_time_limit( 0 );
-		}
+		wpforms_set_time_limit();
 
 		if ( ! $this->is_single_entry() ) {
 			$file_name = 'wpforms-' . sanitize_file_name( get_the_title( $this->form_id ) ) . '-' . date( 'm-d-Y' ) . '.csv';
@@ -313,7 +311,7 @@ class WPForms_Entries_Export {
 		$separator = apply_filters_deprecated(
 			'wpforms_csv_export_seperator',
 			array( ',' ),
-			'1.4.1 of WPForms plugin',
+			'1.4.1 of the WPForms plugin',
 			'wpforms_csv_export_separator'
 		);
 

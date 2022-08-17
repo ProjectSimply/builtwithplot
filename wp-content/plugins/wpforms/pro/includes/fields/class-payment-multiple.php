@@ -23,19 +23,19 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 		$this->defaults = array(
 			1 => array(
 				'label'   => esc_html__( 'First Item', 'wpforms' ),
-				'value'   => '10.00',
+				'value'   => wpforms_format_amount( '10.00' ),
 				'image'   => '',
 				'default' => '',
 			),
 			2 => array(
 				'label'   => esc_html__( 'Second Item', 'wpforms' ),
-				'value'   => '25.00',
+				'value'   => wpforms_format_amount( '25.00' ),
 				'image'   => '',
 				'default' => '',
 			),
 			3 => array(
 				'label'   => esc_html__( 'Third Item', 'wpforms' ),
-				'value'   => '50.00',
+				'value'   => wpforms_format_amount( '50.00' ),
 				'image'   => '',
 				'default' => '',
 			),
@@ -246,6 +246,25 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 		// Choices option.
 		$this->field_option( 'choices_payments', $field );
 
+		// Show price after item labels.
+		$fld  = $this->field_element(
+			'toggle',
+			$field,
+			[
+				'slug'    => 'show_price_after_labels',
+				'value'   => isset( $field['show_price_after_labels'] ) ? '1' : '0',
+				'desc'    => esc_html__( 'Show price after item labels', 'wpforms' ),
+				'tooltip' => esc_html__( 'Check this option to show price of the item after the label.', 'wpforms' ),
+			],
+			false
+		);
+		$args = [
+			'slug'    => 'show_price_after_labels',
+			'content' => $fld,
+		];
+
+		$this->field_element( 'row', $field, $args );
+
 		// Choices Images.
 		$this->field_option( 'choices_images', $field );
 
@@ -283,19 +302,19 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 		// Input columns.
 		$this->field_option( 'input_columns', $field );
 
-		// Hide label.
-		$this->field_option( 'label_hide', $field );
-
 		// Custom CSS classes.
 		$this->field_option( 'css', $field );
+
+		// Hide label.
+		$this->field_option( 'label_hide', $field );
 
 		// Options close markup.
 		$this->field_option(
 			'advanced-options',
 			$field,
-			array(
+			[
 				'markup' => 'close',
-			)
+			]
 		);
 	}
 
@@ -340,6 +359,11 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 
 			foreach ( $choices as $key => $choice ) {
 
+				$label = isset( $choice['label']['text'] ) ? $choice['label']['text'] : '';
+				/* translators: %s - Choice item number. */
+				$label  = $label !== '' ? $label : sprintf( esc_html__( 'Item %s', 'wpforms' ), $key );
+				$label .= ! empty( $field['show_price_after_labels'] ) && isset( $choice['data']['amount'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $choice['data']['amount'] ), true ) : '';
+
 				printf(
 					'<li %s>',
 					wpforms_html_attributes( $choice['container']['id'], $choice['container']['class'], $choice['container']['data'], $choice['container']['attr'] )
@@ -373,7 +397,7 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 								checked( '1', $choice['default'], false )
 							);
 
-							echo '<span class="wpforms-image-choices-label">' . wp_kses_post( $choice['label']['text'] ) . '</span>';
+							echo '<span class="wpforms-image-choices-label">' . wp_kses_post( $label ) . '</span>';
 
 						echo '</label>';
 
@@ -390,7 +414,7 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 						printf(
 							'<label %s>%s</label>',
 							wpforms_html_attributes( $choice['label']['id'], $choice['label']['class'], $choice['label']['data'], $choice['label']['attr'] ),
-							wp_kses_post( $choice['label']['text'] )
+							wp_kses_post( $label )
 						); // WPCS: XSS ok.
 					}
 
@@ -441,7 +465,7 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 		$choice_label = '';
 		$image        = '';
 
-		if ( ! empty( $field_submit ) && ! empty( $field['choices'][ $field_submit ]['value'] ) ) {
+		if ( ! empty( $field_submit ) && ! empty( $field['choices'][ $field_submit ] ) ) {
 
 			$amount = wpforms_sanitize_amount( $field['choices'][ $field_submit ]['value'] );
 			$value  = wpforms_format_amount( $amount, true );
@@ -463,7 +487,7 @@ class WPForms_Field_Payment_Multiple extends WPForms_Field {
 			'value_raw'    => sanitize_text_field( $field_submit ),
 			'amount'       => wpforms_format_amount( $amount ),
 			'amount_raw'   => $amount,
-			'currency'     => wpforms_setting( 'currency', 'USD' ),
+			'currency'     => wpforms_get_currency(),
 			'image'        => $image,
 			'id'           => absint( $field_id ),
 			'type'         => $this->type,

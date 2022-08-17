@@ -1,5 +1,7 @@
 <?php
 
+use WPForms\Pro\Admin\Entries\Helpers;
+
 /**
  * Generate the table on the entries overview page.
  *
@@ -74,11 +76,12 @@ class WPForms_Entries_Table extends WP_List_Table {
 				'singular' => 'entry',
 				'plural'   => 'entries',
 				'ajax'     => false,
+				'screen'   => 'entries',
 			)
 		);
 
 		// Default number of forms to show per page.
-		$this->per_page = apply_filters( 'wpforms_entries_per_page', 30 );
+		$this->per_page = wpforms()->entry->get_count_per_page();
 	}
 
 	/**
@@ -88,28 +91,28 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public function get_counts() {
 
-		$this->counts = array();
+		$this->counts = [];
 
 		$this->counts['total'] = wpforms()->entry->get_entries(
-			array(
+			[
 				'form_id' => $this->form_id,
-			),
+			],
 			true
 		);
 
 		$this->counts['unread'] = wpforms()->entry->get_entries(
-			array(
+			[
 				'form_id' => $this->form_id,
 				'viewed'  => '0',
-			),
+			],
 			true
 		);
 
 		$this->counts['starred'] = wpforms()->entry->get_entries(
-			array(
+			[
 				'form_id' => $this->form_id,
 				'starred' => '1',
-			),
+			],
 			true
 		);
 
@@ -123,26 +126,36 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public function get_views() {
 
-		$base = add_query_arg(
-			array(
-				'page'    => 'wpforms-entries',
-				'view'    => 'list',
-				'form_id' => $this->form_id,
-			),
-			admin_url( 'admin.php' )
-		);
+		$base = remove_query_arg( [ 'type', 'status', 'paged' ] );
 
-		$current = isset( $_GET['type'] ) ? $_GET['type'] : '';
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$current = isset( $_GET['type'] ) ? sanitize_key( wp_unslash( $_GET['type'] ) ) : '';
 		$total   = '&nbsp;<span class="count">(<span class="total-num">' . $this->counts['total'] . '</span>)</span>';
 		$unread  = '&nbsp;<span class="count">(<span class="unread-num">' . $this->counts['unread'] . '</span>)</span>';
 		$starred = '&nbsp;<span class="count">(<span class="starred-num">' . $this->counts['starred'] . '</span>)</span>';
-		$all     = ( empty( $_GET['status'] ) && ( 'all' === $current || empty( $current ) ) ) ? 'class="current"' : '';
+		$all     = empty( $_GET['status'] ) && ( $current === 'all' || empty( $current ) ) ? ' class="current"' : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		$views = array(
-			'all'     => sprintf( '<a href="%s"%s>%s</a>', esc_url( remove_query_arg( 'type', $base ) ), $all, esc_html__( 'All', 'wpforms' ) . $total ),
-			'unread'  => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'type', 'unread', $base ) ), 'unread' === $current ? ' class="current"' : '', esc_html__( 'Unread', 'wpforms' ) . $unread ),
-			'starred' => sprintf( '<a href="%s"%s>%s</a>', esc_url( add_query_arg( 'type', 'starred', $base ) ), 'starred' === $current ? ' class="current"' : '', esc_html__( 'Starred', 'wpforms' ) . $starred ),
-		);
+		$views = [
+			'all'     => sprintf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( $base ),
+				$all,
+				esc_html__( 'All', 'wpforms' ) . $total
+			),
+			'unread'  => sprintf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( add_query_arg( 'type', 'unread', $base ) ),
+				$current === 'unread' ? ' class="current"' : '',
+				esc_html__( 'Unread', 'wpforms' ) . $unread
+			),
+			'starred' => sprintf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( add_query_arg( 'type', 'starred', $base ) ),
+				$current === 'starred' ? ' class="current"' : '',
+				esc_html__( 'Starred', 'wpforms' ) . $starred
+			),
+		];
 
 		return apply_filters( 'wpforms_entries_table_views', $views, $this->form_data, $this->counts );
 	}
@@ -216,7 +229,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public static function get_columns_form_disallowed_fields() {
 
-		return (array) apply_filters( 'wpforms_entries_table_fields_disallow', array( 'divider', 'html', 'pagebreak', 'captcha' ) );
+		return (array) apply_filters( 'wpforms_entries_table_fields_disallow', [ 'captcha', 'divider', 'entry-preview', 'html', 'pagebreak' ] );
 	}
 
 	/**
@@ -261,7 +274,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 					continue;
 				}
 
-				$columns[ 'wpforms_field_' . $id ] = ! empty( $this->form_data['fields'][ $id ]['label'] ) ? wp_strip_all_tags( $this->form_data['fields'][ $id ]['label'] ) : esc_html__( 'Field', 'wpforms' );
+				$columns[ 'wpforms_field_' . $id ] = isset( $this->form_data['fields'][ $id ]['label'] ) && ! wpforms_is_empty_string( trim( $this->form_data['fields'][ $id ]['label'] ) ) ? wp_strip_all_tags( $this->form_data['fields'][ $id ]['label'] ) : sprintf( /* translators: %d - field ID. */ __( 'Field #%d', 'wpforms' ), absint( $id ) );
 			}
 		} else {
 			/*
@@ -270,7 +283,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 			$x = 0;
 			foreach ( $this->form_data['fields'] as $id => $field ) {
 				if ( ! in_array( $field['type'], self::get_columns_form_disallowed_fields(), true ) && $x < $display ) {
-					$columns[ 'wpforms_field_' . $id ] = ! empty( $field['label'] ) ? wp_strip_all_tags( $field['label'] ) : esc_html__( 'Field', 'wpforms' );
+					$columns[ 'wpforms_field_' . $id ] = isset( $field['label'] ) && ! wpforms_is_empty_string( trim( $field['label'] ) ) ? wp_strip_all_tags( $field['label'] ) : sprintf( /* translators: %d - field ID. */ __( 'Field #%d', 'wpforms' ), absint( $field['id'] ) );
 					$x ++;
 				}
 			}
@@ -365,35 +378,30 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public function column_form_field( $entry, $column_name ) {
 
-		if ( false === strpos( $column_name, 'wpforms_field_' ) ) {
+		if ( strpos( $column_name, 'wpforms_field_' ) === false ) {
 			return '';
 		}
 
-		$field_id     = str_replace( 'wpforms_field_', '', $column_name );
-		$entry_fields = wpforms_decode( $entry->fields );
+		$field_id     = (int) str_replace( 'wpforms_field_', '', $column_name );
+		$entry_fields = (array) wpforms_decode( $entry->fields );
 
 		if (
-			! empty( $entry_fields[ $field_id ] ) &&
+			isset( $entry_fields[ $field_id ]['value'] ) &&
 			! wpforms_is_empty_string( $entry_fields[ $field_id ]['value'] )
 		) {
 
-			$value = $entry_fields[ $field_id ]['value'];
+			$field_type = isset( $entry_fields[ $field_id ]['type'] ) ? $entry_fields[ $field_id ]['type'] : '';
 
-			// Limit to 5 lines.
-			$lines = explode( "\n", $value );
-			$value = array_slice( $lines, 0, 4 );
-			$value = implode( "\n", $value );
+			$value = wp_strip_all_tags( trim( $entry_fields[ $field_id ]['value'] ) );
+			$value = $this->truncate_long_value( $value, $field_type );
+			$value = nl2br( $value );
 
-			if ( count( $lines ) > 5 ) {
-				$value .= '&hellip;';
-			} elseif ( strlen( $value ) > 75 ) {
-				$value = substr( $value, 0, 75 ) . '&hellip;';
-			}
+			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 
-			$value = nl2br( wp_strip_all_tags( trim( $value ) ) );
-
+			/** This filter is documented in src/SmartTags/SmartTag/FieldHtmlId.php.*/
 			return apply_filters( 'wpforms_html_field_value', $value, $entry_fields[ $field_id ], $this->form_data, 'entry-table' );
 
+			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 		}
 
 		return '-';
@@ -415,7 +423,6 @@ class WPForms_Entries_Table extends WP_List_Table {
 		$field_type = $this->get_field_type( $entry, $column_name );
 
 		switch ( strtolower( $column_name ) ) {
-
 			case 'entry_id':
 			case 'id':
 				$value = absint( $entry->entry_id );
@@ -426,7 +433,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 				break;
 
 			case 'date':
-				$value = date_i18n( get_option( 'date_format' ), strtotime( $entry->date ) + ( get_option( 'gmt_offset' ) * 3600 ) );
+				$value = wpforms_datetime_format( $entry->date, '', true );
 				break;
 
 			case 'status':
@@ -443,10 +450,21 @@ class WPForms_Entries_Table extends WP_List_Table {
 
 		// Adds a wrapper with a field type in data attribute.
 		if ( ! empty( $value ) && ! empty( $field_type ) ) {
-			$value = sprintf( '<div data-field-type="%s">%s</div>', $field_type, $value );
+			$value = sprintf( '<div data-field-type="%s">%s</div>', esc_attr( $field_type ), $value );
 		}
 
-		return apply_filters( 'wpforms_entry_table_column_value', $value, $entry, $column_name );
+		/**
+		 * Allow filtering entry table column value.
+		 *
+		 * @since 1.0.0
+		 * @since 1.7.0 Added Field type.
+		 *
+		 * @param string $value       Value.
+		 * @param object $entry       Current entry data.
+		 * @param string $column_name Current column name.
+		 * @param string $field_type  Field type.
+		 */
+		return apply_filters( 'wpforms_entry_table_column_value', $value, $entry, $column_name, $field_type );
 	}
 
 	/**
@@ -510,17 +528,17 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public function column_actions( $entry ) {
 
-		$actions = array();
+		$actions = [];
 
 		// View.
 		$actions[] = sprintf(
 			'<a href="%s" title="%s" class="view">%s</a>',
 			esc_url(
 				add_query_arg(
-					array(
+					[
 						'view'     => 'details',
 						'entry_id' => $entry->entry_id,
-					),
+					],
 					admin_url( 'admin.php?page=wpforms-entries' )
 				)
 			),
@@ -528,16 +546,19 @@ class WPForms_Entries_Table extends WP_List_Table {
 			esc_html__( 'View', 'wpforms' )
 		);
 
-		if ( wpforms_current_user_can( 'edit_entries_form_single', $this->form_id ) ) {
+		if (
+            wpforms_current_user_can( 'edit_entries_form_single', $this->form_id ) &&
+            wpforms()->get( 'entry' )->has_editable_fields( $entry )
+        ) {
 			// Edit.
 			$actions[] = sprintf(
 				'<a href="%s" title="%s" class="edit">%s</a>',
 				esc_url(
 					add_query_arg(
-						array(
+						[
 							'view'     => 'edit',
 							'entry_id' => $entry->entry_id,
-						),
+						],
 						admin_url( 'admin.php?page=wpforms-entries' )
 					)
 				),
@@ -553,12 +574,12 @@ class WPForms_Entries_Table extends WP_List_Table {
 				esc_url(
 					wp_nonce_url(
 						add_query_arg(
-							array(
+							[
 								'view'     => 'list',
 								'action'   => 'delete',
 								'form_id'  => $this->form_id,
 								'entry_id' => $entry->entry_id,
-							)
+							]
 						),
 						'bulk-entries'
 					)
@@ -596,44 +617,6 @@ class WPForms_Entries_Table extends WP_List_Table {
 			</button>
 
 		</div>
-
-		<?php
-		$default_date = 'defaultDate: [],';
-		if ( ! empty( $_GET['date'] ) ) {
-			$dates = explode( ' - ', $_GET['date'] );
-
-			if ( count( $dates ) === 1 ) {
-				$dates[1] = $dates[0];
-			}
-			$default_date = 'defaultDate: [ "' . sanitize_text_field( $dates[0] ) . '", "' . sanitize_text_field( $dates[1] ) . '" ],';
-		}
-		?>
-
-		<script>
-			var wpforms_lang_code = '<?php echo sanitize_key( wpforms_get_language_code() ); ?>',
-				flatpickr_locale = {
-					rangeSeparator: ' - '
-				};
-
-			if (
-				flatpickr !== 'undefined' &&
-				flatpickr.hasOwnProperty( 'l10ns' ) &&
-				flatpickr.l10ns.hasOwnProperty( wpforms_lang_code )
-			) {
-				flatpickr_locale = flatpickr.l10ns[ wpforms_lang_code ];
-				// Rewrite separator for all locales to make filtering work.
-				flatpickr_locale.rangeSeparator = ' - ';
-			}
-
-			jQuery(".wpforms-filter-date-selector").flatpickr({
-				altInput: true,
-				altFormat: "M j, Y",
-				dateFormat: "Y-m-d",
-				locale: flatpickr_locale,
-				mode: "range",
-				<?php echo $default_date; ?>
-			});
-		</script>
 
 		<?php
 	}
@@ -716,7 +699,6 @@ class WPForms_Entries_Table extends WP_List_Table {
 		$sendback = remove_query_arg( array( 'read', 'unread', 'starred', 'unstarred', 'deleted' ) );
 
 		switch ( $doaction ) {
-
 			// Mark as read.
 			case 'read':
 				$sendback = $this->process_bulk_action_single_read( $entries_list, $ids, $sendback );
@@ -1016,13 +998,15 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	protected function display_bulk_action_message() {
 
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$bulk_counts = array(
 			'read'      => isset( $_REQUEST['read'] ) ? absint( $_REQUEST['read'] ) : 0,
 			'unread'    => isset( $_REQUEST['unread'] ) ? absint( $_REQUEST['unread'] ) : 0,
 			'starred'   => isset( $_REQUEST['starred'] ) ? absint( $_REQUEST['starred'] ) : 0,
 			'unstarred' => isset( $_REQUEST['unstarred'] ) ? absint( $_REQUEST['unstarred'] ) : 0,
-			'deleted'   => isset( $_REQUEST['deleted'] ) ? absint( $_REQUEST['deleted'] ) : 0,
+			'deleted'   => isset( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0,
 		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$bulk_messages = array(
 			/* translators: %d - number of processed entries. */
@@ -1037,6 +1021,10 @@ class WPForms_Entries_Table extends WP_List_Table {
 			'deleted'   => _n( '%d entry was successfully deleted.', '%d entries were successfully deleted.', $bulk_counts['deleted'] ),
 		);
 
+		if ( -1 === $bulk_counts['deleted'] ) {
+			$bulk_messages['deleted'] = esc_html__( 'All entries for the currently selected form were successfully deleted.', 'wpforms' );
+		}
+
 		// Leave only non-zero counts, so only those that were processed are left.
 		$bulk_counts = array_filter( $bulk_counts );
 
@@ -1049,7 +1037,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 		}
 
 		if ( $messages ) {
-			WPForms_Admin_Notice::success( implode( '<br>', array_map( 'esc_html', $messages ) ) );
+			\WPForms\Admin\Notice::success( implode( '<br>', array_map( 'esc_html', $messages ) ) );
 		}
 	}
 
@@ -1060,11 +1048,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 
-		if ( isset( $_GET['search'] ) || isset( $_GET['date'] ) ) { // phpcs:ignore
-			esc_html_e( 'No entries found.', 'wpforms' );
-		} else {
-			esc_html_e( 'Whoops, it appears you do not have any form entries yet.', 'wpforms' );
-		}
+		esc_html_e( 'No entries found.', 'wpforms' );
 	}
 
 	/**
@@ -1081,7 +1065,8 @@ class WPForms_Entries_Table extends WP_List_Table {
 
 		do_action( 'wpforms_entries_list_form_filters_before', $this->form_data );
 
-		$filter_fields = array();
+		$filter_fields = [];
+
 		if ( ! empty( $this->form_data['fields'] ) ) {
 			foreach ( $this->form_data['fields'] as $id => $field ) {
 				if ( in_array( $field['type'], self::get_columns_form_disallowed_fields(), true ) ) {
@@ -1093,6 +1078,9 @@ class WPForms_Entries_Table extends WP_List_Table {
 		$filter_fields = (array) apply_filters( 'wpforms_entries_list_form_filters_search_fields', $filter_fields, $this );
 
 		$cur_field = 'any';
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 		if ( isset( $_GET['search']['field'] ) ) {
 			if ( is_numeric( $_GET['search']['field'] ) ) {
 				$cur_field = (int) $_GET['search']['field'];
@@ -1100,63 +1088,114 @@ class WPForms_Entries_Table extends WP_List_Table {
 				$cur_field = sanitize_key( $_GET['search']['field'] );
 			}
 		}
-		?>
 
-		<p class="search-box wpforms-form-search-box">
+		$advanced_options = Helpers::get_search_fields_advanced_options();
 
-			<select name="search[field]" class="wpforms-form-search-box-field">
-				<option value="any" <?php selected( 'any', $cur_field, true ); ?>><?php esc_html_e( 'Any form field', 'wpforms' ); ?></option>
-				<?php
-				if ( ! empty( $filter_fields ) ) {
-					foreach ( $filter_fields as $id => $name ) {
-						printf( '<option value="%s" %s>%s</option>', esc_attr( $id ), selected( $id, $cur_field, false ), esc_html( $name ) );
-					}
-				}
-				?>
-			</select>
+		$cur_comparison = ! empty( $_GET['search']['comparison'] ) ? sanitize_key( $_GET['search']['comparison'] ) : 'contains';
 
-			<?php
-			$cur_comparison = 'contains';
-			if ( ! empty( $_GET['search']['comparison'] ) ) {
-				$cur_comparison = sanitize_key( $_GET['search']['comparison'] );
-			}
-			?>
+		$cur_term = '';
 
-			<select name="search[comparison]" class="wpforms-form-search-box-comparison">
-				<option value="contains" <?php selected( 'contains', $cur_comparison ); ?>><?php esc_html_e( 'contains', 'wpforms' ); ?></option>
-				<option value="contains_not" <?php selected( 'contains_not', $cur_comparison ); ?>><?php esc_html_e( 'does not contain', 'wpforms' ); ?></option>
-				<option value="is" <?php selected( 'is', $cur_comparison ); ?>><?php esc_html_e( 'is', 'wpforms' ); ?></option>
-				<option value="is_not" <?php selected( 'is_not', $cur_comparison ); ?>><?php esc_html_e( 'is not', 'wpforms' ); ?></option>
-			</select>
+		if ( ! empty( $_GET['search']['term'] ) ) {
+			$cur_term = sanitize_text_field( wp_unslash( $_GET['search']['term'] ) );
+			$cur_term = empty( $cur_term ) ? htmlspecialchars( wp_unslash( $_GET['search']['term'] ) ) : $cur_term; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		}
 
-			<?php
-			$cur_term = '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-			if ( ! empty( $_GET['search']['term'] ) ) {
-				$cur_term = sanitize_text_field( $_GET['search']['term'] );
-			}
-			?>
+		$this->search_box_output( $text, $input_id, $filter_fields, $advanced_options, $cur_field, $cur_comparison, $cur_term );
 
-			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo $text; ?>:</label>
-			<input type="search" name="search[term]" class="wpforms-form-search-box-term" value="<?php echo esc_attr( $cur_term ); ?>" id="<?php echo esc_attr( $input_id ); ?>">
-
-			<button type="submit" class="button"><?php echo $text; ?></button>
-		</p>
-
-		<?php
-
+		/**
+		 * Allows developers output some HTML after the filter forms on the entries list page.
+		 *
+		 * @since 1.4.4
+		 *
+		 * @param array $form_data Form data.
+		 */
 		do_action( 'wpforms_entries_list_form_filters_after', $this->form_data );
 	}
 
 	/**
-	 * Fetch and setup the final data for the table
+	 * Entries list form search.
+	 *
+	 * @since 1.6.9
+	 *
+	 * @param string $text                    The 'submit' button label.
+	 * @param string $input_id                ID attribute value for the search input field.
+	 * @param array  $filter_fields           Filter fields options.
+	 * @param array  $search_advanced_options Advanced options.
+	 * @param mixed  $cur_field               Current (selected) field or advanced option.
+	 * @param string $cur_comparison          Current comparison.
+	 * @param string $cur_term                Current search term.
+	 */
+	private function search_box_output( $text, $input_id, $filter_fields, $search_advanced_options, $cur_field, $cur_comparison, $cur_term ) {
+
+		?>
+		<p class="search-box wpforms-form-search-box">
+
+			<select name="search[field]" class="wpforms-form-search-box-field">
+				<optgroup label="<?php esc_attr_e( 'Form fields', 'wpforms' ); ?>">
+					<option value="any" <?php selected( 'any', $cur_field ); ?>><?php esc_html_e( 'Any form field', 'wpforms' ); ?></option>
+					<?php
+					if ( ! empty( $filter_fields ) ) {
+						foreach ( $filter_fields as $id => $name ) {
+							printf(
+                                '<option value="%1$s" %2$s>%3$s</option>',
+                                esc_attr( $id ),
+                                selected( $id, $cur_field, false ),
+                                esc_html( $name )
+                            );
+						}
+					}
+					?>
+				</optgroup>
+				<?php if ( ! empty( $search_advanced_options ) ) : ?>
+					<optgroup label="<?php esc_attr_e( 'Advanced Options', 'wpforms' ); ?>">
+						<?php
+						foreach ( $search_advanced_options as $val => $name ) {
+							printf(
+                                '<option value="%1$s" %2$s>%3$s</option>',
+                                esc_attr( $val ),
+                                selected( $val, $cur_field, false ),
+                                esc_html( $name )
+                            );
+						}
+						?>
+					</optgroup>
+				<?php endif; // Advanced options group. ?>
+			</select>
+
+			<select name="search[comparison]" class="wpforms-form-search-box-comparison">
+				<option value="contains" <?php selected( 'contains', $cur_comparison ); ?>>
+                    <?php esc_html_e( 'contains', 'wpforms' ); ?>
+                </option>
+				<option value="contains_not" <?php selected( 'contains_not', $cur_comparison ); ?>>
+                    <?php esc_html_e( 'does not contain', 'wpforms' ); ?>
+                </option>
+				<option value="is" <?php selected( 'is', $cur_comparison ); ?>>
+                    <?php esc_html_e( 'is', 'wpforms' ); ?>
+                </option>
+				<option value="is_not" <?php selected( 'is_not', $cur_comparison ); ?>>
+                    <?php esc_html_e( 'is not', 'wpforms' ); ?>
+                </option>
+			</select>
+
+			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
+                <?php echo esc_html( $text ); ?>:
+            </label>
+			<input type="search" name="search[term]" class="wpforms-form-search-box-term" value="<?php echo esc_attr( wp_unslash( $cur_term ) ); ?>" id="<?php echo esc_attr( $input_id ); ?>">
+
+			<button type="submit" class="button"><?php echo esc_html( $text ); ?></button>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Fetch and setup the final data for the table.
 	 *
 	 * @since 1.0.0
 	 * @since 1.5.7 Added an `Entry Notes` column support.
 	 */
-	public function prepare_items() {
-
-		$_SERVER['REQUEST_URI'] = remove_query_arg( '_wp_http_referer', $_SERVER['REQUEST_URI'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	public function prepare_items() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		// Retrieve count.
 		$this->get_counts();
@@ -1165,7 +1204,7 @@ class WPForms_Entries_Table extends WP_List_Table {
 		$columns = $this->get_columns();
 
 		// Hidden columns (none).
-		$hidden = array();
+		$hidden = [];
 
 		// Define which columns can be sorted.
 		$sortable = $this->get_sortable_columns();
@@ -1174,33 +1213,33 @@ class WPForms_Entries_Table extends WP_List_Table {
 		$primary = key( array_slice( $columns, 2, 1 ) );
 
 		// Set column headers.
-		$this->_column_headers = array( $columns, $hidden, $sortable, $primary );
+		$this->_column_headers = [ $columns, $hidden, $sortable, $primary ];
 
 		// Get entries.
 		$total_items = $this->counts['total'];
 		$page        = $this->get_pagenum();
-		$order       = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'DESC';
-		$orderby     = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'entry_id';
+		$order       = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'DESC';
+		$orderby     = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'entry_id';
 		$per_page    = $this->get_items_per_page( 'wpforms_entries_per_page', $this->per_page );
-		$data_args   = array(
+		$data_args   = [
 			'form_id' => $this->form_id,
 			'number'  => $per_page,
 			'offset'  => $per_page * ( $page - 1 ),
 			'order'   => $order,
 			'orderby' => $orderby,
-		);
+		];
 
-		if ( ! empty( $_GET['type'] ) && 'starred' === $_GET['type'] ) {
+		if ( ! empty( $_GET['type'] ) && $_GET['type'] === 'starred' ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$data_args['starred'] = '1';
 			$total_items          = $this->counts['starred'];
 		}
-		if ( ! empty( $_GET['type'] ) && 'unread' === $_GET['type'] ) {
+		if ( ! empty( $_GET['type'] ) && $_GET['type'] === 'unread' ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$data_args['viewed'] = '0';
 			$total_items         = $this->counts['unread'];
 		}
 		if ( ! empty( $_GET['status'] ) ) {
-			$data_args['status'] = sanitize_text_field( $_GET['status'] );
-			$total_items         = $this->counts['abandoned'];
+			$data_args['status'] = sanitize_text_field( $_GET['status'] ); // phpcs:ignore WordPress.Security
+			$total_items         = ! empty( $this->counts[ $data_args['status'] ] ) ? $this->counts[ $data_args['status'] ] : 0;
 		}
 
 		if ( array_key_exists( 'notes_count', $columns ) ) {
@@ -1208,26 +1247,18 @@ class WPForms_Entries_Table extends WP_List_Table {
 		}
 
 		$data_args = apply_filters( 'wpforms_entry_table_args', $data_args );
-		$data      = wpforms()->entry->get_entries( $data_args );
-
-		// Maybe sort by payment total.
-		if ( 'payment_total' === $orderby ) {
-			usort( $data, array( $this, 'payment_total_sort' ) );
-			if ( 'DESC' === strtoupper( $order ) ) {
-				$data = array_reverse( $data );
-			}
-		}
+		$data      = wpforms()->get( 'entry' )->get_entries( $data_args );
 
 		// Giddy up.
 		$this->items = $data;
 
 		// Finalize pagination.
 		$this->set_pagination_args(
-			array(
+			[
 				'total_items' => $total_items,
-				'per_page'    => $per_page,
 				'total_pages' => ceil( $total_items / $per_page ),
-			)
+				'per_page'    => $per_page,
+			]
 		);
 	}
 
@@ -1235,20 +1266,24 @@ class WPForms_Entries_Table extends WP_List_Table {
 	 * Sort by payment total.
 	 *
 	 * @since 1.2.6
+	 * @deprecated 1.7.6
 	 *
 	 * @param object $a First entry to sort.
 	 * @param object $b Second entry to sort.
 	 *
 	 * @return int
+	 * @noinspection PhpUnused
 	 */
 	public function payment_total_sort( $a, $b ) {
+
+		_deprecated_function( __METHOD__, '1.7.6 of the WPForms plugin' );
 
 		$a_meta  = json_decode( $a->meta, true );
 		$a_total = ! empty( $a_meta['payment_total'] ) ? wpforms_sanitize_amount( $a_meta['payment_total'] ) : 0;
 		$b_meta  = json_decode( $b->meta, true );
 		$b_total = ! empty( $b_meta['payment_total'] ) ? wpforms_sanitize_amount( $b_meta['payment_total'] ) : 0;
 
-		if ( $a_total == $b_total ) {
+		if ( (float) $a_total === (float) $b_total ) {
 			return 0;
 		}
 
@@ -1267,5 +1302,37 @@ class WPForms_Entries_Table extends WP_List_Table {
 		parent::display_rows();
 
 		do_action( 'wpforms_admin_entries_after_rows', $this );
+	}
+
+	/**
+	 * Truncate long text value to X lines and Y characters.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @param string $value      The value to truncate, if needed.
+	 * @param string $field_type Field type.
+	 *
+	 * @return string
+	 */
+	private function truncate_long_value( $value, $field_type ) {
+
+		// Limit multiline text to 4 lines, 5 for Address field, and overall length to 75 characters.
+		$lines_limit = $field_type === 'address' ? 5 : 4;
+		$chars_limit = 75;
+
+		$lines = preg_split( '/\r\n|\r|\n/', $value );
+		$value = array_slice( $lines, 0, $lines_limit );
+		$value = implode( PHP_EOL, $value );
+
+		if ( strlen( $value ) > $chars_limit ) {
+			return mb_substr( $value, 0, $chars_limit ) . '&hellip;';
+		}
+
+		// Ellipsis should be on a new line if the value is multiline, and extra lines were truncated.
+		if ( count( $lines ) > $lines_limit ) {
+			return $value . PHP_EOL . '&hellip;';
+		}
+
+		return $value;
 	}
 }

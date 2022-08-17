@@ -23,7 +23,7 @@
 
         <div class="siteWrap">
 
-                <?php include plotTemplatePath(); ?>
+               <?php get_template_part('router'); ?>
 
         </div>
 

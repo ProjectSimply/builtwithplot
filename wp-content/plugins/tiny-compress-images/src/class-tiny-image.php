@@ -164,7 +164,7 @@ class Tiny_Image {
 	}
 
 	public function file_type_allowed() {
-		return in_array( $this->get_mime_type(), array( 'image/jpeg', 'image/png' ) );
+		return in_array( $this->get_mime_type(), array( 'image/jpeg', 'image/png', 'image/webp') );
 	}
 
 	public function get_mime_type() {
@@ -286,6 +286,7 @@ class Tiny_Image {
 				if ( isset( $output['width'] ) && isset( $output['height'] ) ) {
 					$this->wp_metadata['width'] = $output['width'];
 					$this->wp_metadata['height'] = $output['height'];
+					$this->wp_metadata['filesize'] = $output['size'];
 				}
 			}
 		}

@@ -123,15 +123,11 @@ function af_save_field( $field_key_or_name, $object_id ) {
  * @since 1.3.0
  *
  */
-function af_save_all_fields( $object_id ) {
-	
+function af_save_all_fields( $object_id, $excluded_fields = array() ) {
 	// Make sure we have a submission to work with
 	if ( ! af_has_submission() ) {
-		
 		return false;
-		
 	}
-	
 	
 	$fields = AF()->submission['fields'];
 	
@@ -141,16 +137,15 @@ function af_save_all_fields( $object_id ) {
 	 * $field['_input'] should match the raw $_POST value.
 	 */
 	foreach ( $fields as $field ) {
+		if ( in_array( $field['key'], $excluded_fields ) ) {
+			continue;
+		}
 		
 		$value = $field['_input'];
-		
 		acf_update_value( $value, $object_id, $field );
-		
 	}
 	
-	
 	return true;
-	
 }
 
 
@@ -549,4 +544,42 @@ function af_get_form_fields( $form_key, $type = 'all' ) {
 	
 	return $form_fields;
 	
+}
+
+
+/**
+ * Renders the success message for a form. Requires that the submission has already been loaded.
+ * 
+ * @since 1.7.2
+ * 
+ */
+function af_form_success_message( $form, $args ) {
+  $success_message = $form['display']['success_message'];
+  $success_message = apply_filters( 'af/form/success_message', $success_message, $form, $args );
+  $success_message = apply_filters( 'af/form/success_message/id=' . $form['post_id'], $success_message, $form, $args );
+  $success_message = apply_filters( 'af/form/success_message/key=' . $form['key'], $success_message, $form, $args );
+
+  $success_message = af_resolve_merge_tags( $success_message );
+
+  return sprintf( '<div class="af-success" aria-live="assertive" role="alert">%s</div>', $success_message );
+}
+
+
+/**
+ * Enqueues the necessary scripts and styles for a form.
+ * 
+ * @since 1.8.0
+ * 
+ */
+function af_enqueue() {
+	// Enqueue ACF scripts and styles
+  acf_enqueue_scripts();
+
+  // ACF fails to include all translations when running "acf_enqueue_scripts", hence we need to do it manually.
+  $acf_l10n = acf_get_instance('ACF_Assets')->text;
+  wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
+
+  wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
+
+	wp_enqueue_style( 'af-form-style', AF()->url .  'assets/dist/css/form.css' );
 }
