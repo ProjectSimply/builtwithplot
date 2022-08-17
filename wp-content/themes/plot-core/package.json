@@ -27,7 +27,7 @@
     "dart-sass": "^1.19.0",
     "fsevents": "^2.1.2",
     "livereload": "^0.8.2",
-    "postcss": "^7.0.6",
+    "postcss": "^7.0.36",
     "postcss-cli": "^6.1.2",
     "watchify": "^3.11.1"
   },
