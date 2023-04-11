@@ -4308,11 +4308,20 @@ div#preload {
 
 .testimonial__innerWrap {
   width: calc(100% + 2rem);
-  margin-right: -1rem;
+  margin-left: -1rem;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.testimonial__innerWrap .flickity-viewport {
+  width: 100%;
+  position: relative;
 }
 
 .flickity-slider {
   width: 100%;
+  margin: auto;
 }
 
 .testimonial__item {
@@ -4320,6 +4329,7 @@ div#preload {
   flex-direction: column;
   width: 100%;
   padding: 1rem;
+  margin: auto;
 }
 
 .testimonial__title {
