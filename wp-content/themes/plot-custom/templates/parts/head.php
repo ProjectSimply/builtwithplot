@@ -43,7 +43,7 @@
 
     <link rel="stylesheet" href="https://use.typekit.net/tms6vqx.css">
 
-    <?php if(strpos($_SERVER['HTTP_HOST'],'test') !== false || strpos($_SERVER['HTTP_HOST'],'pleasecheck') !== false)  : ?>
+    <?php if(strpos($_SERVER['HTTP_HOST'],'test') !== false || strpos($_SERVER['HTTP_HOST'],'local') !== false || strpos($_SERVER['HTTP_HOST'],'pleasecheck') !== false)  : ?>
         <link href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.css?v=<?= date('ymdhis') ?>" rel="stylesheet" media="all">
     <?php else : ?>
         <link href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.min.css?v=<?= SITE_VERSION ?>" rel="stylesheet" media="all">

@@ -3,7 +3,7 @@
     var au          = "<?php echo admin_url( 'admin-ajax.php' ); ?>";
 </script> 
 
-<?php if(strpos($_SERVER['HTTP_HOST'],'test') !== false || strpos($_SERVER['HTTP_HOST'],'pleasecheck') !== false)  : ?>
+<?php if(strpos($_SERVER['HTTP_HOST'],'test') !== false || strpos($_SERVER['HTTP_HOST'],'local') !== false || strpos($_SERVER['HTTP_HOST'],'pleasecheck') !== false)  : ?>
     <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/main.js?v=<?= date('Ymdhis') ?>"></script>
 <?php else : ?>
     <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/main.min.js?v=<?= SITE_VERSION ?>"></script>
