@@ -5,3 +5,5 @@ style.css.map
 wp-content/uploads 
 node_modules
 wp-config.php
+# ignore find and replace
+replace_remove_for_live
