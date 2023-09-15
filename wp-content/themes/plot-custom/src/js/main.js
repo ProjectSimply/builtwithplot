@@ -10,6 +10,7 @@
 		FAQs 			= require('../../../plot-core/src/js/faqs'),
 		Home			= require('./pages/home'),
 		RollerText      = require('./components/roller-text'),
+		RollerText      = require('./components/countdown-timer'),
 		Pricing         = require('./pages/pricing'),
 		Artists			= require('./pages/artists'),
 		Testimonials	= require('./components/testimonials'),

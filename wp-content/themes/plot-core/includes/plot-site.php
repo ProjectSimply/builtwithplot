@@ -9,6 +9,7 @@ class PlotSite
 {
 
   private $ajaxActions = [];
+  private $templates = [];
 
     public function __construct($settings = [])
     {
@@ -19,7 +20,9 @@ class PlotSite
         'excerptLength' => 20,
         'imageSizes'    => [],
         'postTypes'     => [],
-        'taxonomies'    => []
+        'taxonomies'    => [],
+        'templates'     => []
+
       ];
 
       $options = [];
@@ -64,6 +67,23 @@ class PlotSite
       add_filter('gettext_with_context', [$this,'removeQuotesFromPlaylists'],10,4);
 
       add_filter('intermediate_image_sizes',[$this,'removeImageSizes']);
+
+      if($options['templates']) :
+
+        $this->templates = $options['templates'];
+        add_filter( 'theme_page_templates', [$this,'addPageTemplates'],10,3 ,4);
+
+      endif;
+
+    }
+
+    public function addPageTemplates( $post_templates, $theme, $post ) {
+
+      foreach($this->templates as $slug => $name) :
+        $post_templates['/templates/pages/' . $slug . '.php'] = $name;
+      endforeach;
+
+      return $post_templates;
 
     }
 

@@ -3185,6 +3185,55 @@ a.carousel__imageWrap:hover {
   opacity: 1;
 }
 
+.countdownTimer {
+  background-color: var(--orange);
+  color: var(--black);
+}
+@media screen and (min-width: 1024px) {
+  .countdownTimer {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+.countdownTimer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.countdownTimer li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+.countdownTimer li.countdownTimer__unitSeperator {
+  font-size: 3rem;
+}
+.countdownTimer span:not(.countdownTimer__unitPlural) {
+  display: block;
+}
+
+.countdownTimer__unitPlural.hide {
+  display: none;
+}
+
+.countdownTimer__innerWrap {
+  padding: 3rem 0;
+}
+
+.countdownTimer__title {
+  text-align: center;
+}
+
+.countdownTimer__unit {
+  font-size: 8rem;
+  line-height: 100%;
+}
+
 .faqs {
   text-align: center;
   margin-bottom: 0;

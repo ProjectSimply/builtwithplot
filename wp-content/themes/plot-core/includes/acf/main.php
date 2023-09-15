@@ -21,6 +21,7 @@ require_once('plot-layouts.php');
 
 require_once('artist-page.php');
 require_once('news.php');
+require_once('spotlights.php');
 require_once('whats-on.php');
 require_once('past-performances.php');
 require_once('past-artists.php');

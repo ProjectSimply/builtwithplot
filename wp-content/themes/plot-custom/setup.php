@@ -128,7 +128,10 @@ function plotInit() {
 						'exampleAjaxAction' => 'examplePHPFunction', //Here we map the JS 'action' post data through to which PHP function we want this to route to.
 							],
 		'excerptLength' => 20,
-		'excerptText'   => '...'
+		'excerptText'   => '...',
+		// 'templates' => [
+		// 	'spotlights' => 'Spotlights',
+		// ]
 
 	]);
 

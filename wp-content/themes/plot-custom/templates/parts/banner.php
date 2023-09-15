@@ -10,7 +10,7 @@
 
 			<div class="banner__backgroundWrap" style="opacity: <?= get_field('brightness') / 100 ?>">
 
-				<?php if(get_field('banner_type') == 'image') : ?>
+				<?php if(get_field('banner_media_type') == 'image') : ?>
 
 					<?php plotLazyload([
 						'image' 				=> get_field('banner_image'), 
