@@ -13,7 +13,19 @@
         padding: 0;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 1rem;
+
+
+        @include medium {
+            gap: 2rem;
+        }
+
+        @include large {
+            align-items: center;
+            justify-content: space-between;
+            gap:0;
+        }
     }
 
     li {
@@ -21,10 +33,30 @@
         flex-direction: column;
         align-items: center;
         gap:1rem;
-        font-size: 1.5rem;
+        font-size: 1rem;
+        font-family: var(--bodyFont);
+
+        @include large {
+            font-size: 1.5rem;
+        }
 
         &.countdownTimer__unitSeperator {
-            font-size: 3rem;
+            font-size: 2rem;
+            line-height: 90%;
+            font-family: var(--headingFont);
+            margin-bottom: 2.5rem;
+
+            @include medium {
+                // margin-bottom:-2rem;
+                margin-bottom: 2rem;
+
+            }
+
+            @include large {
+                font-size: 3rem;
+                line-height: 0;
+                margin-bottom: 2rem;
+            }
         }
     }
 
@@ -45,9 +77,21 @@
 
 .countdownTimer__title {
     text-align: center;
+    font-family: var(--bodyFont);
+    font-weight: normal;
+    font-size: 1.5rem;
 }
 
 .countdownTimer__unit {
-    font-size: 8rem;
+    font-size: 2rem;
     line-height: 100%;
+    font-family: var(--headingFont);
+
+    @include medium {
+        font-size: 4rem;
+    }
+
+    @include large {
+        font-size: 8rem;
+    }
 }
