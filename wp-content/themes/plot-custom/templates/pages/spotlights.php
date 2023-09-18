@@ -1,6 +1,6 @@
 <?php plotGetTemplatePart('parts/header') ?>
 
-<?php plotGetTemplatePart('parts/banner') ?>
+<?php plotGetTemplatePart('parts/banner--spotlights') ?>
 
 <?php plotGetTemplatePart('parts/subnavigation'); ?>
 
