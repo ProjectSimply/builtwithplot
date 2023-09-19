@@ -1,0 +1,17 @@
+.spotlights__cardsWrapper {
+
+    .cards__grid > * {
+
+        @include xlarge {
+            width: calc(100% / 4 - 2rem);
+            margin-left: calc(2rem / 2);
+            margin-right: calc(2rem / 2);
+            margin-bottom: 2rem;
+        }
+        
+    }
+
+    .cards__title {
+        font-size: 1.2rem;
+    }
+}

@@ -1,6 +1,7 @@
 .countdownTimer {
     background-color: var(--orange);
     color: var(--black);
+    margin-bottom: 0;
 
     @include large {
         padding-left: 4rem;

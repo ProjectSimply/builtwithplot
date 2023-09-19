@@ -16,6 +16,8 @@
 		Testimonials	= require('./components/testimonials'),
 		Schedule		= require('./pages/schedule'),
 		News 			= require('./pages/news'),
+		FixedFiftyFifty = require('./components/fixed-fifty-fifty'),
+		Tickers 		= require('./components/ticker'),
 	    Main
 
 	Main = {

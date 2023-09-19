@@ -1843,6 +1843,8 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
   height: 100%;
   position: relative;
   z-index: 2;
+}
+.textOnlyBanner--spotlights .banner__contentWrap {
   padding-top: 150px;
   max-width: 600px;
   margin: 3.5rem auto 0;
@@ -1880,7 +1882,7 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
   margin-bottom: var(--vs);
 }
 @media screen and (min-width: 1400px) {
-  .textOnlyBanner__title {
+  .textOnlyBanner--spotlights .textOnlyBanner__title {
     font-size: 4rem;
   }
 }
@@ -1943,29 +1945,58 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
   margin: var(--vs) auto 0;
 }
 
+.spotlights__assetsWrapper:nth-last-child(2) {
+  margin-top: var(--vs);
+}
+
+.spotlights__assetsWrapper__inner {
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
 .spotlights__asset {
-  position: absolute;
+  position: static;
   z-index: 1;
   height: auto;
-  display: none;
 }
 @media screen and (min-width: 640px) {
   .spotlights__asset {
     display: block;
+    position: absolute;
   }
 }
 .spotlights__asset--mobile {
-  width: 15vw;
+  width: 30vw;
+  min-width: 30vw;
+}
+@media screen and (min-width: 640px) {
+  .spotlights__asset--mobile {
+    width: 15vw;
+    min-width: auto;
+  }
 }
 .spotlights__asset--desktop {
-  width: 30vw;
+  width: 80vw;
+  min-width: 80vw;
 }
-.spotlights__asset--1 {
-  left: 3rem;
-  top: 9rem;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--desktop {
+    width: 30vw;
+    min-width: auto;
+  }
 }
-.spotlights__asset--2 {
-  display: none;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--1 {
+    left: 3rem;
+    top: 9rem;
+  }
+}
+@media screen and (min-width: 640px) {
+  .spotlights__asset--2 {
+    display: none;
+  }
 }
 @media screen and (min-width: 750px) {
   .spotlights__asset--2 {
@@ -1982,18 +2013,24 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
     transform: translateX(-14%);
   }
 }
-.spotlights__asset--3 {
-  left: 3rem;
-  transform: translateX(100%);
-  top: 0.25rem;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--3 {
+    left: 3rem;
+    transform: translateX(100%);
+    top: 0.25rem;
+  }
 }
-.spotlights__asset--4 {
-  right: 0;
-  transform: translateX(10%);
-  top: 6rem;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--4 {
+    right: 0;
+    transform: translateX(10%);
+    top: 6rem;
+  }
 }
-.spotlights__asset--5 {
-  display: none;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--5 {
+    display: none;
+  }
 }
 @media screen and (min-width: 1024px) {
   .spotlights__asset--5 {
@@ -2003,8 +2040,10 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
     display: block;
   }
 }
-.spotlights__asset--6 {
-  display: none;
+@media screen and (min-width: 640px) {
+  .spotlights__asset--6 {
+    display: none;
+  }
 }
 @media screen and (min-width: 750px) {
   .spotlights__asset--6 {
@@ -3288,6 +3327,7 @@ a.carousel__imageWrap:hover {
 .countdownTimer {
   background-color: var(--orange);
   color: var(--black);
+  margin-bottom: 0;
 }
 @media screen and (min-width: 1024px) {
   .countdownTimer {
@@ -4303,6 +4343,18 @@ div#preload {
 .stages__panel {
   padding: 1rem;
   background: #ddd;
+}
+
+@media screen and (min-width: 1400px) {
+  .spotlights__cardsWrapper .cards__grid > * {
+    width: calc(100% / 4 - 2rem);
+    margin-left: calc(2rem / 2);
+    margin-right: calc(2rem / 2);
+    margin-bottom: 2rem;
+  }
+}
+.spotlights__cardsWrapper .cards__title {
+  font-size: 1.2rem;
 }
 
 .ticketOption__panel h3 {
@@ -5624,6 +5676,128 @@ ul.pricingSection__fullList {
 .carouselSection__asset.carouselSection__asset--2 path {
   fill: var(--orange);
   opacity: 1;
+}
+
+.fixedFiftyFifty__inner {
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.fixedFiftyFifty__inner .innerElement {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  opacity: 0;
+  color: black;
+  background-color: red;
+  width: fit-content;
+  height: fit-content;
+}
+.fixedFiftyFifty__inner .innerElement:first-child {
+  opacity: 1;
+}
+
+.fixedFiftyFifty__images {
+  width: 50%;
+}
+
+.fixedFiftyFifty__imagesInner {
+  width: 100%;
+  padding-bottom: 60%;
+  position: relative;
+}
+
+.fixedFiftyFifty__imageWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 0;
+}
+.fixedFiftyFifty__imageWrap:first-child {
+  opacity: 1;
+  z-index: 1;
+}
+.fixedFiftyFifty__imageWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.fiftyFifty__indicators {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 1rem;
+}
+.fiftyFifty__indicators span {
+  display: block;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 100%;
+  background-color: grey;
+}
+
+.textContentWrapper {
+  height: 100%;
+  width: 50%;
+  position: relative;
+}
+.textContentWrapper .textContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  opacity: 0;
+  z-index: 0;
+  height: fit-content;
+  width: fit-content;
+}
+.textContentWrapper .textContent:first-child {
+  opacity: 1;
+  z-index: 1;
+}
+
+.plot-ticker {
+  padding: 1rem 0;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-container {
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+}
+.ticker-container .message {
+  padding: 0 0.75rem;
+  margin: 0;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.animate .ticker-container {
+  animation: ticker 10s linear infinite;
+}
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .homeBanner {

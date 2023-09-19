@@ -1,0 +1,36 @@
+.plot-ticker {
+    padding: 1rem 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+}
+
+.ticker-container {
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+    
+    .message {
+        padding: 0 .75rem;
+        margin: 0;
+        width: max-content;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .animate & {
+        animation: ticker 10s linear infinite;
+    }
+
+    @keyframes ticker {
+
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-100%);
+        }   
+        
+    }
+}
