@@ -168,7 +168,6 @@
 		position: static;
 		z-index: 1;
 		height: auto;
-		opacity: 0;
 		// scale: 0.5;
 		// transform: scale(0.5);
 		// display: none;
@@ -177,6 +176,7 @@
 		@include medium {
 			display: block;
 			position: absolute;
+			opacity: 0;
 		}
 
 		&--mobile {

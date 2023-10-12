@@ -1960,12 +1960,12 @@ body .plotSmoothScrollInView .SVGelement--speed7 {
   position: static;
   z-index: 1;
   height: auto;
-  opacity: 0;
 }
 @media screen and (min-width: 640px) {
   .spotlights__asset {
     display: block;
     position: absolute;
+    opacity: 0;
   }
 }
 .spotlights__asset--mobile {
@@ -2566,7 +2566,7 @@ a {
   color: var(--white);
 }
 
-.page-enquire .footer__cta {
+.page-enquire .footer__cta, .page-spotlights .footer__cta {
   display: none;
 }
 
@@ -3650,14 +3650,24 @@ a.carousel__imageWrap:hover {
   margin: 0;
 }
 
+.page-spotlights .plotLayoutForm {
+  background-color: var(--pink);
+  margin-bottom: 0;
+  padding-bottom: calc(var(--vs) * 1);
+  padding-top: calc(var(--vs) * 1);
+}
 .plotLayoutForm .maxWidth {
   max-width: 55rem;
 }
 .plotLayoutForm .plotLayoutForm__textWrap {
   background-color: var(--purple);
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 8px;
   padding: 3rem 2rem 3rem;
   color: var(--white);
+}
+.page-spotlights .plotLayoutForm .plotLayoutForm__textWrap {
+  background-color: var(--pink);
+  color: var(--black);
 }
 @media screen and (min-width: 640px) {
   .plotLayoutForm .plotLayoutForm__textWrap {
@@ -3667,6 +3677,12 @@ a.carousel__imageWrap:hover {
 .plotLayoutForm .plotLayoutForm__heading {
   font-size: 2rem;
   color: var(--white);
+}
+.page-spotlights .plotLayoutForm .plotLayoutForm__heading {
+  color: var(--black);
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 2rem;
 }
 .plotLayoutForm .wpforms-field-container {
   display: grid;
@@ -3682,6 +3698,9 @@ a.carousel__imageWrap:hover {
   flex-direction: column;
   margin-bottom: 2rem;
 }
+.page-spotlights .plotLayoutForm .wpforms-field.wpforms-field-textarea {
+  grid-column: span 2;
+}
 .plotLayoutForm .wpforms-field-label {
   margin-bottom: 0.5rem;
   text-align: left;
@@ -3696,11 +3715,12 @@ a.carousel__imageWrap:hover {
   font-size: 0.75rem;
   border-bottom: 2px solid var(--red);
 }
-.plotLayoutForm input {
+.plotLayoutForm input, .plotLayoutForm textarea {
   padding: 1rem;
   border: none;
+  border-radius: 8px;
 }
-.plotLayoutForm input::placeholder {
+.plotLayoutForm input::placeholder, .plotLayoutForm textarea::placeholder {
   color: rgba(0, 0, 0, 0.2);
 }
 .plotLayoutForm .wpforms-submit-container {
@@ -3746,6 +3766,9 @@ a.carousel__imageWrap:hover {
   background-color: var(--mint);
   border-radius: 0 0 0.5rem 0.5rem;
   margin-bottom: 6rem;
+}
+.page-spotlights .plotLayoutForm .plotLayoutForm__callUs {
+  display: none;
 }
 .plotLayoutForm .plotLayoutForm__callUs p {
   margin-bottom: 0;

@@ -3,7 +3,7 @@ const { ScrollTrigger } = require("gsap/dist/ScrollTrigger");
 gsap.registerPlugin(ScrollTrigger);
 
 let mediaQuery = gsap.matchMedia();
-mediaQuery.add("(min-width: 1024px)", ()=>{
+mediaQuery.add("(min-width: 640px)", ()=>{
 
     let tl = gsap.timeline();
 

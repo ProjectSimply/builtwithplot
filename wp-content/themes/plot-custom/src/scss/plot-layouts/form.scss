@@ -1,5 +1,12 @@
 .plotLayoutForm {
 
+    .page-spotlights & {
+        background-color: var(--pink);
+        margin-bottom: 0;
+        padding-bottom: calc(var(--vs) * 1);
+        padding-top: calc(var(--vs) * 1);
+    }
+
     .maxWidth {
         max-width: 55rem;
     }
@@ -7,9 +14,14 @@
 
     .plotLayoutForm__textWrap {
         background-color: var(--purple);
-        border-radius: .5rem .5rem 0 0;
+        border-radius: 8px;
         padding: 3rem 2rem 3rem;
         color: var(--white);
+
+        .page-spotlights & {
+            background-color: var(--pink);
+            color: var(--black);
+        }
 
         @include medium {
             padding: 3rem;
@@ -19,6 +31,13 @@
     .plotLayoutForm__heading {
         font-size: 2rem;
         color: var(--white);
+
+        .page-spotlights & {
+            color: var(--black);
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
     }
 
     .wpforms-field-container {
@@ -35,6 +54,13 @@
         flex-direction: column;
         margin-bottom: 2rem;
 
+        &.wpforms-field-textarea {
+            .page-spotlights & {
+                grid-column: span 2;
+            }   
+        }
+
+        
     }
 
     .wpforms-field-label {
@@ -54,9 +80,10 @@
         
     }
 
-    input {
+    input, textarea {
         padding: 1rem;
         border: none;
+        border-radius: 8px;
 
         &::placeholder {
             color: rgba(0,0,0,.2);
@@ -111,6 +138,10 @@
         background-color: var(--mint);
         border-radius: 0 0 .5rem .5rem;
         margin-bottom: 6rem;
+
+        .page-spotlights & {
+            display: none;
+        }
 
         p {
             margin-bottom: 0;

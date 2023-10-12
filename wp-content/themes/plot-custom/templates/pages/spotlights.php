@@ -4,8 +4,6 @@
 
 <?php plotGetTemplatePart('parts/subnavigation'); ?>
 
-<?php plotGetTemplatePart('plot-layouts/main-loop'); ?> 
-
 <section class="fixedFiftyFifty">
     <div class="maxWidth">
         <div class="fixedFiftyFifty__inner fixedFiftyFifty__inner--desktop">
@@ -56,9 +54,9 @@
                 </div>
                 <div class="textContentWrapper">
                     <div class="textContent">
-                        <h2>Test 1</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum recusandae asperiores in.</p>
-                        <a href="#" class="button">Button</a>
+                        <h2>What is Spotlights?</h2>
+                        <p>Plot Spotlights is a programme to champion pioneering music festivals, events and venues by rewarding them with a free website Built by Plot worth over £3000!</p>
+                        <a href="#" class="button">Sign up now</a>
                     </div>
                 </div>
             </div>
@@ -72,9 +70,9 @@
                 </div>
                 <div class="textContentWrapper">
                     <div class="textContent">
-                        <h2>Test 1</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum recusandae asperiores in.</p>
-                        <a href="#" class="button">Button</a>
+                        <h2>Who is it for?</h2>
+                        <p>This is for businesses who are looking to make a huge cultural impact in the music space—for festivals, events and venues.</p>
+                        <a href="#" class="button">Sign up now</a>
                     </div>
                 </div>
             </div>
@@ -88,9 +86,9 @@
                 </div>
                 <div class="textContentWrapper">
                     <div class="textContent">
-                        <h2>Test 1</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum recusandae asperiores in.</p>
-                        <a href="#" class="button">Button</a>
+                        <h2>How do I join?</h2>
+                        <p>Sign up using for the form below and every 2 months we will notify the lucky winner.</p>
+                        <a href="#" class="button">Sign up now</a>
                     </div>
                 </div>
             </div>
@@ -114,5 +112,14 @@
 </div>
 
 <?php plotGetTemplatePart('parts/countdown-timer'); ?>
+
+
+<?php plotGetTemplatePart('plot-layouts/main-loop'); ?> 
+
+<?php plotGetTemplatePart('parts/footer') ?>
+
+
+<!-- page-spotlights -->
+
 
 

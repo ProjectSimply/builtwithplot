@@ -9,7 +9,7 @@ const fixedFiftyFifties = document.querySelectorAll('.fixedFiftyFifty');
 const slideTimeline = (textContent, image, indicator, isLast, isFirst) =>{
     let tl = gsap.timeline();
     if(!isFirst){
-        tl.fromTo(image, {y:'100%'}, {y:'0', duration:2.5})
+        tl.fromTo(image, {y:'100%'}, {y:'0', duration:3})
         tl.to(indicator, {backgroundColor:'var(--strong-pink)', duration:0}, '<.25')
         tl.to(textContent, {opacity:1, zIndex:1, duration:1}, '<.5')
     } 
@@ -20,7 +20,7 @@ const slideTimeline = (textContent, image, indicator, isLast, isFirst) =>{
         tl.to(indicator, {backgroundColor:'var(--grey)', duration:0}, '<1')
     } else {
         //so there is a pause at the end
-        tl.to(textContent, {opacity:1, zIndex:1, duration:1}, '+=1.5')
+        tl.to(textContent, {opacity:1, zIndex:1, duration:1}, '+=1')
     }
 
     return tl;
@@ -44,7 +44,7 @@ if(fixedFiftyFifties && fixedFiftyFifties.length){
                     // toggleActions: "play pause reverse pause",
                     pin:true,
                     end:()=>{
-                        return "+=" + (textContent.length * fixedFiftyFifty.offsetHeight) * 1.5 + 'px'
+                        return "+=" + (textContent.length * fixedFiftyFifty.offsetHeight) * 2.5 + 'px'
                     },
                     // markers:true
                 }

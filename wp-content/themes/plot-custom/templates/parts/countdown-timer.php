@@ -1,4 +1,4 @@
-<section class="countdownTimer plotLayout" data-plot-smooth-scroll-element>
+<section class="countdownTimer plotLayout" >
     <div class="maxWidth">
         <div 
             class="JS--countdownTimer countdownTimer__innerWrap"
