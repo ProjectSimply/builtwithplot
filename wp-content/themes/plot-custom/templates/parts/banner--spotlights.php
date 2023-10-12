@@ -46,7 +46,7 @@
         </div>
     </div>
     
-    <div class="JS--plot-ticker plot-ticker">
+    <div class="JS--plot-ticker plot-ticker reverse">
         <div class="ticker-container">
             <div class="spotlights__assetsWrapper message">
                 <div class="spotlights__asset spotlights__asset--desktop spotlights__asset--4"> 

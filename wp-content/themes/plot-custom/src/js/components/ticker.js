@@ -5,7 +5,7 @@ if(tickerBanners && tickerBanners.length){
 
     tickerBanners.forEach(tickerBanner=>{
 
-        let maxWindowWidth = window.matchMedia("(min-width: 649px)");
+        let maxWindowWidth = window.matchMedia("(min-width: 639px)");
 
         let resetBanner = ()=> {
             tickerBanner.classList.remove('animate');
