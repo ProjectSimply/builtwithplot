@@ -13,7 +13,6 @@ class Breeze_Settings_Import_Export {
 		add_action( 'wp_ajax_breeze_export_json', array( &$this, 'export_json_settings' ) );
 		add_action( 'wp_ajax_breeze_import_json', array( &$this, 'import_json_settings' ) );
 
-
 	}
 
 	/**
@@ -22,6 +21,9 @@ class Breeze_Settings_Import_Export {
 	 * @access public
 	 */
 	public function import_json_settings() {
+		breeze_is_restricted_access();
+		check_ajax_referer( '_breeze_import_settings', 'security' );
+
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( new WP_Error( 'authority_issue', __( 'Only administrator can import settings', 'breeze' ) ) );
 
@@ -61,13 +63,11 @@ class Breeze_Settings_Import_Export {
 						$action = $this->replace_options( $json, $level );
 					}
 
-
 					if ( false === $action ) {
 						wp_send_json_error( new WP_Error( 'option_read', __( 'Could not read the options from the provided JSON file', 'breeze' ) ) );
 					} elseif ( true !== $action ) {
 						wp_send_json_error( new WP_Error( 'error_meta', $action ) );
 					}
-
 
 					wp_send_json_success( __( "Settings imported successfully. \nPage will reload", 'breeze' ) );
 				}
@@ -77,12 +77,9 @@ class Breeze_Settings_Import_Export {
 				wp_send_json_error( new WP_Error( 'invalid_file', __( 'The JSON file is not valid', 'breeze' ) . ': ' . json_last_error_msg() ) );
 
 			}
-
-
 		} else {
 			wp_send_json_error( new WP_Error( 'file_not_set', __( 'The JSON file is missing', 'breeze' ) ) );
 		}
-
 
 	}
 
@@ -305,7 +302,6 @@ class Breeze_Settings_Import_Export {
 				$is_blog  = get_blog_details( $level );
 				$site_url = $is_blog->siteurl;
 
-
 				WP_CLI::line( WP_CLI::colorize( '%GUpdating%n %M' . $site_url . '%n options' ) );
 				$blog_id = $level;
 
@@ -401,6 +397,14 @@ class Breeze_Settings_Import_Export {
 				'breeze-ttl'              => ( isset( $options['breeze-ttl'] ) ? $options['breeze-ttl'] : 1440 ),
 			);
 
+			$is_minification_js        = ( isset( $options['breeze-minify-js'] ) ? $options['breeze-minify-js'] : '0' );
+			$is_inline_minification_js = ( isset( $options['breeze-include-inline-js'] ) ? $options['breeze-include-inline-js'] : '0' );
+			$is_group_js               = ( isset( $options['breeze-group-js'] ) ? $options['breeze-group-js'] : '0' );
+
+			if ( 0 === absint( $is_minification_js ) || 0 === absint( $is_inline_minification_js ) ) {
+				//	$is_group_js = '0';
+			}
+
 			$file = array(
 				'breeze-minify-html'        => ( isset( $options['breeze-minify-html'] ) ? $options['breeze-minify-html'] : '0' ),
 				// --
@@ -410,9 +414,9 @@ class Breeze_Settings_Import_Export {
 				'breeze-exclude-css'        => ( isset( $options['breeze-exclude-css'] ) ? $options['breeze-exclude-css'] : array() ),
 				'breeze-include-inline-css' => ( isset( $options['breeze-include-inline-css'] ) ? $options['breeze-include-inline-css'] : '0' ),
 				// --
-				'breeze-minify-js'          => ( isset( $options['breeze-minify-js'] ) ? $options['breeze-minify-js'] : '0' ),
-				'breeze-group-js'           => ( isset( $options['breeze-group-js'] ) ? $options['breeze-group-js'] : '0' ),
-				'breeze-include-inline-js'  => ( isset( $options['breeze-include-inline-js'] ) ? $options['breeze-include-inline-js'] : '0' ),
+				'breeze-minify-js'          => $is_minification_js,
+				'breeze-group-js'           => $is_group_js,
+				'breeze-include-inline-js'  => $is_inline_minification_js,
 				'breeze-exclude-js'         => ( isset( $options['breeze-exclude-js'] ) ? $options['breeze-exclude-js'] : array() ),
 				'breeze-move-to-footer-js'  => ( isset( $options['breeze-move-to-footer-js'] ) ? $options['breeze-move-to-footer-js'] : array() ),
 				'breeze-defer-js'           => ( isset( $options['breeze-defer-js'] ) ? $options['breeze-defer-js'] : array() ),
@@ -425,13 +429,17 @@ class Breeze_Settings_Import_Export {
 
 			$preload = array(
 				'breeze-preload-fonts' => ( isset( $options['breeze-preload-fonts'] ) ? $options['breeze-preload-fonts'] : array() ),
-				'breeze-preload-links' => ( isset( $options['breeze-preload-links'] ) ? $options['breeze-preload-links'] : '0' ),
+				'breeze-preload-links' => ( isset( $options['breeze-preload-links'] ) ? $options['breeze-preload-links'] : '1' ),
 			);
 
 			$advanced = array(
-				'breeze-exclude-urls'  => ( isset( $options['breeze-exclude-urls'] ) ? $options['breeze-exclude-urls'] : array() ),
-				'cached-query-strings' => ( isset( $options['cached-query-strings'] ) ? $options['cached-query-strings'] : array() ),
-				'breeze-wp-emoji'      => ( isset( $options['breeze-wp-emoji'] ) ? $options['breeze-wp-emoji'] : '0' ),
+				'breeze-exclude-urls'                  => ( isset( $options['breeze-exclude-urls'] ) ? $options['breeze-exclude-urls'] : array() ),
+				'cached-query-strings'                 => ( isset( $options['cached-query-strings'] ) ? $options['cached-query-strings'] : array() ),
+				'breeze-wp-emoji'                      => ( isset( $options['breeze-wp-emoji'] ) ? $options['breeze-wp-emoji'] : '0' ),
+				'breeze-store-googlefonts-locally'     => ( isset( $options['breeze-store-googlefonts-locally'] ) ? $options['breeze-store-googlefonts-locally'] : '0' ),
+				'breeze-store-googleanalytics-locally' => ( isset( $options['breeze-store-googleanalytics-locally'] ) ? $options['breeze-store-googleanalytics-locally'] : '0' ),
+				'breeze-store-facebookpixel-locally'   => ( isset( $options['breeze-store-facebookpixel-locally'] ) ? $options['breeze-store-facebookpixel-locally'] : '0' ),
+				'breeze-store-gravatars-locally'       => ( isset( $options['breeze-store-gravatars-locally'] ) ? $options['breeze-store-gravatars-locally'] : '0' ),
 			);
 
 			$heartbeat = array(
@@ -627,39 +635,42 @@ class Breeze_Settings_Import_Export {
 			return $value;
 		}
 
-
 		/**
 		 * Validate all the checkboxes.
 		 * Include the default values.
 		 */
 		$checkboxes = array(
-			'breeze-active'             => '1',
-			'breeze-cross-origin'       => '0',
-			'breeze-gzip-compression'   => '1',
-			'breeze-browser-cache'      => '1',
-			'breeze-lazy-load'          => '0',
-			'breeze-lazy-load-native'   => '0',
-			'breeze-lazy-load-iframes'  => '0',
-			'breeze-desktop-cache'      => '1',
-			'breeze-mobile-cache'       => '1',
-			'breeze-display-clean'      => '1',
-			'breeze-minify-html'        => '0',
-			'breeze-minify-css'         => '0',
-			'breeze-font-display-swap'  => '0',
-			'breeze-group-css'          => '0',
-			'breeze-include-inline-css' => '0',
-			'breeze-minify-js'          => '0',
-			'breeze-group-js'           => '0',
-			'breeze-include-inline-js'  => '0',
-			'breeze-enable-js-delay'    => '0',
-			'breeze-preload-links'      => '0',
-			'breeze-wp-emoji'           => '0',
-			'cdn-active'                => '0',
-			'cdn-relative-path'         => '1',
-			'auto-purge-varnish'        => '1',
-			'breeze_inherit_settings'   => '0',
-			'breeze-control-heartbeat'  => '0',
-			'breeze-delay-all-js'       => '0',
+			'breeze-active'                        => '1',
+			'breeze-cross-origin'                  => '0',
+			'breeze-gzip-compression'              => '1',
+			'breeze-browser-cache'                 => '1',
+			'breeze-lazy-load'                     => '0',
+			'breeze-lazy-load-native'              => '0',
+			'breeze-lazy-load-iframes'             => '0',
+			'breeze-desktop-cache'                 => '1',
+			'breeze-mobile-cache'                  => '1',
+			'breeze-display-clean'                 => '1',
+			'breeze-minify-html'                   => '0',
+			'breeze-minify-css'                    => '0',
+			'breeze-font-display-swap'             => '0',
+			'breeze-group-css'                     => '0',
+			'breeze-include-inline-css'            => '0',
+			'breeze-minify-js'                     => '0',
+			'breeze-group-js'                      => '0',
+			'breeze-include-inline-js'             => '0',
+			'breeze-enable-js-delay'               => '0',
+			'breeze-preload-links'                 => '1',
+			'breeze-wp-emoji'                      => '0',
+			'cdn-active'                           => '0',
+			'cdn-relative-path'                    => '1',
+			'auto-purge-varnish'                   => '1',
+			'breeze_inherit_settings'              => '0',
+			'breeze-control-heartbeat'             => '0',
+			'breeze-delay-all-js'                  => '0',
+			'breeze-store-googlefonts-locally'     => '0',
+			'breeze-store-googleanalytics-locally' => '0',
+			'breeze-store-facebookpixel-locally'   => '0',
+			'breeze-store-gravatars-locally'       => '0',
 		);
 
 		if ( array_key_exists( $option, $checkboxes ) ) {

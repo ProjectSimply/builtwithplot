@@ -1,9 +1,10 @@
 === Breeze - WordPress Cache Plugin ===
 Contributors: Cloudways
 Tags: cache,caching, performance, wp-cache, cdn, combine, compress, speed plugin, database cache,gzip, http compression, js cache, minify, optimize, page cache, performance, speed, expire headers
-Requires at least: 4.5
-Tested up to: 6.0
-Stable tag: 2.0.7
+Requires at least: 6.0
+Tested up to: 6.3
+Requires PHP: 7.4
+Stable tag: 2.0.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,9 +24,23 @@ Breeze excels in the following areas:
 
 What makes Breeze WordPress Cache Plugin awesome is that it comes with builtin support for Varnish. If Varnish is not installed on your servers, Breeze will utilize its internal cache mechanism to boost up your WordPress site performance.
 
+**FEATURES**
+
+* Seamless integration with Varnish Cache for efficient content delivery. No manual adjustments needed – all settings come pre-configured for your convenience.
+* Optimize performance using Cloudflare's caching capabilities. No specific Breeze configurations are needed – it works out of the box. 
+* Effortlessly integrate your preferred Content Delivery Network (CDN) for global content distribution with Breeze instead of using the the CDN providers' plugins.
+* Trim WordPress database bloat effortlessly. Breeze's Database Options optimize and declutter your database, boosting performance by removing unneeded data like post revisions and trashed content.
+* Take command over caching exclusions. With Breeze, you have the power to prevent specific URLs, JS files, and CSS files from being cached.
+* Achieve smaller page sizes and faster load times through HTML, CSS, and JavaScript minification, including inline CSS and JavaScript minification.
+* Load images when they're visible, not all at once, for faster webpage performance by implementing lazy loading for images.
+* Load JS files with deferred loading, enhancing overall performance.
+* Supercharge your site's speed with Breeze's advanced preloading features: load fonts early, quicken link clicks, and enhance DNS requests for a seamless user experience.
+* Master real-time interactions with Breeze's Heartbeat API management. Fine-tune notifications, sales data, autosaves, and more to optimize WordPress performance by adjusting API call frequencies.
+* Effortlessly manage Breeze settings using Import/Export. Download your configurations as a .json file for backup, or effortlessly import existing settings to quickly fine-tune your optimization.
+
+
 **Support:** We love to provide support! Post your questions on the WordPress.org support forums, or if you are a Cloudways Customer you may ask questions on the <a href="https://community.cloudways.com/">Cloudways Community Forum</a>.
 
-**Special Thanks:** We would like to give special mention to WP Speed Of Light for being an inspiration for Breeze.
 
 == Installation ==
 
@@ -144,6 +159,143 @@ Yes. The process of setting up CloudFlare with Breeze is easy. Check out the fol
 Using Gzip, Breeze compresses the request files, further reducing the size of the download files and speeding up the user experience.
 
 == Changelog ==
+
+= 2.0.30=
+
+* Add: Host Files Locally improve website speed by serving Google Fonts, Google Analytics, Facebook, and Gravatar files directly from your application's local path.
+
+= 2.0.29=
+
+* Add: Breeze now supports the latest version of the CSS minified library for superior performance. 
+* Add: Preload Link option is enabled by default now to boost your website performance.
+ 
+
+= 2.0.28=
+
+* Add: JavaScript file deferred loading feature now supports external third-party files alongside WP Core, themes, and plugins files. 
+
+= 2.0.27=
+
+* Add: Installing and activating Breeze using WP CLI will now automatically add GZIP compression and browser cache rules to the .htaccess file. Similarly, deactivating and deleting Breeze using WP CLI will remove these rules from the .htaccess file.
+
+= 2.0.26=
+
+* Fix: The issue caused by CLI plugin update, resolving error related to WP_Upgrader_Skin class requirement removal.
+
+= 2.0.25=
+
+* Fix: Purging the cache from Breeze for WordPress Multisite applications will not purge the OCP cache.
+
+
+= 2.0.24=
+
+* Fix: Handling of the 'WP_Upgrader_Skin' class for seamless update functionality via wp-cli.
+
+= 2.0.23=
+
+* Add: Smart Cache Purge Configuration for Cloudflare is now available for Flexible Platform for Cloudways users.
+* Add: Environment detection is now available for Cloudways users to automatically detect the platform, e.g., Flexible or Autoscale.
+* Add: Filters are added to interact with the content buffer before cache files are created. Use a filter called "breeze_cache_buffer_before_processing" to interact with buffer content before performing any changes and "breeze_cache_buffer_after_processing" after markup changes are finished.
+
+
+= 2.0.22=
+
+* Fix: Issues with Lazy Load and Cross-origin have been fixed by rewriting the engine to avoid interfering with bad markup.
+
+= 2.0.21=
+
+* Add: Moved the Cloudflare Cache option to Purge Modules for Cloudways users only.
+* Add: Purge Varnish option will not be shown if varnish header not available.
+
+
+
+= 2.0.20=
+
+* Fix: Fatal error displayed while editing WooCommerce attributes and other entities.
+ 
+
+= 2.0.19=
+
+* Fix: Purge All Cache permalink for WordPress subdirectory installations.
+ 
+
+
+= 2.0.18=
+
+* Add: Integrated Cloudflare Cache in Breeze for Cloudways users only.
+* Add: s-maxage in cache-control of Response Headers.
+* Fix: Stopped purging the OCP cache while cache purging from Breeze.
+* Fix: Improved compatibility of Breeze with Woodmart theme.
+* Fix: Improved compatibility of Breeze with Buddyboss theme.
+* Fix: Preserving declared media for styles on combine CSS.
+
+
+= 2.0.17=
+
+* Fix: P-Tag will not be added when Lazy Load Images and Cross-Origin Safe Links are enabled.
+
+
+
+= 2.0.16=
+
+
+* Fix: Ninja Forms now works when Lazy Load Images and Cross-Origin Safe Links are enabled.
+* Fix: All types of Google Tag Manager scripts will work with the "Delay JS Inline Scripts" option.
+* Add: "Reset Now" option has been added for default settings. It can also operate with WP-CLI.
+* Add: Enabled "Combine JS" option will disable "Delay JS Inline Script" or "Delay All JavaScript" and vice versa.
+
+
+= 2.0.15=
+
+* Add: Internal cache Purge while changing Theme.
+* Add: Internal cache Purge while using the options WP Customizer.
+* Fix: Improvise handling of Optimize Database option under the Database Options Tab by adding a message and loading bar.
+* Fix: Improvise the handling of the Request header while Varnish proxy behind and re-download necessary.
+
+
+
+= 2.0.14=
+
+* Fix: Applied condition to look new Facebook feed link in the plugin Facebook for WooCommerce.
+
+
+
+= 2.0.13=
+
+* Fix: DOMDocument class was removed while enabling the options Lazy Load Images and Cross-origin Safe Links.
+
+= 2.0.12=
+ 
+* Fix: Synchronized the reset cache option of the Avada theme with Breeze.
+
+ 
+= 2.0.11=
+
+* Add: Scanning of CDN URL to verify it is not malicious in the CDN.
+* Fix: Improvised process of generating JS files from PHP files.
+* Fix: Improvised handling of multi-byte characters, languages, symbols such as Unicode icons, etc.
+* Fix: Improvised the functionality of the Defer option while using an external JS file.
+* Fix: Enhanced the compatibility with Weglot Translate.
+
+
+= 2.0.10=
+
+* Add: More options added in the Database option tab.
+* Add: Display Autoload summary with Autoload total size as well as Autoload count.
+* Fix: Enhance the functionality of the options Combine CSS and Inline CSS while CSS is generated by Elementor.
+* Fix: Overwrite the TimeZone To UTC being sent out in ticket/order confirmations of The Events Calendar plugin.
+
+= 2.0.9=
+
+* Fix: Added nonce check to import settings ajax request, in order to improve security and prevent cross-site requests.
+
+= 2.0.8=
+
+* Fix: Enhance compatibility with the Pickingpal plugin to load the orders.
+* Fix: Remove duplication header calls in Varnish requests.
+* Fix: Invalid Certificate never accepted and its default value is TRUE now.
+* Add: Include the option to Clear Object Cache.
+
 
 = 2.0.7 =
 
@@ -402,4 +554,4 @@ Update Breeze through WordPress Admin > Dashboard >Updates. The settings will re
 
 == Requirements ==
 
-PHP 7.x ,PHP 7.4 recommended for better performance, WordPress 4.5+
+PHP 7.4, PHP 8 recommended for better performance, WordPress 6.0+

@@ -37,6 +37,9 @@
 </IfModule>
 # End GzipofBreezeWPCache
 #Expires headers configuration added by BREEZE WP CACHE plugin
+<IfModule mod_headers.c>
+   Header append Cache-Control "s-maxage=2592000"
+</IfModule>
 <IfModule mod_env.c>
    SetEnv BREEZE_BROWSER_CACHE_ON 1
 </IfModule>

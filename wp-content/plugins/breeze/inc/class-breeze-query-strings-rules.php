@@ -119,8 +119,7 @@ class Breeze_Query_Strings_Rules {
 			) {
 				$this->always_cache_query[] = 'v';
 			}
-
-		} else if ( isset( $GLOBALS['breeze_config']['woocommerce_geolocation_ajax'] ) && 1 === (int) $GLOBALS['breeze_config']['woocommerce_geolocation_ajax'] ) {
+		} elseif ( isset( $GLOBALS['breeze_config']['woocommerce_geolocation_ajax'] ) && 1 === (int) $GLOBALS['breeze_config']['woocommerce_geolocation_ajax'] ) {
 			$this->always_cache_query[] = 'v';
 		}
 
@@ -205,12 +204,10 @@ class Breeze_Query_Strings_Rules {
 					$cache_page = false;
 					break;
 				}
-
 			}
 			if ( false === $cache_page ) {
 				return false;
 			}
-
 
 			// IF user defines query strings that can be cached.
 			if (
@@ -275,7 +272,14 @@ class Breeze_Query_Strings_Rules {
 		}
 
 		$current_url_query = parse_url( $url, PHP_URL_QUERY );
-		parse_str( $current_url_query, $breeze_query_output );
+
+		if ( ! empty( $current_url_query ) ) {
+			parse_str( $current_url_query, $breeze_query_output );
+		}
+
+		if ( empty( $breeze_query_output ) ) {
+			$breeze_query_output = array();
+		}
 
 		return $breeze_query_output;
 	}
@@ -298,7 +302,7 @@ class Breeze_Query_Strings_Rules {
 		);
 
 		// Only process links if the request is GET.
-		if ( 'GET' !== $_SERVER['REQUEST_METHOD'] || empty( $current_url ) ) {
+		if ( ( isset( $_SERVER['REQUEST_METHOD'] ) && 'GET' !== $_SERVER['REQUEST_METHOD'] ) || empty( $current_url ) ) {
 			return $found_items;
 		}
 
@@ -310,7 +314,6 @@ class Breeze_Query_Strings_Rules {
 		$extracted_vars = $this->extract_query_strings( $current_url );
 		// Query strings that are not found anywhere.
 		$not_found_anywhere = $extracted_vars;
-
 
 		if (
 			isset( $GLOBALS['breeze_config'], $GLOBALS['breeze_config']['cached-query-strings'] ) &&
@@ -326,7 +329,6 @@ class Breeze_Query_Strings_Rules {
 				}
 			}
 		}
-
 
 		foreach ( $extracted_vars as $index => $value ) {
 			$index = mb_strtolower( trim( $index ) );

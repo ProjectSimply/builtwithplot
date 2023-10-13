@@ -75,7 +75,7 @@ class Breeze_Minify {
 	 * Will not execute for purge cache or heartbeat actions.
 	 */
 	public static function should_cache() {
-		if ( isset( $_GET['breeze_purge'] ) || ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) ) {
+		if ( isset( $_GET['breeze_purge_cloudflare'] ) || isset( $_GET['breeze_purge'] ) || ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) ) {
 			return false;
 		}
 
@@ -301,6 +301,8 @@ class Breeze_Minify {
 			$is_caching_on = $is_found;
 		}
 
+		//TODO: Move the store files locally function here in case it won't work where it is originally
+
 		if ( ! empty( $conf ) && false === $is_caching_on && is_user_logged_in() ) {
 			$content = apply_filters( 'breeze_html_after_minify', $content );
 
@@ -345,6 +347,10 @@ class Breeze_Minify {
 	 * Remove '/' chacracter of end url
 	 */
 	public function rtrim_urls( $url ) {
+		if ( ! is_string( $url ) ) {
+			$url = '';
+		}
+
 		return rtrim( $url, '/' );
 	}
 
