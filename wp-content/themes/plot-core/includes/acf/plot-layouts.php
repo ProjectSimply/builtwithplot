@@ -773,19 +773,19 @@ $layouts['5be9754d3df4a'] = [
 	'display' => 'block',
 	'sub_fields' => [
 		[
-			'key' => "$key-carousel_title",
+			'key' => "$keyCarousel-carousel_title",
 			'name' => "carousel_title",
 			'label' => "Carousel Title",
 			'type' => "text",
 		],
 		[
-			'key' => "$key-carousel_subtext",
+			'key' => "$keyCarousel-carousel_subtext",
 			'name' => "carousel_subtext",
 			'label' => "Carousel Subtext",
 			'type' => "text",
 		],
 		[
-			'key' => "$key-carousel_slider",
+			'key' => "$keyCarousel-carousel_slider",
 			'name' => "carousel_slider",
 			'label' => "Carosuel Slider",
 			'type' => "repeater",
@@ -794,7 +794,7 @@ $layouts['5be9754d3df4a'] = [
 			'layout'    => 'block',
 			'sub_fields' => [
 				[
-					'key' => "$key-slider-image",
+					'key' => "$keyCarousel-slider-image",
 					'name' => "image",
 					'label' => "Image",
 					'type' => "image",
@@ -802,7 +802,7 @@ $layouts['5be9754d3df4a'] = [
 					'required' => 1,
 				],
 				[
-					'key' => "$key-site-link",
+					'key' => "$keyCarousel-site-link",
 					'name' => "site-link",
 					'label' => "Site Link",
 					'type' => "text",
@@ -810,13 +810,13 @@ $layouts['5be9754d3df4a'] = [
 			]
 		],
 		[
-			'key' => "$key-add-link",
+			'key' => "$keyCarousel-add-link",
 			'name' => "carousel_add_link",
 			'label' => "Add link?",
 			'type' => "true_false",
 		],
 		[
-			'key' => "$key-link-text",
+			'key' => "$keyCarousel-link-text",
 			'name' => "carousel_link_text",
 			'label' => "Link Text",
 			'required' => 1,
@@ -824,7 +824,7 @@ $layouts['5be9754d3df4a'] = [
 			'conditional_logic' => [
 				[
 					[
-						'field' => "$key-add-link",
+						'field' => "$keyCarousel-add-link",
 						'operator' => "==",
 						'value' => "1",
 					]
@@ -832,7 +832,7 @@ $layouts['5be9754d3df4a'] = [
 			],
 		],
 		[
-			'key' => "$key-link",
+			'key' => "$keyCarousel-link",
 			'name' => "carousel_link",
 			'label' => "Link",
 			'required' => 1,
@@ -840,7 +840,7 @@ $layouts['5be9754d3df4a'] = [
 			'conditional_logic' => [
 				[
 					[
-						'field' => "$key-add-link",
+						'field' => "$keyCarousel-add-link",
 						'operator' => "==",
 						'value' => "1",
 					]
