@@ -282,11 +282,14 @@ class PlotSite
         return false;
 
       $ptn = $post_type_name;
-
-      if($ptn == 'Stage' && get_field('event_type','option') == 'location-based') {
-        $ptn = 'Location';
-        $overrideArgs['rewrite'] = ['slug' => 'location','with_front' => false];
-      }
+      
+      if( function_exists('acf_add_local_field_group') ):
+        if($ptn == 'Stage' && get_field('event_type','option') == 'location-based') {
+          $ptn = 'Location';
+          $overrideArgs['rewrite'] = ['slug' => 'location','with_front' => false];
+        }
+      endif;
+      
       $plural = plotPluralise($ptn);
 
       $labels = array(

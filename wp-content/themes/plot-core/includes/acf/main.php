@@ -1,5 +1,7 @@
 <?php 
 
+if( function_exists('acf_add_local_field_group') ):
+
 require_once('partners.php');
 require_once('404.php');
 require_once('event-settings.php');
@@ -1783,3 +1785,4 @@ acf_add_local_field_group([
 	'description' => 'Social Media links that are typically sitewide, aka in the footer',
 ]);
 
+endif;
