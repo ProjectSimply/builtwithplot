@@ -159,8 +159,11 @@ class Addons {
 
 			<h1 class="page-title">
 				<?php esc_html_e( 'WPForms Addons', 'wpforms' ); ?>
-				<a href="<?php echo esc_url_raw( add_query_arg( [ 'wpforms_refresh_addons' => '1' ] ) ); ?>" class="add-new-h2 wpforms-btn-orange">
-					<?php esc_html_e( 'Refresh Addons', 'wpforms' ); ?>
+				<a href="<?php echo esc_url_raw( add_query_arg( [ 'wpforms_refresh_addons' => '1' ] ) ); ?>" class="page-title-action wpforms-btn add-new-h2 wpforms-btn-orange" data-action="update">
+					<svg viewBox="0 0 20 14" class="page-title-action-icon">
+						<path d="M10.2 0a7.3 7.3 0 0 1 7.22 6.25h2.16l-3.64 4.17-3.65-4.17h2.42a4.62 4.62 0 0 0-4.5-3.6c-1.51 0-2.84.75-3.69 1.86L4.74 2.48A7.26 7.26 0 0 1 10.21 0Zm-.4 14a7.3 7.3 0 0 1-7.22-6.25H.42l3.64-4.17 3.65 4.17H5.29a4.62 4.62 0 0 0 4.5 3.6c1.51 0 2.85-.75 3.69-1.86l1.78 2.03A7.24 7.24 0 0 1 9.79 14Z"/>
+					</svg>
+					<span class="page-title-action-text"><?php esc_html_e( 'Refresh Addons', 'wpforms' ); ?></span>
 				</a>
 				<input type="search" placeholder="<?php esc_attr_e( 'Search Addons', 'wpforms' ); ?>" id="wpforms-admin-addons-search">
 			</h1>
@@ -215,7 +218,7 @@ class Addons {
      */
 	public function notices() {
 
-		$errors = wpforms()->license->get_errors();
+		$errors = wpforms()->get( 'license' )->get_errors();
 
 		if ( empty( $this->addons ) ) {
 			\WPForms\Admin\Notice::error( esc_html__( 'There was an issue retrieving Addons for this site. Please click on the button above to refresh.', 'wpforms' ) );
@@ -310,7 +313,7 @@ class Addons {
 							],
 						]
 					),
-					'https://wpforms.com/account/'
+					esc_url( wpforms_utm_link( 'https://wpforms.com/account/', 'addons', 'Upgrade For More Addons' ) )
 				) .
 			'</p>';
 		echo '</div>';
@@ -366,6 +369,10 @@ class Addons {
 			! empty( $addon['status'] ) && $addon['status'] === 'active' && $addon['plugin_allow'] ? $addon['doc_url'] : $addon['page_url']
 		);
 
+		if ( $addon['slug'] === 'wpforms-stripe' ) {
+			$addon['recommended'] = true;
+		}
+
 		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'admin/addons-item',
 			[
@@ -374,6 +381,7 @@ class Addons {
 				'image'        => WPFORMS_PLUGIN_URL . 'assets/images/' . $image,
 				'url'          => $url,
 				'button'       => $this->get_addon_button_html( $addon ),
+				'recommended'  => isset( $addon['recommended'] ) ? $addon['recommended'] : false,
 			],
 			true
 		);

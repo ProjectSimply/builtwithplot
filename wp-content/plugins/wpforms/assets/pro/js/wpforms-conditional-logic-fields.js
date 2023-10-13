@@ -82,7 +82,7 @@
 				WPFormsConditionals.processConditionals( $( this ), true );
 			} );
 
-			$( document ).on( 'elementor/popup/show', function() {
+			window.addEventListener( 'elementor/popup/show', function() {
 				WPFormsConditionals.processConditionals( $( '.elementor-popup-modal .wpforms-form' ), true );
 			} );
 
@@ -102,7 +102,7 @@
 				} );
 			} );
 
-			$( '.wpforms-form' ).submit( function() {
+			$( '.wpforms-form' ).on( 'submit', function() {
 				WPFormsConditionals.resetHiddenFields( $( this ) );
 			} );
 		},
@@ -162,7 +162,7 @@
 						const fieldId = $field.closest( '.wpforms-field' ).data( 'field-id' ),
 							$smartPhoneHiddenField = $field.siblings( '[name="wpforms[fields][' + fieldId + ']"]' ).first();
 
-						// Reset smart phone hidden field.
+						// Reset Smart Phone hidden field.
 						if ( fieldId && $field.data( 'ruleSmartPhoneField' ) && $smartPhoneHiddenField.length > 0 ) {
 							$smartPhoneHiddenField.val( '' );
 						}
@@ -425,12 +425,13 @@
 
 						val = WPFormsConditionals.getElementValueByRule( rule, $form );
 
-						if ( null === val ) {
+						// eslint-disable-next-line max-depth
+						if ( val === null || val === undefined ) {
 							val = '';
 						}
 
-						left  = $.trim( val ).toString().toLowerCase();
-						right = $.trim( rule.value ).toString().toLowerCase();
+						left  = val.toString().trim().toLowerCase();
+						right = rule.value.toString().trim().toLowerCase();
 
 						switch ( rule.operator ) {
 							case '==' :
@@ -482,15 +483,28 @@
 					console.log( 'Result: ' + pass );
 				}
 
+				const $fieldContainer     = $form.find( '#wpforms-' + formID + '-field_' + fieldID + '-container' );
+				const $closestLayoutField = $fieldContainer.closest( '.wpforms-field-layout' );
+
 				if ( ( pass && action === 'hide' ) || ( ! pass && action !== 'hide' ) ) {
-					$form
-						.find( '#wpforms-' + formID + '-field_' + fieldID + '-container' )
+					$fieldContainer
 						.hide()
 						.addClass( 'wpforms-conditional-hide' )
 						.removeClass( 'wpforms-conditional-show' );
+
+					// If the field is inside a layout field and no other fields inside the layout field are visible, hide the layout container.
+					if (
+						WPFormsConditionals.isInsideLayoutField( $fieldContainer ) &&
+						$closestLayoutField.find( 'div.wpforms-conditional-hide' ).length === $closestLayoutField.find( '.wpforms-field' ).length
+					) {
+						$closestLayoutField
+							.hide()
+							.addClass( 'wpforms-conditional-hide' )
+							.removeClass( 'wpforms-conditional-show' );
+					}
+
 					hidden = true;
 				} else {
-					var $fieldContainer = $form.find( '#wpforms-' + formID + '-field_' + fieldID + '-container' );
 					if (
 						$this.closest( '.wpforms-field' ).attr( 'id' ) !== $fieldContainer.attr( 'id' ) &&
 						$fieldContainer.hasClass( 'wpforms-conditional-hide' )
@@ -501,6 +515,15 @@
 						.show()
 						.removeClass( 'wpforms-conditional-hide' )
 						.addClass( 'wpforms-conditional-show' );
+
+					// If the field is inside a layout field, show the layout container.
+					if ( WPFormsConditionals.isInsideLayoutField( $fieldContainer ) ) {
+						$closestLayoutField
+							.show()
+							.removeClass( 'wpforms-conditional-hide' )
+							.addClass( 'wpforms-conditional-show' );
+					}
+
 					$this.trigger( 'wpformsShowConditionalsField' );
 				}
 
@@ -536,7 +559,7 @@
 
 			// If we have the modern select enabled, we trim the rule value to match the trim that happens.
 			if ( field.data( 'choicesjs' ) ) {
-				rule.value = $.trim( rule.value );
+				rule.value = rule.value.toString().trim();
 			}
 
 			if ( rule.operator === 'e' || rule.operator === '!e' ) {
@@ -717,6 +740,20 @@
 		floatval: function( mixedVar ) {
 
 			return ( parseFloat( mixedVar ) || 0 );
+		},
+
+		/**
+		 * Check if the provided field container is inside of a layout field.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param {object} $fieldContainer Container DOM element of the field being checked.
+		 *
+		 * @returns {boolean} Whether or not the provided field container is within a layout field.
+		 */
+		isInsideLayoutField: function( $fieldContainer ) {
+
+			return $fieldContainer.parent().hasClass( 'wpforms-layout-column' );
 		},
 	};
 

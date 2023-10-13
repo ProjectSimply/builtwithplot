@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfdc086e806ad416dbe51d76795891429
+class ComposerStaticInitcfddcb2a8e7ce1040fd21accde54c0a9
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -26,6 +26,7 @@ class ComposerStaticInitfdc086e806ad416dbe51d76795891429
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Component\\CssSelector\\' => 30,
+            'Stripe\\' => 7,
         ),
     );
 
@@ -54,6 +55,10 @@ class ComposerStaticInitfdc086e806ad416dbe51d76795891429
         array (
             0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
     );
 
     public static $classMap = array (
@@ -64,9 +69,9 @@ class ComposerStaticInitfdc086e806ad416dbe51d76795891429
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfdc086e806ad416dbe51d76795891429::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfdc086e806ad416dbe51d76795891429::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitfdc086e806ad416dbe51d76795891429::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitcfddcb2a8e7ce1040fd21accde54c0a9::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitcfddcb2a8e7ce1040fd21accde54c0a9::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitcfddcb2a8e7ce1040fd21accde54c0a9::$classMap;
 
         }, null, ClassLoader::class);
     }

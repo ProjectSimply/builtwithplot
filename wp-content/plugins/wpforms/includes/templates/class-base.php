@@ -80,6 +80,15 @@ abstract class WPForms_Template {
 	public $url = '';
 
 	/**
+	 * Form template thumbnail url.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @var string
+	 */
+	public $thumbnail = '';
+
+	/**
 	 * Array of data that is assigned to the post_content on form creation.
 	 *
 	 * @since 1.0.0
@@ -161,6 +170,7 @@ abstract class WPForms_Template {
 			'icon'        => $this->icon,
 			'url'         => ! empty( $this->url ) ? $this->url : '',
 			'plugin_dir'  => $this->get_plugin_dir(),
+			'thumbnail'   => ! empty( $this->thumbnail ) ? $this->thumbnail : '',
 		];
 
 		return $templates;
@@ -248,6 +258,17 @@ abstract class WPForms_Template {
 		$new['payments']         = isset( $form_data['payments'] ) ? $form_data['payments'] : [];
 		$new['meta']             = isset( $form_data['meta'] ) ? $form_data['meta'] : [];
 		$new['meta']['template'] = isset( $this->data['meta']['template'] ) ? $this->data['meta']['template'] : '';
+
+		/**
+		 * Allow modifying form data when a template is replaced.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param array $new       Updated form data.
+		 * @param array $form_data Current form data.
+		 * @param array $template  Template data.
+		 */
+		$new = (array) apply_filters( 'wpforms_templates_class_base_template_replace_modify_data', $new, $form_data, $this );
 
 		// Update the form with new data.
 		$form['post_content'] = wpforms_encode( $new );

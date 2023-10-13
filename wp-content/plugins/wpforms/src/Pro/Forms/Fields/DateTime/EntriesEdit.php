@@ -66,8 +66,18 @@ class EntriesEdit extends \WPForms\Pro\Forms\Fields\Base\EntriesEdit {
 	 */
 	public function field_display( $entry_field, $field, $form_data ) {
 
+		// Available time formats in PHP format.
+		$time_formats = array_keys( wpforms_time_formats() );
+
+		// Collect all available formats.
+		$formats = [
+			'date' => wpforms_date_formats(),
+			'time' => array_combine( $time_formats, $time_formats ), // need a bit extra work due to `wpforms_time_formats()` returned data.
+		];
+
 		// Properly populate subfields with the value.
 		$inputs = [ 'date', 'time' ];
+
 		foreach ( $inputs as $input ) {
 
 			// Skip if value is empty.
@@ -82,14 +92,17 @@ class EntriesEdit extends \WPForms\Pro\Forms\Fields\Base\EntriesEdit {
 					'm' => gmdate( 'm', $entry_field['unix'] ),
 					'y' => gmdate( 'Y', $entry_field['unix'] ),
 				];
+
 				continue;
 			}
 
-			// Generate input value according to the datetime format.
-			$formats = wpforms_date_formats();
+			// Get a submitted date/time format.
+			$input_format = ! empty( $field[ $input . '_format' ] ) ? $field[ $input . '_format' ] : '';
 
-			$input_format        = ! empty( $field[ $input . '_format' ] ) ? $field[ $input . '_format' ] : 'm/d/Y';
-			$format              = isset( $formats[ $input_format ] ) ? $formats[ $input_format ] : 'm/d/Y';
+			// Determine a valid date/time format.
+			$format = isset( $formats[ $input ][ $input_format ] ) ? $formats[ $input ][ $input_format ] : reset( $formats[ $input ][ $input_format ] );
+
+			// Generate input value according to the date/time format.
 			$input_value         = ! empty( $entry_field['unix'] ) ? gmdate( $format, $entry_field['unix'] ) : $entry_field[ $input ];
 			$field['properties'] = $this->field_object->get_field_populated_single_property_value_public( $input_value, $input, $field['properties'], $field );
 		}

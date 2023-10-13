@@ -53,7 +53,7 @@ class LicenseAlert {
 		$this->license_type       = wpforms_get_license_type();
 		$this->license_is_expired = (bool) wpforms_setting( 'is_expired', false, 'wpforms_license' );
 
-		add_action( 'wpforms_admin_page', array( $this, 'output' ), 1 );
+		add_action( 'wpforms_admin_page', [ $this, 'output' ], 1 );
 	}
 
 	/**
@@ -70,14 +70,14 @@ class LicenseAlert {
 		}
 
 		printf(
-			'<div id="wpforms-builder-license-alert">
-				<img src="%1$s" />
+			'<div id="wpforms-builder-license-alert" class="wpforms-fullscreen-notice">
+				<img src="%1$s" class="sullie-icon" alt="WPForms Logo" />
 				<h3>%2$s</h3>
 				<p>%3$s</p>
-				<div>
-					<a href="%4$s" class="button button-primary">%5$s</a>
-					<a href="%6$s" class="button button-secondary">%7$s</a>
-					<button class="%8$s"></button>
+				<div class="wpforms-fullscreen-notice-buttons">
+					<a href="%4$s" class="wpforms-fullscreen-notice-button wpforms-fullscreen-notice-button-primary">%5$s</a>
+					<a href="%6$s" class="wpforms-fullscreen-notice-button wpforms-fullscreen-notice-button-secondary">%7$s</a>
+					<button type="button" class="%8$s"><span class="screen-reader-text">%9$s</span></button>
 				</div>
 			</div>',
 			esc_url( WPFORMS_PLUGIN_URL . 'assets/images/sullie-builder-mobile.png' ),
@@ -87,22 +87,9 @@ class LicenseAlert {
 			esc_html( $data['button-primary'] ),
 			esc_url( $data['button-secondary-url'] ),
 			esc_html( $data['button-secondary'] ),
-			sanitize_html_class( $data['button-x'] )
+			sanitize_html_class( $data['button-x-class'] ),
+			esc_html( $data['button-x'] )
 		);
-
-		if ( $data['button-x'] === 'dismiss' ) {
-			?>
-			<script>
-				jQuery( function( $ ){
-					$( '#wpforms-builder-license-alert .dismiss' ).click( function( event ){
-						event.preventDefault();
-						$( '#wpforms-builder-license-alert' ).remove();
-						wpCookies.set( 'wpforms-builder-license-alert', 'true', 3600 );
-					} );
-				} );
-			</script>
-			<?php
-		}
 	}
 
 	/**
@@ -110,11 +97,11 @@ class LicenseAlert {
 	 *
 	 * @since 1.5.7
 	 *
-	 * @return false|array Data for output in the alert overlay.
+	 * @return array Data for output in the alert overlay.
 	 */
 	public function get_alert_data() {
 
-		$data = array();
+		$data = [];
 
 		if ( ! empty( $this->license_type ) && empty( $this->license_is_expired ) ) {
 			return $data;
@@ -122,29 +109,31 @@ class LicenseAlert {
 
 		// License is expired.
 		if ( $this->license_is_expired && ! empty( $this->license_type ) ) {
-			$data['button-primary-url']  = add_query_arg(
-				array(
+
+			$data['button-primary-url']   = add_query_arg(
+				[
 					'utm_source'   => 'WordPress',
 					'utm_medium'   => 'Form Builder Overlay',
 					'utm_campaign' => 'plugin',
 					'utm_content'  => 'Renew Now',
-				),
+				],
 				'https://wpforms.com/account/licenses/'
 			);
 			$data['button-secondary-url'] = add_query_arg(
-				array(
+				[
 					'utm_source'   => 'WordPress',
 					'utm_medium'   => 'Form Builder Overlay',
 					'utm_campaign' => 'plugin',
 					'utm_content'  => 'Learn More',
-				),
+				],
 				'https://wpforms.com/docs/how-to-renew-your-wpforms-license/'
 			);
 			$data['heading']              = __( 'Heads up! Your WPForms license has expired.', 'wpforms' );
 			$data['description']          = __( 'An active license is needed to access new features & addons, plugin updates (including security improvements), and our world class support!', 'wpforms' );
 			$data['button-primary']       = __( 'Renew Now', 'wpforms' );
 			$data['button-secondary']     = __( 'Learn More', 'wpforms' );
-			$data['button-x']             = 'dismiss';
+			$data['button-x']             = __( 'Dismiss', 'wpforms' );
+			$data['button-x-class']       = 'dismiss';
 
 			return $data;
 		}
@@ -153,25 +142,28 @@ class LicenseAlert {
 		if (
 			empty( $this->license_type ) &&
 			wp_count_posts( 'wpforms' )->publish >= 1 &&
-			isset( $_GET['view'] ) &&
-			$_GET['view'] === 'setup'
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			( ! isset( $_GET['view'] ) || $_GET['view'] === 'setup' )
 		) {
-			$query_vars['utm_content']    = 'Get WPForms Pro';
+
+			$query_vars['utm_content'] = 'Get WPForms Pro';
+
 			$data['button-primary-url']   = admin_url( 'admin.php?page=wpforms-settings' );
 			$data['button-secondary-url'] = add_query_arg(
-				array(
+				[
 					'utm_source'   => 'WordPress',
 					'utm_medium'   => 'Form Builder Overlay',
 					'utm_campaign' => 'plugin',
 					'utm_content'  => 'Learn More',
-				),
+				],
 				'https://wpforms.com/pricing/'
 			);
 			$data['heading']              = __( 'Heads up! A WPForms license key is required.', 'wpforms' );
 			$data['description']          = __( 'To create more forms, please verify your WPForms license.', 'wpforms' );
 			$data['button-primary']       = __( 'Enter license key', 'wpforms' );
 			$data['button-secondary']     = __( 'Get WPForms pro', 'wpforms' );
-			$data['button-x']             = 'close';
+			$data['button-x']             = __( 'Close', 'wpforms' );
+			$data['button-x-class']       = 'close';
 		}
 
 		return $data;

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * HTML block text field.
  *
@@ -15,11 +19,12 @@ class WPForms_Field_HTML extends WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'HTML', 'wpforms' );
-		$this->type  = 'html';
-		$this->icon  = 'fa-code';
-		$this->order = 180;
-		$this->group = 'fancy';
+		$this->name     = esc_html__( 'HTML', 'wpforms' );
+		$this->keywords = esc_html__( 'code', 'wpforms' );
+		$this->type     = 'html';
+		$this->icon     = 'fa-code';
+		$this->order    = 180;
+		$this->group    = 'fancy';
 
 		$this->hooks();
 	}
@@ -67,7 +72,7 @@ class WPForms_Field_HTML extends WPForms_Field {
 	public function field_properties( $properties, $field, $form_data ) {
 
 		// Remove input attributes references.
-		$properties['inputs']['primary']['attr'] = array();
+		$properties['inputs']['primary']['attr'] = [];
 
 		// Add code value.
 		$properties['inputs']['primary']['code'] = ! empty( $field['code'] ) ? $field['code'] : '';
@@ -103,7 +108,7 @@ class WPForms_Field_HTML extends WPForms_Field {
 	 *
 	 * @return mixed echo or return string
 	 */
-	public function field_option( $option, $field, $args = array(), $echo = true ) {
+	public function field_option( $option, $field, $args = [], $echo = true ) {
 
 		if ( $option !== 'name' ) {
 			return parent::field_option( $option, $field, $args, $echo );
@@ -112,29 +117,29 @@ class WPForms_Field_HTML extends WPForms_Field {
 		$output  = $this->field_element(
 			'label',
 			$field,
-			array(
+			[
 				'slug'    => 'name',
 				'value'   => esc_html__( 'Label', 'wpforms' ),
 				'tooltip' => esc_html__( 'Enter text for the form field label. It will help identify your HTML blocks inside the form builder, but will not be displayed in the form.', 'wpforms' ),
-			),
+			],
 			false
 		);
 		$output .= $this->field_element(
 			'text',
 			$field,
-			array(
+			[
 				'slug'  => 'name',
 				'value' => ! empty( $field['name'] ) ? esc_attr( $field['name'] ) : '',
-			),
+			],
 			false
 		);
 		$output  = $this->field_element(
 			'row',
 			$field,
-			array(
+			[
 				'slug'    => 'name',
 				'content' => $output,
-			),
+			],
 			false
 		);
 
@@ -158,9 +163,10 @@ class WPForms_Field_HTML extends WPForms_Field {
 		 */
 
 		// Options open markup.
-		$args = array(
+		$args = [
 			'markup' => 'open',
-		);
+		];
+
 		$this->field_option( 'basic-options', $field, $args );
 
 		// Name (Label).
@@ -170,17 +176,19 @@ class WPForms_Field_HTML extends WPForms_Field {
 		$this->field_option( 'code', $field );
 
 		// Set label to disabled.
-		$args = array(
+		$args = [
 			'type'  => 'hidden',
 			'slug'  => 'label_disable',
 			'value' => '1',
-		);
+		];
+
 		$this->field_element( 'text', $field, $args );
 
 		// Options close markup.
-		$args = array(
+		$args = [
 			'markup' => 'close',
-		);
+		];
+
 		$this->field_option( 'basic-options', $field, $args );
 
 		/*
@@ -217,13 +225,11 @@ class WPForms_Field_HTML extends WPForms_Field {
 		$label = ! empty( $field['name'] ) ? $field['name'] : '';
 		?>
 
-		<div class="code-block">
-			<label class="label-title">
-				<div class="text"><?php echo esc_html( $label ); ?></div>
-				<div class="grey"><i class="fa fa-code"></i> <?php esc_html_e( 'HTML / Code Block', 'wpforms' ); ?></div>
-			</label>
-			<div class="description"><?php esc_html_e( 'Contents of this field are not displayed in the form builder preview.', 'wpforms' ); ?></div>
-		</div>
+		<label class="label-title">
+			<div class="text"><?php echo esc_html( $label ); ?></div>
+			<div class="grey"><i class="fa fa-code"></i> <?php esc_html_e( 'HTML / Code Block', 'wpforms' ); ?></div>
+		</label>
+		<div class="description"><?php esc_html_e( 'Contents of this field are not displayed in the form builder preview.', 'wpforms' ); ?></div>
 
 		<?php
 	}

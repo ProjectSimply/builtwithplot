@@ -17,7 +17,7 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 		 * @since 1.6.0.2
 		 *
 		 * @param {Array}  array Array to split.
-		 * @param {number} n     Number of elements in each chunks.
+		 * @param {number} n     Number of elements in each chunk.
 		 *
 		 * @returns {Array} Array.
 		 */
@@ -739,7 +739,7 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 				$groupLast = $this.parent().find( '.wpforms-conditional-group' ).last(),
 				$newGroup  = $groupLast.clone();
 
-			$newGroup.find( 'tr' ).not( ':first' ).remove();
+			$newGroup.find( 'tr' ).slice( 1 ).remove();
 
 			var $field    = $newGroup.find( '.wpforms-conditional-field' ),
 				$operator = $newGroup.find( '.wpforms-conditional-operator' ),

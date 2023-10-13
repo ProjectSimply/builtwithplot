@@ -59,7 +59,7 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 		openModalButtonClick: function() {
 
 			$( document ).on(
-				'mousedown',
+				'click',
 				'.education-modal',
 				function( event ) {
 
@@ -86,7 +86,7 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 							app.licenseModal(
 								$this.data( 'name' ),
 								$this.data( 'field-name' ),
-								$this.data( 'utm-content' )
+								WPFormsEducation.core.getUTMContentValue( $this )
 							);
 							break;
 					}
@@ -131,7 +131,7 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 						if ( res.success ) {
 							location.reload();
 						} else {
-							$form.append( '<div class="msg error" style="display: none">' + wpforms_admin[ pluginType + '_error' ] + '</div>' );
+							$form.append( '<div class="msg error" style="display: none;">' + wpforms_admin[ pluginType + '_error' ] + '</div>' );
 							$form.find( '.msg' ).slideDown();
 						}
 						$button.text( buttonText );

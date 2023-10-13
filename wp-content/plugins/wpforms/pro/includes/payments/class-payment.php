@@ -71,6 +71,15 @@ abstract class WPForms_Payment {
 	private static $i18n_modified = false;
 
 	/**
+	 * Flag for recommended payments.
+	 *
+	 * @since 1.7.7.2
+	 *
+	 * @var bool
+	 */
+	protected $recommended = false;
+
+	/**
 	 * Primary class constructor.
 	 *
 	 * @since 1.0.0
@@ -233,21 +242,17 @@ abstract class WPForms_Payment {
 	 */
 	public function builder_sidebar() {
 
-		$configured = $this->is_payments_enabled() ? 'configured' : '';
-
-		echo '<a href="#" class="wpforms-panel-sidebar-section icon ' . esc_attr( $configured ) . ' wpforms-panel-sidebar-section-' . esc_attr( $this->slug ) . '" data-section="' . esc_attr( $this->slug ) . '">';
-
-		echo '<img src="' . esc_url( $this->icon ) . '">';
-
-		echo esc_html( $this->name );
-
-		echo '<i class="fa fa-angle-right wpforms-toggle-arrow"></i>';
-
-		if ( ! empty( $configured ) ) {
-			echo '<i class="fa fa-check-circle-o"></i>';
-		}
-
-		echo '</a>';
+		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'builder/payment/sidebar',
+			[
+				'configured'  => $this->is_payments_enabled() ? 'configured' : '',
+				'slug'        => $this->slug,
+				'icon'        => $this->icon,
+				'name'        => $this->name,
+				'recommended' => $this->recommended,
+			],
+			true
+		);
 	}
 
 	/**
@@ -347,7 +352,7 @@ abstract class WPForms_Payment {
 				[
 					'parent'  => 'payments',
 					'default' => '0',
-					'tooltip' => esc_html__( 'Allow your customer to recurring pay via the form.', 'wpforms' ),
+					'tooltip' => esc_html__( 'Allow your customer to pay recurringly via the form.', 'wpforms' ),
 					'class'   => 'wpforms-panel-content-section-payment-toggle wpforms-panel-content-section-payment-toggle-recurring',
 				]
 			);
@@ -396,7 +401,7 @@ abstract class WPForms_Payment {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo wpforms_render(
-			'builder/payments/recurring/item',
+			'builder/payment/recurring/item',
 			[
 				'plan_id' => $plan_id,
 				'content' => $this->get_builder_content_recurring_payment_content( $plan_id ),

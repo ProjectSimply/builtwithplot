@@ -1,4 +1,4 @@
-/* global wpforms_education, WPFormsBuilder */
+/* global wpforms_education, WPFormsBuilder, wpf */
 /**
  * WPForms Education Core.
  *
@@ -68,25 +68,32 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 */
 		openModalButtonClick: function() {
 
-			$( document ).on(
-				'click',
-				'.education-modal',
-				function( event ) {
+			$( document )
+				.on( 'click', '.education-modal:not(.wpforms-add-fields-button)', app.openModalButtonHandler )
+				.on( 'mousedown', '.education-modal.wpforms-add-fields-button', app.openModalButtonHandler );
+		},
 
-					var $this = $( this );
+		/**
+		 * Open education modal handler.
+		 *
+		 * @since 1.8.0
+		 *
+		 * @param {Event} event Event.
+		 */
+		openModalButtonHandler: function( event ) {
 
-					event.preventDefault();
+			event.preventDefault();
 
-					switch ( $this.data( 'action' ) ) {
-						case 'activate':
-							app.activateModal( $this );
-							break;
-						case 'install':
-							app.installModal( $this );
-							break;
-					}
-				}
-			);
+			const $this = $( this );
+
+			switch ( $this.data( 'action' ) ) {
+				case 'activate':
+					app.activateModal( $this );
+					break;
+				case 'install':
+					app.installModal( $this );
+					break;
+			}
 		},
 
 		/**
@@ -96,7 +103,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 */
 		dismissEvents: function() {
 
-			$( '.wpforms-dismiss-container' ).on( 'click', '.wpforms-dismiss-button', function( e ) {
+			$( document ).on( 'click', '.wpforms-dismiss-container .wpforms-dismiss-button', function( e ) {
 
 				var $this = $( this ),
 					$cont = $this.closest( '.wpforms-dismiss-container' ),
@@ -105,6 +112,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 						action: 'wpforms_education_dismiss',
 						nonce: wpforms_education.nonce,
 						section: $this.data( 'section' ),
+						page: typeof window.pagenow === 'string' ? window.pagenow : '',
 					};
 
 				if ( $cont.hasClass( 'wpforms-dismiss-out' ) ) {
@@ -155,7 +163,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {jQuery} $el Element.
 		 *
-		 * @returns {string} UTM content string.
+		 * @return {string} UTM content string.
 		 */
 		getUTMContentValue: function( $el ) {
 
@@ -225,6 +233,11 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 			// Test if the base URL already contains `?`.
 			var appendChar = /(\?)/.test( baseURL ) ? '&' : '?';
 
+			// If the upgrade link is changed by partners, appendChar has to be encoded.
+			if ( baseURL.indexOf( 'https://wpforms.com' ) === -1 ) {
+				appendChar = encodeURIComponent( appendChar );
+			}
+
 			return baseURL + appendChar + 'utm_content=' + encodeURIComponent( utmContent.trim() );
 		},
 
@@ -249,18 +262,22 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 */
 		activateModal: function( $button  ) {
 
-			var feature = $button.data( 'name' );
+			var feature = $button.data( 'name' ),
+				message = $button.data( 'message' );
+
+			const canActivateAddons = wpforms_education.can_activate_addons;
 
 			$.alert( {
 				title  : false,
-				content: wpforms_education.activate_prompt.replace( /%name%/g, feature ),
+				content: message ? message : wpforms_education.activate_prompt.replace( /%name%/g, feature ),
 				icon   : 'fa fa-info-circle',
 				type   : 'blue',
 				buttons: {
 					confirm: {
 						text    : wpforms_education.activate_confirm,
-						btnClass: 'btn-confirm',
+						btnClass: 'btn-confirm' + ( ! canActivateAddons ? ' hidden' : '' ),
 						keys    : [ 'enter' ],
+						isHidden: ! canActivateAddons,
 						action  : function() {
 
 							this.$$confirm
@@ -405,31 +422,31 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {jQuery} $button jQuery button element.
 		 */
-		installModal: function( $button ) {
-
-			var feature = $button.data( 'name' ),
-				url = $button.data( 'url' ),
-				licenseType = $button.data( 'license' );
+		installModal( $button ) {
+			const feature = $button.data( 'name' ),
+				url = $button.data( 'url' );
 
 			if ( ! url || '' === url ) {
-				app.upgradeModal( feature, '', 'Empty install URL', licenseType, '' );
+				wpf.debug( `Couldn't install the ${ feature } addon: Empty install URL.` );
 				return;
 			}
 
+			const canInstallAddons = wpforms_education.can_install_addons,
+				message = $button.data( 'message' );
+
 			$.alert( {
 				title   : false,
-				content : wpforms_education.install_prompt.replace( /%name%/g, feature ),
+				content : message ? message : wpforms_education.install_prompt.replace( /%name%/g, feature ),
 				icon    : 'fa fa-info-circle',
 				type    : 'blue',
 				boxWidth: '425px',
 				buttons : {
 					confirm: {
 						text    : wpforms_education.install_confirm,
-						btnClass: 'btn-confirm',
+						btnClass: 'btn-confirm' + ( ! canInstallAddons ? ' hidden' : '' ),
 						keys    : [ 'enter' ],
-						isHidden: ! wpforms_education.can_install_addons,
-						action  : function() {
-
+						isHidden: ! canInstallAddons,
+						action() {
 							this.$$confirm.prop( 'disabled', true )
 								.html( spinner + wpforms_education.installing );
 
@@ -519,6 +536,14 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		getUpgradeModalWidth: function( isVideoModal ) {
 
 			var windowWidth = $( window ).width();
+
+			if ( windowWidth <= 300 ) {
+				return '250px';
+			}
+
+			if ( windowWidth <= 750 ) {
+				return '350px';
+			}
 
 			if ( ! isVideoModal || windowWidth <= 1024 ) {
 				return '550px';

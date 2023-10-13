@@ -1,4 +1,4 @@
-/* global tinymce, tinyMCE, tinyMCEPreInit, wpforms_settings */
+/* global tinymce, tinyMCE, tinyMCEPreInit, wpforms_settings, wpforms */
 
 /**
  * Rich Text field.
@@ -59,6 +59,16 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 					app.validateRichTextField( editor );
 				} );
+
+				editor.on( 'focus', function( e ) {
+
+					$( e.target.editorContainer ).closest( '.wp-editor-wrap' ).addClass( 'wpforms-focused' );
+				} );
+
+				editor.on( 'blur', function( e ) {
+
+					$( e.target.editorContainer ).closest( '.wp-editor-wrap' ).removeClass( 'wpforms-focused' );
+				} );
 			} );
 
 			// Validate on mutation (insert image or any other changes).
@@ -71,19 +81,25 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 			// Init each field.
 			$document.on( 'tinymce-editor-init', function( event, editor ) {
 
-				// Body text font family.
-				editor.getDoc().body.style.fontFamily = $( 'body' ).css( 'font-family' );
+				const docStyle = editor.getDoc().body.style;
+				const $body = $( 'body' );
 
+				// Inherit body text font family.
+				docStyle.fontFamily = $body.css( 'font-family' );
+				docStyle.background = 'transparent';
+
+				app.initEditorModernMarkupMode( editor );
 				app.mediaPostIdUpdate();
 				app.observeEditorChanges( editor );
+				app.cleanImages( editor );
 
 				$document.trigger( 'wpformsRichTextEditorInit', [ editor ] );
 			} );
 
 			// Re-initialize tinyMCE in Elementor's popups.
-			$document.on( 'elementor/popup/show', function( event, id, instance ) {
+			window.addEventListener( 'elementor/popup/show', function( event ) {
 
-				app.reInitRichTextFields( instance.$element );
+				app.reInitRichTextFields( event.detail.instance.$element );
 			} );
 
 			// Set `required` property for each of the hidden editor textarea.
@@ -100,12 +116,76 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 			$document.on( 'click', '.media-modal-close, .media-modal-backdrop', app.enableAddMediaButtons );
 
 			// Closing media modal via ESC key.
-			if ( wp.media ) {
+			if ( typeof wp !== 'undefined' && typeof wp.media === 'function' ) {
 				wp.media.view.Modal.prototype.on( 'escape', function() {
 					app.enableAddMediaButtons( 'escapeEvent' );
 				} );
 			}
+
+			$document.on( 'click', '.switch-html', function() {
+
+				const $wrap = $( this ).closest( '.wp-editor-wrap' );
+
+				setTimeout( function() {
+					$wrap.find( '.wp-editor-area' ).trigger( 'focus' );
+					$wrap.addClass( 'wpforms-focused' );
+				}, 0 );
+			} );
+
+			$document.on( 'click', '.switch-tmce', function( e ) {
+
+				const $wrap = $( this ).closest( '.wp-editor-wrap' ),
+					textareaId = $wrap.find( '.wp-editor-area' ).attr( 'id' );
+
+				const editor = tinyMCE.get( textareaId );
+
+				if ( editor ) {
+					editor.focus();
+				}
+			} );
+
+			$document.on( 'focus', '.wp-editor-area', function() {
+
+				$( this ).closest( '.wp-editor-wrap' ).addClass( 'wpforms-focused' );
+			} );
+
+			$document.on( 'blur', '.wp-editor-area', function( e ) {
+
+				$( this ).closest( '.wp-editor-wrap' ).removeClass( 'wpforms-focused' );
+			} );
 		},
+
+		/**
+		 * Replace special characters in image attributes.
+		 *
+		 * @since 1.8.3
+		 * @param {object} editor TinyMCE editor instance.
+		 */
+		cleanImages: function( editor ) {
+
+			// Get TinyMCE content in raw format.
+			const content = editor.getContent( { format: 'raw' } );
+
+			// Create a temporary element to manipulate the content.
+			const imageDiv = document.createElement( 'div' );
+
+			// Set the content to the temporary element.
+			imageDiv.innerHTML = content;
+
+			// Find all the images in the content.
+			const images = imageDiv.querySelectorAll( 'img' );
+
+			// Loop through all the images.
+			for ( let i = 0; i < images.length; i++ ) {
+
+				// Replace wrong quote characters.
+				images[ i ].outerHTML = images[ i ].outerHTML.replace( /"”|”"|"″|″"/g, '"' );
+			}
+
+			// Send clean image back to TinyMCE.
+			editor.setContent( imageDiv.innerHTML );
+		},
+
 
 		/**
 		 * Add media button for WordPress 4.9.
@@ -315,6 +395,43 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 				tinymce.init( tinyMCEPreInit.mceInit[ id ] );
 			} );
+		},
+
+		/**
+		 * Initialize tinyMCE in Modern Markup mode.
+		 *
+		 * @since 1.8.1
+		 *
+		 * @param {object} editor TinyMCE editor instance.
+		 */
+		initEditorModernMarkupMode: function( editor ) {
+
+			if ( ! wpforms.isModernMarkupEnabled() || window.WPFormsEditEntry || ! window.WPForms.FrontendModern ) {
+				return;
+			}
+
+			const docStyle    = editor.getDoc().body.style;
+			const $el         = $( editor.getElement() );
+			const $field      = $el.closest( '.wpforms-field' );
+			const $form       = $el.closest( '.wpforms-form' );
+			const cssVars     = window.WPForms.FrontendModern.getCssVars( $form );
+			const inputHeight = cssVars['field-size-input-height'] ? cssVars['field-size-input-height'].replace( 'px', '' ) : 43;
+			const sizeK      = {
+				'small' : 1.80,
+				'medium': 2.79,
+				'large' : 5.12,
+			};
+
+			let fieldSize = 'medium';
+			fieldSize = $field.hasClass( 'wpforms-field-small' ) ? 'small' : fieldSize;
+			fieldSize = $field.hasClass( 'wpforms-field-large' ) ? 'large' : fieldSize;
+
+			const width  = editor.getWin().clientWidth;
+			const height = inputHeight * sizeK[ fieldSize ];
+			editor.theme.resizeTo( width, height );
+
+			docStyle.color    = cssVars['field-text-color'];
+			docStyle.fontSize = cssVars['field-size-font-size'];
 		},
 	};
 

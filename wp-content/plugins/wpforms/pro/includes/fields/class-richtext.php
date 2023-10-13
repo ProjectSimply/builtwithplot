@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Pro\Helpers\Upload;
 
 /**
@@ -77,11 +81,12 @@ class WPForms_Field_Richtext extends WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Rich Text', 'wpforms' );
-		$this->type  = 'richtext';
-		$this->icon  = 'fa-pencil-square-o';
-		$this->order = 300;
-		$this->group = 'fancy';
+		$this->name     = esc_html__( 'Rich Text', 'wpforms' );
+		$this->keywords = esc_html__( 'image, text, table, list, heading, wysiwyg, visual', 'wpforms' );
+		$this->type     = 'richtext';
+		$this->icon     = 'fa-pencil-square-o';
+		$this->order    = 133;
+		$this->group    = 'fancy';
 
 		// Init upload files helper.
 		$this->upload = new Upload();
@@ -139,6 +144,9 @@ class WPForms_Field_Richtext extends WPForms_Field {
 		add_filter( 'quicktags_settings', [ $this, 'modify_quicktags' ], 10, 2 );
 
 		add_action( 'pre_get_posts', [ $this, 'modify_attachment_query' ] );
+
+		// This field requires fieldset+legend instead of the field label.
+		add_filter( "wpforms_frontend_modern_is_field_requires_fieldset_{$this->type}", '__return_true', PHP_INT_MAX, 2 );
 	}
 
 	/**
@@ -295,6 +303,9 @@ class WPForms_Field_Richtext extends WPForms_Field {
 			$properties['container']['class'][] = 'wpforms-field-richtext-toolbar-basic';
 		}
 
+		$size                               = ! empty( $field['size'] ) ? $field['size'] : 'medium';
+		$properties['container']['class'][] = 'wpforms-field-' . $size;
+
 		return $properties;
 	}
 
@@ -439,8 +450,18 @@ class WPForms_Field_Richtext extends WPForms_Field {
 		if ( ! wp_style_is( 'editor-buttons' ) ) {
 			wp_enqueue_style(
 				'editor-buttons',
-				includes_url() . "css/editor{$min}.css",
+				includes_url( "css/editor{$min}.css" ),
 				[ 'dashicons' ]
+			);
+		}
+
+		// Make sure a copy of dashicons styles is loaded on the page globally when the admin bar
+		// is displayed. Default dashicons library with the system handle `dashicons-css` will
+		// be loaded in the markup of the Rich Text field and removed after form submission.
+		if ( is_admin_bar_showing() ) {
+			wp_enqueue_style(
+				'wpforms-dashicons',
+				includes_url( "css/dashicons{$min}.css" )
 			);
 		}
 
@@ -1095,6 +1116,10 @@ class WPForms_Field_Richtext extends WPForms_Field {
 			return $this->get_entry_single_field_value_iframe( $field );
 		}
 
+		if ( $context === 'email-html' ) {
+			return wpforms_esc_richtext_field( $field['value'] );
+		}
+
 		return wpforms_sanitize_richtext_field( $field['value'] );
 	}
 
@@ -1512,7 +1537,14 @@ class WPForms_Field_Richtext extends WPForms_Field {
 	 */
 	public function modify_quicktags( $qt_init, $editor_id ) {
 
-		if ( strpos( $editor_id, 'wpforms' ) !== 0 ) {
+		// This callback is executed for all TinyMCE editors, on the Builder page as well.
+		// First conditional check for verifying a prefix of editor ID is not enough
+		// and `link` quick buttons are removed through the Builder page.
+		// That's why we run the second conditional check.
+		if (
+			strpos( $editor_id, 'wpforms' ) !== 0 ||
+			wpforms_is_admin_page( 'builder' )
+		) {
 			return $qt_init;
 		}
 

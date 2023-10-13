@@ -2,6 +2,10 @@
 
 namespace WPForms\Logger;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WP_List_Table;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -300,18 +304,18 @@ class ListTable extends WP_List_Table {
 
 		?>
 		<div class="wpforms-admin-content-header">
-			<h3 class="wp-heading-inline"><?php esc_html_e( 'View Logs', 'wpforms-lite' ); ?>
+			<h4 class="wp-heading-inline"><?php esc_html_e( 'View Logs', 'wpforms-lite' ); ?>
 				<?php if ( $this->get_request_search_query() ) { ?>
 					<span class="subtitle">
 				<?php
-				echo sprintf( /* translators: %s: search query. */
+				echo sprintf( /* translators: %s - search query. */
 					esc_html__( 'Search results for "%s"', 'wpforms-lite' ),
 					esc_html( $this->get_request_search_query() )
 				);
 				?>
 			</span>
 				<?php } ?>
-			</h3>
+			</h4>
 			<?php
 			$this->hidden_fields();
 			$this->search_box( esc_html__( 'Search Logs', 'wpforms-lite' ), 'plugin' );

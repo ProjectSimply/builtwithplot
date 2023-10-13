@@ -76,7 +76,7 @@ class Akismet {
 		 *
 		 * @param array $field_type_allowlist Field types allowed to be sent to Akismet.
 		 */
-		return apply_filters( 'wpforms_forms_akismet_get_field_type_allowlist', $field_type_allowlist );
+		return (array) apply_filters( 'wpforms_forms_akismet_get_field_type_allowlist', $field_type_allowlist );
 	}
 
 	/**
@@ -96,14 +96,15 @@ class Akismet {
 		$entry_content        = [];
 
 		foreach ( $fields as $key => $field ) {
-			$field_type    = $field['type'];
-			$field_content = is_array( $entry['fields'][ $key ] ) ? implode( ' ', $entry['fields'][ $key ] ) : $entry['fields'][ $key ];
+			$field_type = $field['type'];
 
 			if ( ! in_array( $field_type, $field_type_allowlist, true ) ) {
 				continue;
 			}
 
-			if ( in_array( $field_type, [ 'name', 'email', 'url' ], true ) && ! isset( $entry_data[ $field_type ] ) ) {
+			$field_content = is_array( $entry['fields'][ $key ] ) ? implode( ' ', $entry['fields'][ $key ] ) : $entry['fields'][ $key ];
+
+			if ( ! isset( $entry_data[ $field_type ] ) && in_array( $field_type, [ 'name', 'email', 'url' ], true ) ) {
 				$entry_data[ $field_type ] = $field_content;
 
 				continue;
@@ -127,7 +128,7 @@ class Akismet {
 	 *
 	 * @return bool
 	 */
-	private function entry_is_spam( $form_data, $entry ) {
+	private function entry_is_spam( $form_data, $entry ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$entry_data = $this->get_entry_data( $form_data['fields'], $entry );
 		$request    = [
@@ -145,16 +146,14 @@ class Akismet {
 			'comment_content'      => isset( $entry_data['content'] ) ? $entry_data['content'] : '',
 			'blog_lang'            => get_locale(),
 			'blog_charset'         => get_bloginfo( 'charset' ),
-			'user_role'            => wp_get_current_user()->roles[0],
+			'user_role'            => AkismetPlugin::get_user_roles( get_current_user_id() ),
 			'honypot_field_name'   => 'wpforms["hp"]',
 		];
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// If we are on a form preview page, tell Akismet that this is a test submission.
-		if ( isset( $_GET['wpforms_form_preview'] ) ) {
+		if ( wpforms()->get( 'preview' )->is_preview_page() ) {
 			$request['is_test'] = true;
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$response = AkismetPlugin::http_post( build_query( $request ), 'comment-check' );
 

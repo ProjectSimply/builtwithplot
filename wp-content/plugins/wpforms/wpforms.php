@@ -3,11 +3,11 @@
  * Plugin Name:       WPForms
  * Plugin URI:        https://wpforms.com
  * Description:       Beginner friendly WordPress contact form plugin. Use our Drag & Drop form builder to create your WordPress forms.
- * Requires at least: 5.2
- * Requires PHP:      5.6
+ * Requires at least: 5.5
+ * Requires PHP:      7.0
  * Author:            WPForms
  * Author URI:        https://wpforms.com
- * Version:           1.7.6
+ * Version:           1.8.4
  * Text Domain:       wpforms-lite
  * Domain Path:       assets/languages
  *
@@ -36,7 +36,7 @@ if ( ! defined( 'WPFORMS_VERSION' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	define( 'WPFORMS_VERSION', '1.7.6' );
+	define( 'WPFORMS_VERSION', '1.8.4' );
 }
 
 // Plugin Folder Path.
@@ -145,10 +145,13 @@ if ( function_exists( 'wpforms' ) ) {
 
 			// Currently tried to activate Lite with Pro still active, so display the message.
 			printf(
-				'<div class="notice notice-warning">
-					<p>%1$s</p>
-					<p>%2$s</p>
+				'<div class="notice wpforms-notice notice-warning wpforms-license-notice" id="wpforms-notice-pro-active">
+					<h3 style="margin: .75em 0 0 0;">
+						<img src="%1$s" style="vertical-align: text-top; width: 20px; margin-right: 7px;">%2$s
+					</h3>
+					<p>%3$s</p>
 				</div>',
+				esc_url( WPFORMS_PLUGIN_URL . 'assets/images/exclamation-triangle.svg' ),
 				esc_html__( 'Heads up!', 'wpforms-lite' ),
 				esc_html__( 'Your site already has WPForms Pro activated. If you want to switch to WPForms Lite, please first go to Plugins → Installed Plugins and deactivate WPForms. Then, you can activate WPForms Lite.', 'wpforms-lite' )
 			);
@@ -166,8 +169,8 @@ if ( function_exists( 'wpforms' ) ) {
 	return;
 }
 
-// We require PHP version 5.6+ for the whole plugin to work.
-if ( version_compare( phpversion(), '5.6', '<' ) ) {
+// We require PHP version 7.0+ for the whole plugin to work.
+if ( version_compare( phpversion(), '7.0', '<' ) ) {
 
 	if ( ! function_exists( 'wpforms_php52_notice' ) ) {
 
@@ -235,8 +238,8 @@ if ( version_compare( phpversion(), '5.6', '<' ) ) {
 	return;
 }
 
-// We require WP version 5.2+ for the whole plugin to work.
-if ( version_compare( $GLOBALS['wp_version'], '5.2', '<' ) ) {
+// We require WP version 5.5+ for the whole plugin to work.
+if ( version_compare( $GLOBALS['wp_version'], '5.5', '<' ) ) {
 
 	if ( ! function_exists( 'wpforms_wp_notice' ) ) {
 
@@ -253,8 +256,8 @@ if ( version_compare( $GLOBALS['wp_version'], '5.2', '<' ) ) {
 					<?php
 					printf(
 						/* translators: %s - WordPress version. */
-						esc_html__( 'The WPForms plugin is disabled because it requires WordPress %s or greater.', 'wpforms-lite' ),
-						'5.2'
+						esc_html__( 'The WPForms plugin is disabled because it requires WordPress %s or later.', 'wpforms-lite' ),
+						'5.5'
 					);
 					?>
 				</p>

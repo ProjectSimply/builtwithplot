@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Internal information field class.
  *
@@ -131,8 +135,8 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 			echo '<div class="internal-information-content">';
 
 				$this->render_preview( 'heading', $field );
-				$this->render_preview( 'description', $field, [ 'class' => 'nl2br' ] );
-				$this->render_preview( 'expanded-description', $field, [ 'class' => 'nl2br' ] );
+				$this->render_preview( 'description', $field );
+				$this->render_preview( 'expanded-description', $field );
 
 				if ( $this->is_button_displayable( $field ) ) {
 					echo '<div class="wpforms-field-internal-information-row wpforms-field-internal-information-row-cta-button">';
@@ -273,7 +277,7 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 			[
 				'slug'    => 'cta-label',
 				'value'   => esc_html__( 'CTA Label', 'wpforms-lite' ),
-				'tooltip' => esc_attr__( 'Enter label for the form field call to action label. The label will be ignored if the field has extended description content: in that case button will be used to expand the description content.', 'wpforms-lite' ),
+				'tooltip' => esc_attr__( 'Enter label for the form field call to action button. The label will be ignored if the field has extended description content: in that case button will be used to expand the description content.', 'wpforms-lite' ),
 			],
 			false
 		);
@@ -400,15 +404,15 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 
 			case 'description': // phpcs:ignore WPForms.Formatting.Switch.AddEmptyLineBefore
 				$description = isset( $field['description'] ) && ! empty( $field['description'] ) ? wp_kses( $field['description'], $allowed_tags ) : '';
-				$description = $this->replace_checkboxes( $description, $field );
-				$description = strpos( $class, 'nl2br' ) !== false ? wpautop( $description ) : $description;
+				$description = wpautop( $this->replace_checkboxes( $description, $field ) );
+				$description = $this->add_link_attributes( $description );
 
 				return sprintf( '<div class="description %s">%s</div>', $class, $description );
 
 			case 'expanded-description': // phpcs:ignore WPForms.Formatting.Switch.AddEmptyLineBefore
 				$description = isset( $field['expanded-description'] ) && ! wpforms_is_empty_string( $field['expanded-description'] ) ? wp_kses( $field['expanded-description'], $allowed_tags ) : '';
-				$description = $this->replace_checkboxes( $description, $field );
-				$description = strpos( $class, 'nl2br' ) !== false ? wpautop( $description ) : $description;
+				$description = wpautop( $this->replace_checkboxes( $description, $field ) );
+				$description = $this->add_link_attributes( $description );
 
 				return sprintf( '<div class="expanded-description %s">%s</div>', esc_attr( $class ), wp_kses( $description, $allowed_tags ) );
 
@@ -622,9 +626,16 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 		$min = wpforms_get_min_suffix();
 
 		wp_enqueue_script(
+			'wpforms-md5-hash',
+			WPFORMS_PLUGIN_URL . 'assets/lib/md5.min.js',
+			[ 'wpforms-builder' ],
+			'2.19.0'
+		);
+
+		wp_enqueue_script(
 			'wpforms-internal-information-field',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/fields/internal-information-field{$min}.js",
-			[ 'wpforms-builder' ],
+			[ 'wpforms-builder', 'wpforms-md5-hash', 'wpforms-builder-drag-fields' ],
 			WPFORMS_VERSION
 		);
 	}
@@ -777,6 +788,51 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 		];
 
 		return $allowed_tags;
+	}
+
+	/**
+	 * Adds link parameters to all links in the provided content.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param string $content The content to modify.
+	 *
+	 * @return string The modified content with UTM parameters added to links.
+	 */
+	private function add_link_attributes( $content ) {
+
+		if ( empty( $content ) || ! class_exists( 'DOMDocument' ) ) {
+			return $content;
+		}
+
+		$dom           = new DOMDocument();
+		$form_data     = wpforms()->get( 'form' )->get( $this->form_id, [ 'content_only' => true ] );
+		$template_data = ! empty( $form_data['meta'] ) ? wpforms()->get( 'builder_templates' )->get_template( $form_data['meta']['template'] ) : [];
+		$template_name = ! empty( $template_data ) ? $template_data['name'] : '';
+
+		$dom->loadHTML( htmlspecialchars_decode( htmlentities( $content ) ) );
+
+		$links = $dom->getElementsByTagName( 'a' );
+
+		foreach ( $links as $link ) {
+			$href          = $link->getAttribute( 'href' );
+			$text          = $link->textContent; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$modified_href = wpforms_utm_link( $href, 'Form Template Information Note', $template_name, $text );
+
+			$link->setAttribute( 'href', $modified_href );
+			$link->setAttribute( 'target', '_blank' );
+			$link->setAttribute( 'rel', 'noopener noreferrer' );
+		}
+
+		// Remove the wrapper elements.
+		$body       = $dom->getElementsByTagName( 'body' )->item( 0 );
+		$inner_html = '';
+
+		foreach ( $body->childNodes as $node ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$inner_html .= $dom->saveHTML( $node );
+		}
+
+		return $inner_html;
 	}
 
 	/**

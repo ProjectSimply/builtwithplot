@@ -34,6 +34,8 @@ class Export {
 			'html',
 			'pagebreak',
 			'internal-information',
+			'content',
+			'layout',
 		],
 	];
 
@@ -44,7 +46,7 @@ class Export {
 	 *
 	 * @var array
 	 */
-	public $i18n = array();
+	public $i18n = [];
 
 	/**
 	 * Error messages.
@@ -53,7 +55,7 @@ class Export {
 	 *
 	 * @var array
 	 */
-	public $errors = array();
+	public $errors = [];
 
 	/**
 	 * Additional Information checkboxes.
@@ -62,7 +64,7 @@ class Export {
 	 *
 	 * @var array
 	 */
-	public $additional_info_fields = array();
+	public $additional_info_fields = [];
 
 	/**
 	 * Type checkboxes.
@@ -80,14 +82,14 @@ class Export {
 	 *
 	 * @var array
 	 */
-	public $data = array();
+	public $data = [];
 
 	/**
 	 * Instance of Admin Object.
 	 *
 	 * @since 1.5.5
 	 *
-	 * @var \WPForms\Pro\Admin\Entries\Export\Admin
+	 * @var Admin
 	 */
 	public $admin;
 
@@ -96,7 +98,7 @@ class Export {
 	 *
 	 * @since 1.5.5
 	 *
-	 * @var \WPForms\Pro\Admin\Entries\Export\Ajax
+	 * @var Ajax
 	 */
 	public $ajax;
 
@@ -105,7 +107,7 @@ class Export {
 	 *
 	 * @since 1.5.5
 	 *
-	 * @var \WPForms\Pro\Admin\Entries\Export\File
+	 * @var File
 	 */
 	public $file;
 
@@ -149,7 +151,7 @@ class Export {
 			'entry_id'   => esc_html__( 'Entry ID', 'wpforms' ),
 			'date'       => esc_html__( 'Entry Date', 'wpforms' ),
 			'notes'      => esc_html__( 'Entry Notes', 'wpforms' ),
-			'status'     => esc_html__( 'Entry Status', 'wpforms' ),
+			'status'     => esc_html__( 'Type', 'wpforms' ),
 			'viewed'     => esc_html__( 'Viewed', 'wpforms' ),
 			'starred'    => esc_html__( 'Starred', 'wpforms' ),
 			'user_agent' => esc_html__( 'User Agent', 'wpforms' ),
@@ -189,16 +191,16 @@ class Export {
 
 		// Error strings.
 		$this->errors = [
-			'common'            => esc_html__( 'There were problems while preparing your export file. Please recheck export settings and try again.', 'wpforms' ),
-			'security'          => esc_html__( 'You don\'t have enough capabilities to complete this request.', 'wpforms' ),
-			'unknown_form_id'   => esc_html__( 'Incorrect form ID has been specified.', 'wpforms' ),
-			'unknown_entry_id'  => esc_html__( 'Incorrect entry ID has been specified.', 'wpforms' ),
-			'form_data'         => esc_html__( 'Specified form seems to be broken.', 'wpforms' ),
-			'unknown_request'   => esc_html__( 'Unknown request.', 'wpforms' ),
-			'file_not_readable' => esc_html__( 'Export file cannot be retrieved from a file system.', 'wpforms' ),
-			'file_empty'        => esc_html__( 'Export file is empty.', 'wpforms' ),
-			'form_empty'        => esc_html__( 'The form does not have any fields for export.', 'wpforms' ),
-			'no_direct_access'  => esc_html__( 'We need direct access to the filesystem for export.', 'wpforms' ),
+			'common'                     => esc_html__( 'There were problems while preparing your export file. Please recheck export settings and try again.', 'wpforms' ),
+			'security'                   => esc_html__( 'You don\'t have enough capabilities to complete this request.', 'wpforms' ),
+			'unknown_form_id'            => esc_html__( 'Incorrect form ID has been specified.', 'wpforms' ),
+			'unknown_entry_id'           => esc_html__( 'Incorrect entry ID has been specified.', 'wpforms' ),
+			'form_data'                  => esc_html__( 'Specified form seems to be broken.', 'wpforms' ),
+			'unknown_request'            => esc_html__( 'Unknown request.', 'wpforms' ),
+			'file_not_readable'          => esc_html__( 'Export file cannot be retrieved from a file system.', 'wpforms' ),
+			'file_empty'                 => esc_html__( 'Export file is empty.', 'wpforms' ),
+			'form_empty'                 => esc_html__( 'The form does not have any fields for export.', 'wpforms' ),
+			'file_system_not_configured' => esc_html__( 'File system is not configured.', 'wpforms' ),
 		];
 
 		// Strings to localize.
@@ -250,7 +252,7 @@ class Export {
 
 			$this->configuration['csv_export_separator'] = (string) apply_filters_deprecated(
 				'wpforms_csv_export_separator',
-				array( $this->configuration['csv_export_separator'] ),
+				[ $this->configuration['csv_export_separator'] ],
 				'1.5.5 of the WPForms plugin',
 				'wpforms_pro_admin_entries_export_configuration'
 			);
@@ -271,14 +273,14 @@ class Export {
 	 */
 	public function get_localized_data() {
 
-		return array(
+		return [
 			'nonce'       => wp_create_nonce( 'wpforms-tools-entries-export-nonce' ),
 			'lang_code'   => sanitize_key( wpforms_get_language_code() ),
 			'export_page' => esc_url( admin_url( 'admin.php?page=wpforms-tools&view=export' ) ),
 			'i18n'        => $this->i18n,
 			'form_id'     => ! empty( $this->data['form_data'] ) ? $this->data['get_args']['form_id'] : 0,
 			'dates'       => $this->data['get_args']['dates'],
-		);
+		];
 	}
 
 	/**
@@ -397,12 +399,27 @@ class Export {
 	 */
 	protected function init_form_data() {
 
-		$this->data['form_data'] = wpforms()->form->get(
-			$this->data['get_args']['form_id'],
-			array(
-				'content_only' => true,
-				'cap'          => 'view_entries_form_single',
-			)
+		$form = wpforms()->get( 'form' );
+		$data = $form ?
+			$form->get(
+				$this->data['get_args']['form_id'],
+				[
+					'content_only' => true,
+					'cap'          => 'view_entries_form_single',
+				]
+			) :
+			[];
+
+		/**
+		 * Filter entries during form data init.
+		 *
+		 * @since 1.8.2
+		 *
+		 * @param array $form_data Form data.
+		 */
+		$this->data['form_data'] = apply_filters(
+			'wpforms_pro_admin_entries_export_form_data',
+			$data
 		);
 	}
 

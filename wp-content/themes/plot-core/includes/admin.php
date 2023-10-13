@@ -851,7 +851,7 @@
 
 
         public function adminStyle() {
-          wp_enqueue_style('admin-styles', get_template_directory_uri().'/assets/css/admin.css');
+          wp_enqueue_style('admin-styles', get_template_directory_uri() . "/assets/css/admin.css?v=" . date('ymdhis') );
           wp_enqueue_style('fieldwork-fonts', 'https://use.typekit.net/ocm4gqo.css');
           wp_enqueue_style('jquery-ui-styles','//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
           

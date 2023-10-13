@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use WPForms\Admin\Notice;
 use WPForms\Pro\Admin\Entries\Helpers;
 
 /**
@@ -81,6 +86,16 @@ class WPForms_Entries_List {
 	 */
 	public function __construct() {
 
+		$this->hooks();
+	}
+
+	/**
+	 * Register hooks.
+	 *
+	 * @since 1.8.2.3
+	 */
+	private function hooks() {
+
 		// Maybe load entries page.
 		add_action( 'admin_init', [ $this, 'init' ] );
 
@@ -104,15 +119,19 @@ class WPForms_Entries_List {
 	public function init() { // phpcs:disable WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		// Only load if we are actually on the overview page.
-		if ( ! wpforms_is_admin_page( 'entries' ) || $this->get_current_screen_view() !== 'list' ) {
+		if ( ! wpforms_is_admin_page( 'entries', 'list' ) ) {
 			return;
 		}
 
 		$form_id = $this->get_filtered_form_id();
 
-		// Init default entries screen.
-		if ( empty( $form_id ) || ! wpforms_current_user_can( 'view_entries_form_single', $form_id ) ) {
-			return;
+		if ( empty( $form_id ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=wpforms-entries' ) );
+			exit;
+		}
+
+		if ( ! wpforms_current_user_can( 'view_entries_form_single', $form_id ) ) {
+			wp_die( esc_html__( 'You do not have permission to view this form\'s entries.', 'wpforms' ), 403 );
 		}
 
 		$form = wpforms()->get( 'form' )->get( $form_id );
@@ -206,20 +225,6 @@ class WPForms_Entries_List {
 	}
 
 	/**
-	 * Get the current Entries view: 'list' or 'details'.
-	 *
-	 * @since 1.4.4
-	 *
-	 * @return string
-	 */
-	protected function get_current_screen_view() {
-
-		$view = ! empty( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'list'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-		return apply_filters( 'wpforms_entries_list_get_current_screen_view', $view );
-	}
-
-	/**
 	 * Add per-page screen option to the Entries table.
 	 *
 	 * @since 1.0.0
@@ -228,34 +233,43 @@ class WPForms_Entries_List {
 
 		$screen = get_current_screen();
 
-		if ( 'wpforms_page_wpforms-entries' !== $screen->id ) {
+		if ( $screen === null || $screen->id !== 'wpforms_page_wpforms-entries' ) {
 			return;
 		}
 
-		add_screen_option(
-			'per_page',
-			array(
+		/**
+		 * Filter admin screen option arguments.
+		 *
+		 * @since 1.8.2
+		 *
+		 * @param array $args Option-dependent arguments.
+		 */
+		$args = (array) apply_filters(
+			'wpforms_entries_list_default_screen_option_args',
+			[
 				'label'   => esc_html__( 'Number of entries per page:', 'wpforms' ),
 				'option'  => 'wpforms_entries_per_page',
-				'default' => wpforms()->entry->get_count_per_page(),
-			)
+				'default' => wpforms()->get( 'entry' )->get_count_per_page(),
+			]
 		);
+
+		add_screen_option( 'per_page', $args );
 	}
 
 	/**
-	 * Entries table per-page screen option value
+	 * Entries table per-page screen option value.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed $status
-	 * @param string $option
-	 * @param mixed $value
+	 * @param mixed  $status Status.
+	 * @param string $option Options.
+	 * @param mixed  $value  Value.
 	 *
 	 * @return mixed
 	 */
 	public function screen_options_set( $status, $option, $value ) {
 
-		if ( 'wpforms_entries_per_page' === $option ) {
+		if ( $option === 'wpforms_entries_per_page' ) {
 			return $value;
 		}
 
@@ -320,9 +334,11 @@ class WPForms_Entries_List {
 			return;
 		}
 		require_once WPFORMS_PLUGIN_DIR . 'pro/includes/admin/entries/class-entries-export.php';
+
 		$export             = new WPForms_Entries_Export();
 		$export->entry_type = 'all';
 		$export->form_id    = $form_id;
+
 		$export->export();
 	}
 
@@ -346,11 +362,11 @@ class WPForms_Entries_List {
 
 		wpforms()->entry->mark_all_read( $form_id );
 
-		$this->alerts[] = array(
+		$this->alerts[] = [
 			'type'    => 'success',
 			'message' => esc_html__( 'All entries marked as read.', 'wpforms' ),
 			'dismiss' => true,
-		);
+		];
 	}
 
 	/**
@@ -426,31 +442,55 @@ class WPForms_Entries_List {
 		}
 
 		// Check if entries filtered.
+		// This also checks if there's entry ids provided. See: FilterSearch Trait.
 		if ( ! empty( $this->filter['entry_id'] ) ) {
 			array_map( [ WPForms_Field_File_Upload::class, 'delete_uploaded_files_from_entry' ], $this->filter['entry_id'] );
-			$deleted = wpforms()->entry->delete_where_in( 'entry_id', $this->filter['entry_id'] );
+			$deleted = wpforms()->entry->delete_where_in( 'entry_id', $this->filter['entry_id'] ) ? 1 : 0;
+
 			wpforms()->entry_meta->delete_where_in( 'entry_id', $this->filter['entry_id'] );
 			wpforms()->entry_fields->delete_where_in( 'entry_id', $this->filter['entry_id'] );
 
 		} else {
-			$entries = wpforms()->entry->get_entries(
-				[
-					'select'  => 'entry_ids',
-					'form_id' => $form_id,
-				]
-			);
+			// Default args to find entries.
+			$args = [
+				'form_id' => $form_id,
+				'select'  => 'entry_ids',
+			];
 
-			array_map( [ WPForms_Field_File_Upload::class, 'delete_uploaded_files_from_entry' ], array_column( $entries, 'entry_id' ) );
-			$deleted = wpforms()->entry->delete_by( 'form_id', $form_id );
-			wpforms()->entry_meta->delete_by( 'form_id', $form_id );
-			wpforms()->entry_fields->delete_by( 'form_id', $form_id );
-			$deleted = $deleted ? - 1 : 0;
+			// Apply the date filter if set.
+			if ( ! empty( $this->filter['date'] ) ) {
+				$args['date'] = $this->filter['date'];
+			}
+
+			// Get entries.
+			$entries = wpforms()->entry->get_entries( $args );
+
+			// Delete all the entries in respect to the filter applied.
+			if ( $this->is_list_filtered() && ! empty( $entries ) ) {
+				$deleted = 0;
+
+				foreach ( $entries as $entry ) {
+
+					// Don't need to delete meta as this method will delete everything related to the entry.
+					if ( wpforms()->entry->delete( $entry->entry_id ) ) {
+						$deleted++; // Count for notice.
+					}
+				}
+			} else {
+				// If no filter is applied delete directly by form ID.
+				array_map( [ WPForms_Field_File_Upload::class, 'delete_uploaded_files_from_entry' ], array_column( $entries, 'entry_id' ) );
+				$deleted = wpforms()->entry->delete_by( 'form_id', $form_id ) ? 1 : 0;
+
+				wpforms()->entry_meta->delete_by( 'form_id', $form_id );
+				wpforms()->entry_fields->delete_by( 'form_id', $form_id );
+			}
+
+			$deleted = $deleted ? $deleted : 0;
 		}
 
 		$redirect_url = ! empty( $_GET['url'] ) ? add_query_arg( 'deleted', $deleted, esc_url_raw( wp_unslash( $_GET['url'] ) ) ) : '';
 
 		WPForms\Pro\Admin\DashboardWidget::clear_widget_cache();
-		WPForms\Pro\Admin\Entries\DefaultScreen::clear_widget_cache();
 
 		wp_send_json_success( $redirect_url );
 	}
@@ -525,7 +565,7 @@ class WPForms_Entries_List {
 			$field            = ! empty( $advanced_options[ $field ] ) ? $advanced_options[ $field ] : __( 'any form field', 'wpforms' );
 		}
 
-		return sprintf( /* translators: 1: field name, 2: operation, 3: term */
+		return sprintf( /* translators: %1$s - field name, %2$s - operation, %3$s term. */
 			__( 'where %1$s %2$s "%3$s"', 'wpforms' ),
 			'<em>' . esc_html( $field ) . '</em>',
 			esc_html( $comparison ),
@@ -554,7 +594,7 @@ class WPForms_Entries_List {
 	}
 
 	/**
-	 * Return an array with information (HTML and id) for each filter for this current view
+	 * Return an array with information (HTML and id) for each filter for this current view.
 	 *
 	 * @since 1.6.3
 	 *
@@ -581,14 +621,14 @@ class WPForms_Entries_List {
 
 			switch ( count( $dates ) ) {
 				case 1:
-					$html = sprintf( /* translators: %s: Date */
+					$html = sprintf( /* translators: %s: date. */
 						esc_html__( 'on %s', 'wpforms' ),
 						'<em>' . $dates[0] . '</em>'
 					);
 					break;
 
 				case 2:
-					$html = sprintf( /* translators: 1: Date 2: Date */
+					$html = sprintf( /* translators: %1$s - date, %2$s - date. */
 						esc_html__( 'between %1$s and %2$s', 'wpforms' ),
 						'<em>' . $dates[0] . '</em>',
 						'<em>' . $dates[1] . '</em>'
@@ -655,28 +695,28 @@ class WPForms_Entries_List {
 		// Check that the user has created at least one form.
 		if ( empty( $this->forms ) ) {
 
-			$this->alerts[] = array(
+			$this->alerts[] = [
 				'type'    => 'info',
 				'message' =>
 					sprintf(
 						wp_kses(
 							/* translators: %s - WPForms Builder page. */
 							__( 'Whoops, you haven\'t created a form yet. Want to <a href="%s">give it a go</a>?', 'wpforms' ),
-							array(
-								'a' => array(
-									'href' => array(),
-								),
-							)
+							[
+								'a' => [
+									'href' => [],
+								],
+							]
 						),
 						admin_url( 'admin.php?page=wpforms-builder' )
 					),
 				'abort'   => true,
-			);
+			];
 
 		} else {
 			$form_id       = $this->get_filtered_form_id();
 			$this->form_id = $form_id ? $form_id : apply_filters( 'wpforms_entry_list_default_form_id', absint( $this->forms[0]->ID ) );
-			$this->form    = wpforms()->form->get( $this->form_id, array( 'cap' => 'view_entries_form_single' ) );
+			$this->form    = wpforms()->form->get( $this->form_id, [ 'cap' => 'view_entries_form_single' ] );
 		}
 	}
 
@@ -718,9 +758,24 @@ class WPForms_Entries_List {
 		}
 
 		$form_data = ! empty( $this->form->post_content ) ? wpforms_decode( $this->form->post_content ) : '';
+
+		/**
+		 * Filter the list all wrap classes.
+		 *
+		 * @since 1.8.3
+		 *
+		 * @param array $classes List all wrap classes.
+		 */
+		$classes = apply_filters(
+			'wpforms_entries_list_list_all_wrap_classes',
+			[
+				'wrap',
+				'wpforms-admin-wrap',
+			]
+		);
 		?>
 
-		<div id="wpforms-entries-list" class="wrap wpforms-admin-wrap">
+		<div id="wpforms-entries-list" class="<?php echo wpforms_sanitize_classes( $classes, true ); ?>">
 
 			<h1 class="page-title"><?php esc_html_e( 'Entries', 'wpforms' ); ?></h1>
 
@@ -733,12 +788,19 @@ class WPForms_Entries_List {
 			$last_entry = wpforms()->get( 'entry' )->get_last( $this->form_id );
 			?>
 
+			<?php $this->entries_disabled_notice(); ?>
+
 			<div class="wpforms-admin-content">
 
 			<?php
 
+			// Show empty entries table after delete bulk action.
+			$is_deleted = isset( $_REQUEST['deleted'] ) && $_REQUEST['deleted'] === '1'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
 			if (
 				empty( $this->entries->items ) &&
+				$this->entries->counts['spam'] === 0 &&
+				! $is_deleted &&
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				! isset( $_GET['search'] ) && ! isset( $_GET['date'] ) && ! isset( $_GET['type'] ) && ! isset( $_GET['status'] )
 			) {
@@ -748,7 +810,9 @@ class WPForms_Entries_List {
 				echo wpforms_render(
 					'admin/empty-states/no-entries',
 					[
-						'message' => __( 'It looks like you don\'t have any form entries just yet - check back soon!', 'wpforms' ),
+						'message' => ! empty( $this->entries->form_data['settings']['disable_entries'] )
+							? __( 'Storing entry information has been disabled for this form.', 'wpforms' )
+							: __( 'It looks like you don\'t have any form entries just yet - check back soon!', 'wpforms' ),
 					],
 					true
 				);
@@ -763,6 +827,9 @@ class WPForms_Entries_List {
 				 * @param WPForms_Entries_List $entries_list WPForms_Entries_List class instance.
 				 */
 				do_action( 'wpforms_entry_list_title', $form_data, $this );
+
+				// Are we on the "Spam" tab?
+				$is_spam = isset( $_GET['status'] ) && $_GET['status'] === 'spam'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			?>
 
 				<form id="wpforms-entries-table" method="GET"
@@ -781,7 +848,7 @@ class WPForms_Entries_List {
 										absint( count( $this->entries->items ) ),
 										'wpforms'
 									),
-									absint( $this->entries->counts['total'] )
+									$is_spam ? absint( $this->entries->counts['spam'] ) : absint( $this->entries->counts['total'] )
 								),
 								[
 									'strong' => [],
@@ -804,6 +871,10 @@ class WPForms_Entries_List {
 					<input type="hidden" name="page" value="wpforms-entries" />
 					<input type="hidden" name="view" value="list" />
 					<input type="hidden" name="form_id" value="<?php echo absint( $this->form_id ); ?>" />
+
+					<?php if ( $is_spam ) : ?>
+						<input type="hidden" name="status" value="spam" />
+					<?php endif; ?>
 
 					<?php $this->entries->views(); ?>
 
@@ -881,7 +952,7 @@ class WPForms_Entries_List {
 					}
 					?>
 				</p>
-				<select name="fields[]" multiple>
+				<select name="fields[]" multiple size="1">
 					<option value="" placeholder><?php esc_html_e( 'Select columns&hellip;', 'wpforms' ); ?></option>
 					<?php
 					/*
@@ -940,6 +1011,7 @@ class WPForms_Entries_List {
 
 							if ( ! in_array( $field['type'], WPForms_Entries_Table::get_columns_form_disallowed_fields(), true ) ) {
 								$name = isset( $field['label'] ) && ! wpforms_is_empty_string( trim( $field['label'] ) ) ? wp_strip_all_tags( $field['label'] ) : sprintf( /* translators: %d - field ID. */ __( 'Field #%d', 'wpforms' ), absint( $id ) );
+
 								printf( '<option value="%d">%s</option>', (int) $id, esc_html( $name ) );
 							}
 						}
@@ -962,23 +1034,34 @@ class WPForms_Entries_List {
 	public function list_form_actions( $form_data ) {
 
 		$base = add_query_arg(
-			array(
+			[
 				'page'    => 'wpforms-entries',
 				'view'    => 'list',
 				'form_id' => absint( $this->form_id ),
-			),
+			],
 			admin_url( 'admin.php' )
 		);
 
 		// Edit Form URL.
 		$edit_url = add_query_arg(
-			array(
+			[
 				'page'    => 'wpforms-builder',
 				'view'    => 'fields',
 				'form_id' => absint( $this->form_id ),
-			),
+			],
 			admin_url( 'admin.php' )
 		);
+
+		// Payments URL.
+		if ( wpforms()->get( 'payment' )->get_by( 'form_id', $this->form_id ) ) {
+			$payments_url = add_query_arg(
+				[
+					'page'    => 'wpforms-payments',
+					'form_id' => absint( $this->form_id ),
+				],
+				admin_url( 'admin.php' )
+			);
+		}
 
 		// Preview Entry URL.
 		$preview_url = esc_url( wpforms_get_form_preview_url( $this->form_id ) );
@@ -1000,9 +1083,9 @@ class WPForms_Entries_List {
 		// Mark Read URL.
 		$read_url = wp_nonce_url(
 			add_query_arg(
-				array(
+				[
 					'action' => 'markread',
-				),
+				],
 				$base
 			),
 			'wpforms_entry_list_markread'
@@ -1019,14 +1102,14 @@ class WPForms_Entries_List {
 
 			$form_title = ! empty( $form )
 				? $form->post_title
-				: sprintf( /* translators: %d - form id. */
+				: sprintf( /* translators: %d - form ID. */
 					esc_html__( 'Form (#%d)', 'wpforms' ),
 					$this->form_id
 				);
 		}
 		?>
 
-		<div class="form-details wpforms-clear">
+		<div class="form-details">
 
 			<span class="form-details-sub"><?php esc_html_e( 'Select Form', 'wpforms' ); ?></span>
 
@@ -1046,14 +1129,21 @@ class WPForms_Entries_List {
 					</a>
 				<?php endif; ?>
 
-				<?php if ( \wpforms_current_user_can( 'edit_form_single', $this->form_id ) ) : ?>
+				<?php if ( isset( $payments_url ) ) : ?>
+					<a href="<?php echo esc_url( $payments_url ); ?>" class="form-details-actions-view-payments">
+						<span class="fa fa-credit-card"></span>
+						<?php esc_html_e( 'View Payments', 'wpforms' ); ?>
+					</a>
+				<?php endif; ?>
+
+				<?php if ( wpforms_current_user_can( 'edit_form_single', $this->form_id ) ) : ?>
 					<a href="<?php echo esc_url( $edit_url ); ?>" class="form-details-actions-edit">
 						<span class="dashicons dashicons-edit"></span>
 						<?php esc_html_e( 'Edit This Form', 'wpforms' ); ?>
 					</a>
 				<?php endif; ?>
 
-				<?php if ( \wpforms_current_user_can( 'view_form_single', $this->form_id ) ) : ?>
+				<?php if ( wpforms_current_user_can( 'view_form_single', $this->form_id ) ) : ?>
 					<a href="<?php echo esc_url( $preview_url ); ?>" class="form-details-actions-preview" target="_blank" rel="noopener noreferrer">
 						<span class="dashicons dashicons-visibility"></span>
 						<?php esc_html_e( 'Preview Form', 'wpforms' ); ?>
@@ -1071,7 +1161,7 @@ class WPForms_Entries_List {
 					<?php esc_html_e( 'Mark All Read', 'wpforms' ); ?>
 				</a>
 
-				<?php if ( \wpforms_current_user_can( 'delete_entries_form_single', $this->form_id ) ) : ?>
+				<?php if ( wpforms_current_user_can( 'delete_entries_form_single', $this->form_id ) ) : ?>
 					<a href="<?php echo esc_url( $delete_url ); ?>" class="form-details-actions-deleteall">
 						<span class="dashicons dashicons-trash"></span>
 						<?php esc_html_e( 'Delete All', 'wpforms' ); ?>
@@ -1107,13 +1197,14 @@ class WPForms_Entries_List {
 					<?php
 					foreach ( $this->forms as $key => $form ) {
 						$form_url = add_query_arg(
-							array(
+							[
 								'page'    => 'wpforms-entries',
 								'view'    => 'list',
 								'form_id' => absint( $form->ID ),
-							),
+							],
 							admin_url( 'admin.php' )
 						);
+
 						echo '<li><a href="' . esc_url( $form_url ) . '">' . esc_html( $form->post_title ) . '</a></li>';
 					}
 					?>
@@ -1138,7 +1229,7 @@ class WPForms_Entries_List {
 		foreach ( $this->alerts as $alert ) {
 			$type = ! empty( $alert['type'] ) ? $alert['type'] : 'info';
 
-			\WPForms\Admin\Notice::add( $alert['message'], $type );
+			Notice::add( $alert['message'], $type );
 
 			if ( ! empty( $alert['abort'] ) ) {
 				$this->abort = true;
@@ -1154,8 +1245,8 @@ class WPForms_Entries_List {
 	 * @since 1.1.6
 	 * @deprecated 1.6.7.1
 	 *
-	 * @param string $display
-	 * @param bool $wrap
+	 * @param string $display Notice text.
+	 * @param bool   $wrap    Whether wrap it or not.
 	 */
 	public function display_alerts( $display = '', $wrap = false ) {
 
@@ -1167,7 +1258,7 @@ class WPForms_Entries_List {
 		} else {
 
 			if ( empty( $display ) ) {
-				$display = array( 'error', 'info', 'warning', 'success' );
+				$display = [ 'error', 'info', 'warning', 'success' ];
 			} else {
 				$display = (array) $display;
 			}
@@ -1202,6 +1293,7 @@ class WPForms_Entries_List {
 					}
 					if ( ! empty( $alert['abort'] ) ) {
 						$this->abort = true;
+
 						break;
 					}
 				}
@@ -1222,7 +1314,7 @@ class WPForms_Entries_List {
 	 */
 	public function heartbeat_new_entries_check( $response, $data, $screen_id ) {
 
-		if ( 'wpforms_page_wpforms-entries' !== $screen_id ) {
+		if ( $screen_id !== 'wpforms_page_wpforms-entries' ) {
 			return $response;
 		}
 
@@ -1233,13 +1325,13 @@ class WPForms_Entries_List {
 			return $response;
 		}
 
-		$entries_count = wpforms()->entry->get_next_count( $entry_id, $form_id );
+		$entries_count = wpforms()->get( 'entry' )->get_next_count( $entry_id, $form_id, '' );
 
 		if ( empty( $entries_count ) ) {
 			return $response;
 		}
 
-		/* translators: %d - Number of form entries. */
+		/* translators: %d - number of form entries. */
 		$response['wpforms_new_entries_notification'] = esc_html( sprintf( _n( 'See %d new entry', 'See %d new entries', $entries_count, 'wpforms' ), $entries_count ) );
 
 		return $response;
@@ -1259,6 +1351,7 @@ class WPForms_Entries_List {
 		$strings['lang_code']    = sanitize_key( wpforms_get_language_code() );
 		$strings['default_date'] = [];
 		$dates                   = $this->get_filtered_dates();
+
 		if ( $dates ) {
 			if ( count( $dates ) === 1 ) {
 				$dates[1] = $dates[0];
@@ -1267,6 +1360,35 @@ class WPForms_Entries_List {
 		}
 
 		return $strings;
+	}
+
+	/**
+	 * Display info notice for forms that have entries and disable_entries setting.
+	 *
+	 * The entries list isn't available when register_alerts runs.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @return void
+	 */
+	protected function entries_disabled_notice() {
+
+		if (
+			empty( $this->entries->form_data['settings']['disable_entries'] )
+			|| empty( $this->entries->items )
+		) {
+			return;
+		}
+
+		?>
+
+		<div class="notice wpforms-notice notice-info" style="display: block;">
+			<p>
+				<?php esc_html_e( 'Storing entry information has been disabled for this form.', 'wpforms' ); ?>
+			</p>
+		</div>
+
+		<?php
 	}
 }
 

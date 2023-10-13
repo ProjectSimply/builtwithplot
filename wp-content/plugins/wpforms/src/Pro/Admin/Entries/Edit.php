@@ -160,8 +160,15 @@ class Edit {
 			return;
 		}
 
+		$entry_id = isset( $_GET['entry_id'] ) ? absint( $_GET['entry_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+
+		if ( empty( $entry_id ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=wpforms-entries' ) );
+			exit;
+		}
+
 		// Entry processing and setup.
-		add_action( 'wpforms_entries_init', [ $this, 'setup' ], 10, 1 );
+		add_action( 'wpforms_entries_init', [ $this, 'setup' ] );
 
 		do_action( 'wpforms_entries_init', 'edit' );
 
@@ -249,7 +256,7 @@ class Edit {
 		// Frontend form base styles.
 		wp_enqueue_style(
 			'wpforms-base',
-			WPFORMS_PLUGIN_URL . 'assets/css/wpforms-base.css',
+			WPFORMS_PLUGIN_URL . 'assets/css/frontend/classic/wpforms-base.css',
 			[],
 			WPFORMS_VERSION
 		);
@@ -392,14 +399,6 @@ class Edit {
 	 * @since 1.6.0
 	 */
 	public function setup() {
-
-		// No entry ID was provided, abort.
-		if ( empty( $_GET['entry_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->abort_message = esc_html__( 'It looks like the provided entry ID isn\'t valid.', 'wpforms' );
-			$this->abort         = true;
-
-			return;
-		}
 
 		// Find the entry.
 		// phpcs:ignore WordPress.Security.NonceVerification
@@ -553,11 +552,13 @@ class Edit {
 		];
 		?>
 
-		<div id="wpforms-entries-single" class="wrap wpforms-admin-wrap">
+		<div id="wpforms-entries-single" class="wrap wpforms-admin-wrap wpforms-entries-single-edit">
 
 			<h1 class="page-title">
 				<?php esc_html_e( 'Edit Entry', 'wpforms' ); ?>
-				<a href="<?php echo esc_url( $view_entry_url ); ?>" class="add-new-h2 wpforms-btn-orange"><?php esc_html_e( 'Back to Entry', 'wpforms' ); ?></a>
+				<a href="<?php echo esc_url( $view_entry_url ); ?>" class="page-title-action wpforms-btn wpforms-btn-orange" data-action="back">
+					<span class="page-title-action-text"><?php esc_html_e( 'Back to Entry', 'wpforms' ); ?></span>
+				</a>
 			</h1>
 
 			<div class="wpforms-admin-content">
@@ -755,29 +756,8 @@ class Edit {
 		// Add properties to the field.
 		$field['properties'] = wpforms()->frontend->get_field_properties( $field, $form_data );
 
-		/**
-		 * Is the field editable?
-		 *
-		 * @since 1.5.9.5
-		 * @since 1.6.8.1 Added $entry_fields and $form_data arguments.
-		 *
-		 * @param bool  $is_editable  Is the field editable?
-		 * @param array $field        Field data.
-		 * @param array $entry_fields Entry fields data.
-		 * @param array $form_data    Form data and settings.
-		 *
-		 * @return bool
-		 */
-		$is_editable = (bool) apply_filters(
-			'wpforms_pro_admin_entries_edit_field_output_editable',
-			$this->is_field_entries_editable( $field['type'] ),
-			$field,
-			$entry_fields,
-			$form_data
-		);
-
 		// Field output.
-		if ( $is_editable ) {
+		if ( $this->is_field_entries_output_editable( $field, $entry_fields, $form_data ) ) {
 			$this->display_edit_form_field_editable( $entry_field, $field, $form_data );
 		} else {
 			$this->display_edit_form_field_non_editable( $field_value );
@@ -797,7 +777,7 @@ class Edit {
 	 */
 	private function display_edit_form_field_editable( $entry_field, $field, $form_data ) {
 
-		wpforms()->frontend->field_container_open( $field, $form_data );
+		wpforms()->get( 'frontend' )->field_container_open( $field, $form_data );
 
 		$field_object = $this->get_entries_edit_field_object( $field['type'] );
 
@@ -833,11 +813,11 @@ class Edit {
 
 		if ( \wpforms_current_user_can( 'edit_form_single', $this->form_data['id'] ) ) {
 			$edit_url = add_query_arg(
-				array(
+				[
 					'page'    => 'wpforms-builder',
 					'view'    => 'fields',
 					'form_id' => absint( $this->form_data['id'] ),
-				),
+				],
 				admin_url( 'admin.php' )
 			);
 			printf(
@@ -1007,7 +987,10 @@ class Edit {
 
 		foreach ( (array) $form_data['fields']  as $field_properties ) {
 
-			if ( ! $this->is_field_entries_editable( $field_properties['type'] ) ) {
+			if (
+				! $this->is_field_entries_editable( $field_properties['type'], $field_properties, $form_data ) ||
+				! $this->is_field_entries_output_editable( $field_properties, $this->entry_fields, $form_data )
+			) {
 				continue;
 			}
 
@@ -1066,8 +1049,13 @@ class Edit {
 
 		array_map( [ $this, 'add_removed_file_meta' ], $removed_files );
 
-		$response = [
-			'modified' => esc_html( date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $this->date_modified ) + ( get_option( 'gmt_offset' ) * 3600 ) ) ),
+		$datetime_offset = get_option( 'gmt_offset' ) * 3600;
+		$response        = [
+			'modified' => sprintf( /* translators: %1$s - date for the entry; %2$s - time for the entry. */
+				esc_html__( '%1$s at %2$s', 'wpforms' ),
+				date_i18n( 'M j, Y', strtotime( $this->date_modified ) + $datetime_offset ),
+				date_i18n( get_option( 'time_format' ), strtotime( $this->date_modified ) + $datetime_offset )
+			),
 		];
 
 		do_action( 'wpforms_pro_admin_entries_edit_submit_completed', $this->form_data, $response, $updated_fields, $this->entry );
@@ -1117,7 +1105,7 @@ class Edit {
 			// Process the field only if value was changed or not existed in DB at all. Also check if field is editable.
 			if (
 				( $dbdata_value_exist && (string) $dbdata_fields[ $field_id ]['value'] === $save_field['value'] ) ||
-				! $this->is_field_entries_editable( $field_type )
+				! $this->is_field_entries_editable( $field_type, $this->form_data['fields'][ $field_id ], $this->form_data )
 			) {
 				continue;
 			}
@@ -1290,11 +1278,13 @@ class Edit {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param string $type Field type.
+	 * @param string $type      Field type.
+	 * @param array  $field     Field data.
+	 * @param array  $form_data Form data.
 	 *
 	 * @return bool
 	 */
-	private function is_field_entries_editable( $type ) {
+	private function is_field_entries_editable( $type, $field, $form_data ) {
 
 		$editable = in_array( $type,  wpforms()->get( 'entry' )->get_editable_field_types(), true );
 
@@ -1302,13 +1292,50 @@ class Edit {
 		 * Allow change if the field is editable regarding to its type.
 		 *
 		 * @since 1.6.0
+		 * @since 1.8.4 Added $field and $form_data arguments.
 		 *
-		 * @param bool   $editable True if is editable.
-		 * @param string $type     Field type.
+		 * @param bool   $editable  True if is editable.
+		 * @param string $type      Field type.
+		 * @param array  $field     Field data.
+		 * @param array  $form_data Form data.
 		 *
 		 * @return bool
 		 */
-		return (bool) apply_filters( 'wpforms_pro_admin_entries_edit_field_editable', $editable, $type );
+		return (bool) apply_filters( 'wpforms_pro_admin_entries_edit_field_editable', $editable, $type, $field, $form_data );
+	}
+
+	/**
+	 * Check if the field entries are editable.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $field        Field data.
+	 * @param array $entry_fields Entry fields data.
+	 * @param array $form_data    Form data and settings.
+	 *
+	 * @return bool
+	 */
+	private function is_field_entries_output_editable( $field, $entry_fields, $form_data ) {
+
+		/**
+		 * Is the field editable?
+		 *
+		 * @since 1.5.9.5
+		 *
+		 * @param bool  $is_editable  Is the field editable?
+		 * @param array $field        Field data.
+		 * @param array $entry_fields Entry fields data.
+		 * @param array $form_data    Form data and settings.
+		 *
+		 * @return bool ____
+		 */
+		return (bool) apply_filters(
+			'wpforms_pro_admin_entries_edit_field_output_editable',
+			$this->is_field_entries_editable( $field['type'], $field, $form_data ),
+			$field,
+			$entry_fields,
+			$form_data
+		);
 	}
 
 	/**
@@ -1422,7 +1449,7 @@ class Edit {
 	 */
 	private function add_removed_file_meta( $filename ) {
 
-		/* translators: %s - Name of the file that has been deleted. */
+		/* translators: %s - name of the file that has been deleted. */
 		$this->add_entry_meta( sprintf( esc_html__( 'The uploaded file "%s" has been deleted.', 'wpforms' ), esc_html( $filename ) ) );
 	}
 
@@ -1442,7 +1469,7 @@ class Edit {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
 		$entries = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT `entry_id` FROM {$table_name} WHERE `fields` LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT `entry_id` FROM $table_name WHERE `fields` LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				'%"attachment_id":' . $wpdb->esc_like( $attachment_id ) . ',%'
 			),
 			ARRAY_N
