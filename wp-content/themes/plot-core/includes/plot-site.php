@@ -95,13 +95,20 @@ class PlotSite
 
         $siteURL = $this->siteURL();
 
-        if($siteURL == get_field('domains_primary','option')) {
-          $allowedDomain = true;
+        if( function_exists('acf_add_local_field_group') ) {
+
+
+          if($siteURL == get_field('domains_primary','option')) {
+            $allowedDomain = true;
+          }
+
+          if($siteURL == HOLDING_DOMAIN && !get_field('domains_primary','option')) {
+            $allowedDomain = true;
+          }
+
         }
 
-        if($siteURL == HOLDING_DOMAIN && !get_field('domains_primary','option')) {
-          $allowedDomain = true;
-        }
+        
 
         if(strpos($siteURL, '.test') !== false) {
           $allowedDomain = true;
@@ -139,32 +146,40 @@ class PlotSite
       wp_enqueue_script('wp-mediaelement');
     }
 
-
     public function addMeta() {
+      if( function_exists('acf_add_local_field_group') ) {
 
-      if(get_field('page_description')) :
 
-        echo '<meta name="description" content="' . get_field('page_description') . '" />';
-        echo '<meta name="og:description" content="' . get_field('page_description') . '" />';
+        if(get_field('page_description')) :
 
-      endif;
+          echo '<meta name="description" content="' . get_field('page_description') . '" />';
+          echo '<meta name="og:description" content="' . get_field('page_description') . '" />';
 
-      if(get_field('social_share_image')) :
+        endif;
 
-        echo '<meta property="og:image" content="' . get_field('social_share_image')['sizes']['blockLink'] . '" />';
+        if(get_field('social_share_image')) :
 
-      endif;
+          echo '<meta property="og:image" content="' . get_field('social_share_image')['sizes']['blockLink'] . '" />';
+
+        endif;
+
+      }
 
     }
 
     public function maybeChangeTitle($titleParts) {
 
-      if(get_field('page_title')) :
+      if( function_exists('acf_add_local_field_group') ) {
 
-        $titleParts['title'] = get_field('page_title');
-        $titleParts['tagline'] = '';
 
-      endif;
+        if(get_field('page_title')) :
+
+          $titleParts['title'] = get_field('page_title');
+          $titleParts['tagline'] = '';
+
+        endif;
+
+      }
 
       return $titleParts;
 
@@ -283,13 +298,13 @@ class PlotSite
 
       $ptn = $post_type_name;
       
-      if( function_exists('acf_add_local_field_group') ):
-        if($ptn == 'Stage' && get_field('event_type','option') == 'location-based') {
-          $ptn = 'Location';
-          $overrideArgs['rewrite'] = ['slug' => 'location','with_front' => false];
-        }
-      endif;
-      
+      // if( function_exists('acf_get_value') ):
+      //   if($ptn == 'Stage' && get_field('event_type','option') == 'location-based') {
+      //     $ptn = 'Location';
+      //     $overrideArgs['rewrite'] = ['slug' => 'location','with_front' => false];
+      //   }
+      // endif;
+
       $plural = plotPluralise($ptn);
 
       $labels = array(

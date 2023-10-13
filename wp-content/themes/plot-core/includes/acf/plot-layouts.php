@@ -63,31 +63,31 @@ $locations = [
 ];
 
 
-//If stage pages are public, show here too.
-if(get_field('stage_pages','option')) :
+// //If stage pages are public, show here too.
+// if(get_field('stage_pages','option')) :
 
-	$locations[] = [
-		[
-			'param' => 'post_type',
-			'operator' => '==',
-			'value' => 'stage',
-		],
-	];
+// 	$locations[] = [
+// 		[
+// 			'param' => 'post_type',
+// 			'operator' => '==',
+// 			'value' => 'stage',
+// 		],
+// 	];
 
-endif;
+// endif;
 
-//If performance pages are public, show here too.
-if(get_field('performance_pages','option')) :
+// //If performance pages are public, show here too.
+// if(get_field('performance_pages','option')) :
 
-	$locations[] = [
-		[
-			'param' => 'post_type',
-			'operator' => '==',
-			'value' => 'performance',
-		],
-	];
+// 	$locations[] = [
+// 		[
+// 			'param' => 'post_type',
+// 			'operator' => '==',
+// 			'value' => 'performance',
+// 		],
+// 	];
 
-endif;
+// endif;
 
 require_once('plot-layouts/full-image-or-video.php');
 require_once('plot-layouts/featured-performances.php');
@@ -2473,8 +2473,8 @@ $layouts['layout_5e584bf814f64'] = [
 ];
 
 
-if(get_field('performance_pages','option'))
-	$layouts['featured_performances_layout'] = plotLayoutFeaturedPerformances();
+// if(get_field('performance_pages','option'))
+// 	$layouts['featured_performances_layout'] = plotLayoutFeaturedPerformances();
 
 acf_add_local_field_group([
 	'key' => 'group_5bbcd4e374067',

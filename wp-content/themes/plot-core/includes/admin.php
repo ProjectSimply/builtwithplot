@@ -134,14 +134,19 @@
 
         function setDefaultDayToLastInserted($field) {
 
-            $newDate = get_option('plotPerformanceLastDate');
-
-            if($newDate) {
-                $field['default_value'] = $newDate;
-            }
+            if( function_exists('acf_add_local_field_group') ):
             
 
-            return $field;
+                $newDate = get_option('plotPerformanceLastDate');
+
+                if($newDate) {
+                    $field['default_value'] = $newDate;
+                }
+                
+
+                return $field;
+
+            endif;
         }
 
         function storeQueriableDateTimeOnPerformances() {
@@ -166,8 +171,19 @@
         function hideWhatsOnPageIfNoPerformancePages($query) {
             global $pagenow,$post_type;
 
-            if (is_admin() && $pagenow=='edit.php' && $post_type =='page' && !get_field('performance_pages','option')) {
-                $query->query_vars['post__not_in'] = [$this->protectedPosts['whats-on'],$this->protectedPosts['past-performances']];
+            if( function_exists('acf_add_local_field_group') ) {
+
+
+                if (is_admin() && $pagenow=='edit.php' && $post_type =='page' && !get_field('performance_pages','option')) {
+                    $query->query_vars['post__not_in'] = [$this->protectedPosts['whats-on'],$this->protectedPosts['past-performances']];
+                }
+
+            } else {
+
+                if (is_admin() && $pagenow=='edit.php' && $post_type =='page') {
+                    $query->query_vars['post__not_in'] = [$this->protectedPosts['whats-on'],$this->protectedPosts['past-performances']];
+                }
+
             }
         }
 
@@ -231,8 +247,12 @@
 
         function convertStageToLocation($field) {
 
-            if(get_field('event_type','option') == 'stage-based')
-                return $field;
+            if( function_exists('acf_add_local_field_group') ) {
+
+                if(get_field('event_type','option') == 'stage-based')
+                    return $field;
+
+            }
 
             $field['instructions'] = str_replace('stage', 'location', $field['instructions']);
             $field['instructions'] = str_replace('Stage', 'Location', $field['instructions']);
@@ -406,69 +426,74 @@
 
         function addPerformanceTitleOnSave( $id ) {
 
-            // Get previous values.
-            $prev_values = get_fields( $id );
+            if( function_exists('acf_add_local_field_group') ) {
 
-            // Get submitted values.
-            $values = $_POST['acf'];
-            if(isset($_POST['post_type'])) :
 
-                if($_POST['post_type'] == 'performance' && !$prev_values) :
+                // Get previous values.
+                $prev_values = get_fields( $id );
 
-                    $newTitle = "";
+                // Get submitted values.
+                $values = $_POST['acf'];
+                if(isset($_POST['post_type'])) :
 
-                    if($values['performances_info_has_custom_title'] != 'artistList') :
+                    if($_POST['post_type'] == 'performance' && !$prev_values) :
 
-                        $newTitle = $values['performances_info_custom_title'];
+                        $newTitle = "";
 
-                    else :
+                        if($values['performances_info_has_custom_title'] != 'artistList') :
 
-                        $i = 0;
-                        $max = sizeof($values['performances_info_artists']);
+                            $newTitle = $values['performances_info_custom_title'];
 
-                        foreach($values['performances_info_artists'] as $artist) :
+                        else :
 
-                            $artist = get_post($artist['performances_info_artist']);
-                            $newTitle .= $artist->post_title;
+                            $i = 0;
+                            $max = sizeof($values['performances_info_artists']);
 
-                            if($i + 2 == $max)
-                                $newTitle .= ' & ';
-                            elseif($i + 1 == $max)
-                                $newTitle .= '';
-                            else
-                                $newTitle .= ', ';
+                            foreach($values['performances_info_artists'] as $artist) :
 
-                            $i++;
+                                $artist = get_post($artist['performances_info_artist']);
+                                $newTitle .= $artist->post_title;
 
-                        endforeach;
+                                if($i + 2 == $max)
+                                    $newTitle .= ' & ';
+                                elseif($i + 1 == $max)
+                                    $newTitle .= '';
+                                else
+                                    $newTitle .= ', ';
 
+                                $i++;
+
+                            endforeach;
+
+
+                        endif;
+                        // unhook this function so it doesn't loop infinitely
+                        remove_action('post_updated',[$this,'addPerformanceTitleOnSave']);
+
+                        $post_update = [
+                            'ID'         => $id,
+                            'post_title' => $newTitle,
+                            'post_name'  => sanitize_title($newTitle)
+                        ];
+
+                        wp_update_post( $post_update );
+
+                        // unhook this function so it doesn't loop infinitely
+                        add_action('post_updated',[$this,'addPerformanceTitleOnSave']);
 
                     endif;
-                    // unhook this function so it doesn't loop infinitely
-                    remove_action('post_updated',[$this,'addPerformanceTitleOnSave']);
 
-                    $post_update = [
-                        'ID'         => $id,
-                        'post_title' => $newTitle,
-                        'post_name'  => sanitize_title($newTitle)
-                    ];
 
-                    wp_update_post( $post_update );
-
-                    // unhook this function so it doesn't loop infinitely
-                    add_action('post_updated',[$this,'addPerformanceTitleOnSave']);
+                    if($values['performances_info_day']) {
+                        update_option('plotPerformanceLastDate',$values['performances_info_day']);
+                    }
 
                 endif;
 
 
-                if($values['performances_info_day']) {
-                    update_option('plotPerformanceLastDate',$values['performances_info_day']);
-                }
+                return $id;
 
-            endif;
-
-
-            return $id;
+            }
             
         }
 
@@ -858,19 +883,23 @@
         }
 
         public function acfJS() {
-            ?>
-            <script type='text/javascript'>
-                /* <![CDATA[ */
-                var plotOptions = 
-                {
-                    endOfDay : "<?= get_field('day_end','option') ?>"
+            if( function_exists('acf_add_local_field_group') ) {
 
-                }
-                /* ]]> */
-            </script>
+                ?>
+                <script type='text/javascript'>
+                    /* <![CDATA[ */
+                    var plotOptions = 
+                    {
+                        endOfDay : "<?= get_field('day_end','option') ?>"
 
-            <?php
-            wp_enqueue_script('admin-acf-js', get_template_directory_uri().'/assets/js/acf.js',['jquery']);
+                    }
+                    /* ]]> */
+                </script>
+
+                <?php
+                wp_enqueue_script('admin-acf-js', get_template_directory_uri().'/assets/js/acf.js',['jquery']);
+
+            }
         }
 
          public function adminJavascript() {

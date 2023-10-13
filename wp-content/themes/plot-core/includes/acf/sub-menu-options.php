@@ -16,30 +16,30 @@ $locations = [
 ];
 
 //If stage pages are public, show options here too.
-if(get_field('stage_pages','option')) :
+// if(get_field('stage_pages','option')) :
 
-	$locations[] = [
-		[
-			'param' => 'post_type',
-			'operator' => '==',
-			'value' => 'stage',
-		],
-	];
+// 	$locations[] = [
+// 		[
+// 			'param' => 'post_type',
+// 			'operator' => '==',
+// 			'value' => 'stage',
+// 		],
+// 	];
 
-endif;
+// endif;
 
-//If performance pages are public, show options here too.
-if(get_field('performance_pages','option')) :
+// //If performance pages are public, show options here too.
+// if(get_field('performance_pages','option')) :
 
-	$locations[] = [
-		[
-			'param' => 'post_type',
-			'operator' => '==',
-			'value' => 'performance',
-		],
-	];
+// 	$locations[] = [
+// 		[
+// 			'param' => 'post_type',
+// 			'operator' => '==',
+// 			'value' => 'performance',
+// 		],
+// 	];
 
-endif;
+// endif;
 
 acf_add_local_field_group([
 	'key' => 'group_5e94376b5c2d7',
