@@ -3668,6 +3668,12 @@ a.carousel__imageWrap:hover {
 .page-spotlights .plotLayoutForm .plotLayoutForm__textWrap {
   background-color: var(--pink);
   color: var(--black);
+  padding: 3rem 1rem 3rem;
+}
+@media screen and (min-width: 640px) {
+  .page-spotlights .plotLayoutForm .plotLayoutForm__textWrap {
+    padding: 3rem;
+  }
 }
 @media screen and (min-width: 640px) {
   .plotLayoutForm .plotLayoutForm__textWrap {
@@ -3684,11 +3690,9 @@ a.carousel__imageWrap:hover {
   font-size: 3rem;
   margin-bottom: 2rem;
 }
-.plotLayoutForm .wpforms-field-container {
-  display: grid;
-}
 @media screen and (min-width: 640px) {
   .plotLayoutForm .wpforms-field-container {
+    display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 2rem;
   }

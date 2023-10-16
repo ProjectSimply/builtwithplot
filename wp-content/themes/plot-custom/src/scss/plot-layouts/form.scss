@@ -21,6 +21,12 @@
         .page-spotlights & {
             background-color: var(--pink);
             color: var(--black);
+            padding: 3rem 1rem 3rem;
+
+            @include medium {
+                padding: 3rem;
+            }
+
         }
 
         @include medium {
@@ -41,9 +47,10 @@
     }
 
     .wpforms-field-container {
-        display: grid;
+        // display: grid;
 
         @include medium {
+            display: grid;
             grid-template-columns: 1fr 1fr;
             grid-column-gap: 2rem;
         }
