@@ -1,4 +1,4 @@
-a:2:{s:4:"body";s:91850:"<!DOCTYPE html>
+a:2:{s:4:"body";s:65563:"<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -27,7 +27,7 @@ a:2:{s:4:"body";s:91850:"<!DOCTYPE html>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.ico">
 
-    <title>Spotlights &#8211; Event, Festival and Venue Websites built with Plot</title>
+    <meta name="description" content="Gorgeous, powerful festival, venue & conference websites built and designed with Plot. Delivered within a week." /><meta name="og:description" content="Gorgeous, powerful festival, venue & conference websites built and designed with Plot. Delivered within a week." /><meta property="og:image" content="https://builtwithplot.local/wp-content/uploads/2020/07/Plot-social-share-image.png" /><title>Plot &#8211; Websites for Festivals, Venues &#038; Conferences</title>
 <meta name='robots' content='max-image-preview:large' />
 <link rel='stylesheet' id='wp-block-library-css' href='https://builtwithplot.local/wp-includes/css/dist/block-library/style.min.css?ver=6.3.1' type='text/css' media='all' />
 <style id='classic-theme-styles-inline-css' type='text/css'>
@@ -45,12 +45,12 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <link rel='stylesheet' id='wp-mediaelement-css' href='https://builtwithplot.local/wp-includes/js/mediaelement/wp-mediaelement.min.css?ver=6.3.1' type='text/css' media='all' />
 <script type='text/javascript' src='https://builtwithplot.local/wp-includes/js/jquery/jquery.min.js?ver=3.7.0' id='jquery-core-js'></script>
 <script type='text/javascript' src='https://builtwithplot.local/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1' id='jquery-migrate-js'></script>
-<link rel="https://api.w.org/" href="https://builtwithplot.local/wp-json/" /><link rel="alternate" type="application/json" href="https://builtwithplot.local/wp-json/wp/v2/pages/2961" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://builtwithplot.local/xmlrpc.php?rsd" />
+<link rel="https://api.w.org/" href="https://builtwithplot.local/wp-json/" /><link rel="alternate" type="application/json" href="https://builtwithplot.local/wp-json/wp/v2/pages/2" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://builtwithplot.local/xmlrpc.php?rsd" />
 
-<link rel="canonical" href="https://builtwithplot.local/spotlights/" />
-<link rel='shortlink' href='https://builtwithplot.local/?p=2961' />
-<link rel="alternate" type="application/json+oembed" href="https://builtwithplot.local/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbuiltwithplot.local%2Fspotlights%2F" />
-<link rel="alternate" type="text/xml+oembed" href="https://builtwithplot.local/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbuiltwithplot.local%2Fspotlights%2F&#038;format=xml" />
+<link rel="canonical" href="https://builtwithplot.local/" />
+<link rel='shortlink' href='https://builtwithplot.local/' />
+<link rel="alternate" type="application/json+oembed" href="https://builtwithplot.local/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbuiltwithplot.local%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://builtwithplot.local/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbuiltwithplot.local%2F&#038;format=xml" />
 <link rel="icon" href="https://builtwithplot.local/wp-content/uploads/2020/01/cropped-video-with-text-overlay-and-button-centre-bottom-scaled-1-32x32.jpg" sizes="32x32" />
 <link rel="icon" href="https://builtwithplot.local/wp-content/uploads/2020/01/cropped-video-with-text-overlay-and-button-centre-bottom-scaled-1-192x192.jpg" sizes="192x192" />
 <link rel="apple-touch-icon" href="https://builtwithplot.local/wp-content/uploads/2020/01/cropped-video-with-text-overlay-and-button-centre-bottom-scaled-1-180x180.jpg" />
@@ -58,7 +58,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
     <link rel="stylesheet" href="https://use.typekit.net/tms6vqx.css">
 
-            <link href="https://builtwithplot.local/wp-content/themes/plot-custom/assets/css/style.css?v=231016075719" rel="stylesheet" media="all">
+            <link href="https://builtwithplot.local/wp-content/themes/plot-custom/assets/css/style.css?v=231015053946" rel="stylesheet" media="all">
     
     <!-- Facebook Pixel Code -->
     <script>
@@ -78,7 +78,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
     /></noscript>
     <!-- End Facebook Pixel Code -->
 </head>
-<body class="page-template-default page page-id-2961 logged-in page-spotlights"> 
+<body class="home page-template-default page page-id-2 page-home"> 
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KKZHF74"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -201,215 +201,88 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 	</div>
 
 </header>
-<section class="textOnlyBanner textOnlyBanner--spotlights sectionWithVerticalSpacing">
+<section class="homeBanner" data-plot-smooth-scroll-frame>
 
-    <div class="textOnlyBanner__asset textOnlyBanner__asset--1">
-
-        <svg viewBox="0 0 310 313" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path opacity="0.1" d="M310 74.4196L237.958 0L155 85.3637L72.0423 0L0 72.2308L82.9578 157.594L0 240.769L72.0423 313L155 229.825L237.958 313L310 240.769L227.042 157.594L310 74.4196Z" />
-</svg>
-
-    </div>
-
-    <div class="textOnlyBanner__asset textOnlyBanner__asset--2">
-
-        <svg viewBox="0 0 310 313" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path opacity="0.1" d="M310 74.4196L237.958 0L155 85.3637L72.0423 0L0 72.2308L82.9578 157.594L0 240.769L72.0423 313L155 229.825L237.958 313L310 240.769L227.042 157.594L310 74.4196Z" />
-</svg>
-
-    </div>
-
-    <div class="banner__contentWrap">
-
-        <svg width="160" height="110" viewBox="0 0 160 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_3010_301)">
-<path d="M21.9658 46.4062H31.8821L32.7019 49.6745H32.9575C35.5489 47.2433 39.0218 45.5156 42.5564 45.5156C50.8949 45.5156 56.2629 52.6845 56.2629 63.7629C56.2629 76.0524 48.9998 83.0966 41.5428 83.0966C38.5723 83.0966 35.9191 81.8142 33.645 79.5077L34.0857 84.9489V94.8072H21.957V46.4151L21.9658 46.4062ZM43.8257 63.8786C43.8257 57.9922 42.1245 55.561 38.8984 55.561C37.065 55.561 35.6723 56.2645 34.0945 58.1257V71.3147C35.4872 72.5971 37.065 73.0423 38.6428 73.0423C41.4193 73.0423 43.8257 70.7982 43.8257 63.8875V63.8786Z" fill="#2E2E2B"/>
-<path d="M62.2032 69.6495L62.2649 32.3892H74.3935L74.3318 70.0325C74.3318 72.4636 75.4689 73.1672 76.2887 73.1672C76.7294 73.1672 76.985 73.1672 77.5491 73.0425L78.9418 82.0726C77.6813 82.6515 75.7157 83.0967 73.0009 83.0344C64.8475 83.1591 62.1943 77.7179 62.1943 69.6584L62.2032 69.6495Z" fill="#2E2E2B"/>
-<path d="M81.4102 64.3952C81.4102 52.4887 89.9425 45.6404 98.9774 45.6404C108.012 45.6404 116.474 52.551 116.474 64.4576C116.474 76.3641 107.942 83.2124 98.9068 83.2124C89.872 83.1501 81.4102 76.3018 81.4102 64.3952ZM104.028 64.4576C104.028 59.0163 102.635 55.561 98.9774 55.561C95.3194 55.561 93.8562 59.0163 93.8562 64.4576C93.8562 69.8988 95.2488 73.3541 98.9068 73.3541C102.635 73.2918 104.028 69.8988 104.028 64.4576Z" fill="#2E2E2B"/>
-<path d="M122.283 68.6252V56.1398H117.611V46.985L122.979 46.5397L124.434 37.2603H134.482V46.5397H142.565V56.1398H134.482V68.367C134.482 72.3388 136.439 73.6123 138.713 73.6123C139.85 73.6123 140.987 73.354 141.807 73.0334L143.64 81.9299C141.807 82.5088 139.154 83.2123 135.302 83.2123C126.082 83.2747 122.221 77.3882 122.292 68.6163L122.283 68.6252Z" fill="#2E2E2B"/>
-<path d="M159.999 30.7237L157.91 28.5508L155.513 31.0443L153.115 28.5508L151.026 30.6614L153.424 33.1549L151.026 35.5861L153.115 37.6967L155.513 35.2655L157.91 37.6967L159.999 35.5861L157.602 33.1549L159.999 30.7237Z" fill="#2E2E2B"/>
-<path d="M104.028 16.386L101.939 14.2754L99.4709 16.7066L97.0734 14.2754L94.9932 16.386L97.3907 18.8172L94.9932 21.2484L97.0734 23.4213L99.4709 20.9278L101.868 23.4213L104.019 21.3107L101.622 18.8172L104.019 16.386H104.028Z" fill="#2E2E2B"/>
-<path d="M62.0182 2.11059L59.9292 0L57.5317 2.43119L55.0636 0L52.9746 2.11059L55.3721 4.54177L52.9746 6.97296L55.0636 9.14589L57.4612 6.7147L59.9292 9.14589L62.0182 7.0353L59.6207 4.54177L62.0182 2.11059Z" fill="#2E2E2B"/>
-<path d="M9.03484 30.4654L6.94582 28.2925L4.47777 30.786L2.08024 28.2925L-0.00878906 30.4031L2.38874 32.8966L-0.00878906 35.3278L2.08024 37.4384L4.47777 35.0072L6.8753 37.4384L9.02603 35.3278L6.6285 32.8966L9.02603 30.4654H9.03484Z" fill="#2E2E2B"/>
-<path d="M73.2749 100.997C75.0289 101.335 75.9456 102.19 75.9456 103.463C75.9456 105.164 74.6411 106.197 72.4463 106.197C71.2564 106.197 70.0047 105.939 69.1056 105.512L69.2819 104.425C70.0223 104.879 71.1858 105.147 72.3582 105.147C73.9007 105.147 74.835 104.568 74.835 103.588C74.835 102.609 73.9271 102.208 72.5433 101.95L71.5384 101.762C70.1369 101.495 69.0527 100.81 69.0527 99.4115C69.0527 97.7105 70.4014 96.6775 72.6402 96.6775C73.7068 96.6775 74.7381 96.8645 75.3991 97.1317L75.214 98.138C74.4913 97.8619 73.5569 97.6927 72.7372 97.6927C71.1682 97.6927 70.2251 98.2894 70.2251 99.3046C70.2251 100.32 71.0448 100.569 72.4375 100.836L73.2749 100.997Z" fill="#2E2E2B"/>
-<path d="M78.6781 96.8734V98.6011C79.3656 97.5146 80.723 96.6775 82.4242 96.6775C85.0333 96.6775 86.9989 98.7525 86.9989 101.424C86.9989 104.096 85.0333 106.189 82.4242 106.189C80.7142 106.189 79.3568 105.334 78.6781 104.238V109.804H77.5498V96.8645H78.6781V96.8734ZM78.6252 101.433C78.6252 103.535 80.2294 105.155 82.3537 105.155C84.478 105.155 85.8971 103.535 85.8971 101.433C85.8971 99.3313 84.381 97.7283 82.3537 97.7283C80.2294 97.7283 78.6252 99.3491 78.6252 101.433Z" fill="#2E2E2B"/>
-<path d="M92.9045 96.6775C95.6546 96.6775 97.7083 98.7614 97.7083 101.433C97.7083 104.105 95.6546 106.189 92.9045 106.189C90.1544 106.189 88.1006 104.105 88.1006 101.433C88.1006 98.7614 90.1544 96.6775 92.9045 96.6775ZM92.9045 105.147C95.0023 105.147 96.5801 103.517 96.5801 101.433C96.5801 99.3491 95.0111 97.7194 92.9045 97.7194C90.7978 97.7194 89.2288 99.3491 89.2288 101.433C89.2288 103.517 90.7978 105.147 92.9045 105.147Z" fill="#2E2E2B"/>
-<path d="M100.82 97.8797V103.178C100.82 104.603 101.534 105.164 102.459 105.164C103.006 105.164 103.667 105.066 104.09 104.879L104.24 105.859C103.914 106.019 103.156 106.188 102.406 106.188C100.811 106.188 99.6827 105.316 99.6827 103.446V97.8708H97.9639V96.8645H99.6739V93.9346H100.82V96.8645H103.905V97.8708H100.82V97.8797Z" fill="#2E2E2B"/>
-<path d="M105.403 92.6077H106.532V106.001H105.403V92.6077Z" fill="#2E2E2B"/>
-<path d="M108.823 93.8101C108.823 93.3915 109.114 93.0977 109.528 93.0977C109.943 93.0977 110.242 93.3915 110.242 93.8101C110.242 94.2286 109.943 94.5225 109.528 94.5225C109.114 94.5225 108.823 94.2286 108.823 93.8101ZM108.964 96.8736H110.093V106.002H108.964V96.8736Z" fill="#2E2E2B"/>
-<path d="M116.439 106.198C113.83 106.198 111.864 104.114 111.864 101.433C111.864 98.7526 113.83 96.6865 116.439 96.6865C118.14 96.6865 119.498 97.5236 120.185 98.6101V96.8824H121.313V105.316C121.313 107.854 119.674 110.009 116.166 110.009C115.275 110.009 113.733 109.786 112.702 109.261L112.887 108.201C113.944 108.727 115.073 108.976 116.192 108.976C118.396 108.976 120.185 107.89 120.185 105.503V104.256C119.506 105.352 118.149 106.206 116.439 106.206V106.198ZM112.975 101.433C112.975 103.535 114.491 105.156 116.518 105.156C118.643 105.156 120.247 103.535 120.247 101.433C120.247 99.3314 118.643 97.7285 116.518 97.7285C114.394 97.7285 112.975 99.3493 112.975 101.433Z" fill="#2E2E2B"/>
-<path d="M131.97 100.427V106.002H130.859V100.765C130.859 98.7169 129.837 97.7373 127.959 97.7373C126.241 97.7373 124.866 99.0019 124.866 100.819V105.993H123.737V92.5989H124.866V98.4498C125.58 97.2119 126.875 96.6687 128.145 96.6687C130.419 96.6687 131.979 97.9421 131.979 100.418L131.97 100.427Z" fill="#2E2E2B"/>
-<path d="M135.69 97.8797V103.178C135.69 104.603 136.404 105.164 137.329 105.164C137.876 105.164 138.537 105.066 138.96 104.879L139.11 105.859C138.784 106.019 138.026 106.188 137.276 106.188C135.69 106.188 134.553 105.316 134.553 103.446V97.8708H132.834V96.8645H134.544V93.9346H135.69V96.8645H138.775V97.8708H135.69V97.8797Z" fill="#2E2E2B"/>
-<path d="M144.108 100.997C145.862 101.335 146.779 102.19 146.779 103.463C146.779 105.164 145.474 106.197 143.279 106.197C142.089 106.197 140.838 105.939 139.939 105.512L140.115 104.425C140.855 104.879 142.019 105.147 143.191 105.147C144.734 105.147 145.668 104.568 145.668 103.588C145.668 102.609 144.76 102.208 143.376 101.95L142.371 101.762C140.97 101.495 139.886 100.81 139.886 99.4115C139.886 97.7105 141.234 96.6775 143.473 96.6775C144.54 96.6775 145.571 96.8645 146.232 97.1317L146.047 98.138C145.324 97.8619 144.39 97.6927 143.57 97.6927C142.001 97.6927 141.058 98.2894 141.058 99.3046C141.058 100.32 141.878 100.569 143.27 100.836L144.108 100.997Z" fill="#2E2E2B"/>
-</g>
-<defs>
-<clipPath id="clip0_3010_301">
-<rect width="160" height="110" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-
-        <div class="maxWidth">
-
-            <h1 class="textOnlyBanner__title">Win a free website worth over £3,000!</h1>
-
-            <p class="banner__subHeading">We are awarding free websites to pioneering music festivals, events & venues</p>
-
-            <a href="#" class="button banner__button--spotlights">Enter Now</a>
-
-        </div>
-
-    </div>
-
-    <div class="JS--plot-ticker plot-ticker spotlights__assetsWrapper">
-        <div class="ticker-container">
-            <div class="spotlights__assetsWrapper__inner message">
-                <div class="spotlights__asset spotlights__asset--mobile spotlights__asset--1"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/mobile-asset-1-bs.png" alt="spotlights-example">
-                </div>
-
-                <div class="spotlights__asset spotlights__asset--desktop spotlights__asset--2"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/desktop-asset-1-bs.png" alt="spotlights-example">
-                </div>
-
-                <div class="spotlights__asset spotlights__asset--mobile spotlights__asset--3"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/mobile-asset-2-bs.png" alt="spotlights-example">
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="JS--plot-ticker plot-ticker reverse">
-        <div class="ticker-container">
-            <div class="spotlights__assetsWrapper message">
-                <div class="spotlights__asset spotlights__asset--desktop spotlights__asset--4"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/desktop-asset-2-bs.png" alt="spotlights-example">
-                </div>
-
-                <div class="spotlights__asset spotlights__asset--mobile spotlights__asset--5"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/mobile-asset-3-bs.png" alt="spotlights-example">
-                </div>
-
-                <div class="spotlights__asset spotlights__asset--mobile spotlights__asset--6"> 
-                    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/mobile-asset-4-bs-2.png" alt="spotlights-example">
-                </div>
-            </div>
-        </div>
-    </div>
-
-</section>	
-
-<section class="fixedFiftyFifty">
     <div class="maxWidth">
-        <div class="fixedFiftyFifty__inner fixedFiftyFifty__inner--desktop">
-            <div class="fixedFiftyFifty__images">
-                <div class="fixedFiftyFifty__imagesInner">
-                    <div class="fixedFiftyFifty__imageWrap">
-                        <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-artist-performance.jpg" alt="spotlights-example">
-                    </div>
-                    <div class="fixedFiftyFifty__imageWrap">
-                        <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-event.jpg" alt="spotlights-example">
-                    </div>
-                    <div class="fixedFiftyFifty__imageWrap">
-                        <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-festival-dancing.jpg" alt="spotlights-example">
-                    </div>
-                </div>
-            </div>
-            <div class="fiftyFifty__indicators">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="textContentWrapper">
-                <div class="textContent">
-                    <h2>What is Spotlights?</h2>
-                    <p>Plot Spotlights is a programme to champion pioneering music festivals, events and venues by rewarding them with a free website Built by Plot worth over £3000!</p>
-                    <a href="#" class="button">Sign up now</a>
-                </div>
-                <div class="textContent">
-                    <h2>Who is it for?</h2>
-                    <p>This is for businesses who are looking to make a huge cultural impact in the music space—for festivals, events and venues.</p>
-                    <a href="#" class="button">Sign up now</a>
-                </div>
-                <div class="textContent">
-                    <h2>How do I join?</h2>
-                    <p>Sign up using for the form below and every 2 months we will notify the lucky winner.</p>
-                    <a href="#" class="button">Sign up now</a>
-                </div>
-            </div>
-        </div>
-        <div class="fixedFiftyFifty__inner fixedFiftyFifty__inner--mobile">
-            <div class="fiftyFifty__slide">
-                <div class="fixedFiftyFifty__images">
-                    <div class="fixedFiftyFifty__imagesInner">
-                        <div class="fixedFiftyFifty__imageWrap">
-                            <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-artist-performance.jpg" alt="spotlights-example">
-                        </div>
-                    </div>
-                </div>
-                <div class="textContentWrapper">
-                    <div class="textContent">
-                        <h2>What is Spotlights?</h2>
-                        <p>Plot Spotlights is a programme to champion pioneering music festivals, events and venues by rewarding them with a free website Built by Plot worth over £3000!</p>
-                        <a href="#" class="button">Sign up now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="fiftyFifty__slide">
-                <div class="fixedFiftyFifty__images">
-                    <div class="fixedFiftyFifty__imagesInner">
-                        <div class="fixedFiftyFifty__imageWrap">
-                            <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-event.jpg" alt="spotlights-example">
-                        </div>
-                    </div>
-                </div>
-                <div class="textContentWrapper">
-                    <div class="textContent">
-                        <h2>Who is it for?</h2>
-                        <p>This is for businesses who are looking to make a huge cultural impact in the music space—for festivals, events and venues.</p>
-                        <a href="#" class="button">Sign up now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="fiftyFifty__slide">
-                <div class="fixedFiftyFifty__images">
-                    <div class="fixedFiftyFifty__imagesInner">
-                        <div class="fixedFiftyFifty__imageWrap">
-                            <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/spotlights/music-festival-dancing.jpg" alt="spotlights-example">
-                        </div>
-                    </div>
-                </div>
-                <div class="textContentWrapper">
-                    <div class="textContent">
-                        <h2>How do I join?</h2>
-                        <p>Sign up using for the form below and every 2 months we will notify the lucky winner.</p>
-                        <a href="#" class="button">Sign up now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a class="slider-control slider-control--prev" href="#" data-carousel-prev>
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="20" viewBox="0 0 13 20" fill="none">
-                <path d="M11 18L3 10L11 2" stroke="white" stroke-width="3"/>
-            </svg>
-        </a>
-        <a class="slider-control slider-control--next" href="#" data-carousel-next>
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="20" viewBox="0 0 13 20" fill="none">
-                <path d="M2 2L10 10L2 18" stroke="white" stroke-width="3"/>
-            </svg>
-        </a>
-    </div>
-    
-</section>
 
-<div class="spotlights__cardsWrapper">
-    <section class="cards">
+        <div class="homeBanner__grid">
+
+            <div class="homeBanner__item homeBanner__item--titleWrap">
+
+                <h1 class="homeBanner__title">Event & Venue Websites + Hosting. Quick & Easy.</h1>
+
+                <p class="homeBanner__subtitle">Flexible, fully featured and easy to manage websites designed and built with Plot. Delivered within a week</p>
+
+                
+                    <div class="homeBanner__item homeBanner__item--button homeBanner__item--buttonDesktop">
+                    
+                        <a href="http://builtwithplot.local/book-a-demo/" class="button homeBanner__button">Request Demo</a>
+        
+                    </div>
+
+                
+            </div>
+
+
+            <div class="homeBanner__mobile3D homeBanner__item homeBanner__item--mobile3D mobile3D">
+
+                <div class="mobile3D__wiggle">
+
+                    <div class="mobile3D__phone">
+                        
+                        <div class="mobile3D__screen">
+                            <div class="glass-reflection"></div>
+                        </div>
+
+                        <span class="mobile3D__side mobile3D__side--left"></span>
+
+                        <span class="mobile3D__side mobile3D__side--right"></span>
+
+                        <span class="mobile3D__side mobile3D__side--bottom"></span>
+
+                        <span class="mobile3D__side mobile3D__side--top"></span>
+
+                        <span class="mobile3D__side mobile3D__side--back"></span>
+
+                    </div>
+
+                </div>
+                
+            </div>
+
+            
+                <div class="homeBanner__item homeBanner__item--button">
+                
+                    <a href="http://builtwithplot.local/book-a-demo/" class="button homeBanner__button">Request Demo</a>
+    
+                </div>
+
+                    
+        </div>
+    
+    </div>
+
+    <div class="homeBanner__asset homeBanner__asset--1">
+        <svg viewBox="0 0 810 753" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M135.493 346.218L513.748 -306.354L728.617 -182.299L346.474 477.007C321.85 519.657 334.866 543.633 349.415 552.032C357.248 556.555 361.725 559.14 373.093 562.71L306.345 735.178C278.131 732.357 238.903 720.184 191.429 691.279C45.7683 610.175 53.8456 487.636 135.493 346.218Z"/>
+</svg>
+    </div>
+
+    <div class="homeBanner__asset homeBanner__asset--2">
+        <svg viewBox="0 0 256 266" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.6985 156.775C9.38478 88.0352 49.7007 36.696 102.347 24.2018C154.993 11.7076 213.798 39.9134 230.111 108.653C246.425 177.394 206.109 228.733 153.463 241.227C100.73 253.352 42.0122 225.515 25.6985 156.775ZM157.585 125.866C150.13 94.4523 137.294 76.4177 115.941 81.4852C94.5885 86.5528 90.8573 108.519 98.3125 139.933C105.768 171.346 118.603 189.381 139.956 184.313C161.59 178.789 165.04 157.279 157.585 125.866Z"/>
+</svg>
+    </div>
+
+</section>
+<section class="cards">
 
     <div class="maxWidth">
 
         <div class="cards__intro">
 
-            <h2 class="cards__sectionHeading">What you will receive</h2>
+            <h2 class="cards__sectionHeading">Built for Festivals, Venues and Events - 
+Plot saves you time and money</h2>
 
             <p class="cards__sectionIntro"></p>
 
@@ -422,181 +295,20 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
                     <div class="cards__svgWrap">
 
-                        <svg width="277" height="218" viewBox="0 0 560 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-	<path d="M560 0H0V440H560V0Z" fill="#2E2E2B"/>
-	<path d="M137.533 82H422.467C438.185 82 451 95.4791 451 112.012V442.988C451 459.521 438.185 473 422.467 473H137.533C121.815 473 109 459.521 109 442.988V112.012C109 95.4791 121.815 82 137.533 82Z" fill="#EAB8D1"/>
-
-	<path d="M351.6 111H209V129.6H351.6V111Z" fill="#2E2E2B"/>
-
-	<g class="SVGelement SVGelement--growIn SVGelement--bob">
-		<path d="M285.9 156H132V181H285.9V156Z" fill="#D95496"/>
-		<path d="M233 191.4H132V216.4H233V191.4Z" fill="#D95496"/>
-		<path d="M375.3 191.4H262.3V216.4H375.3V191.4Z" fill="#D95496"/>
-		<path d="M277.4 227.8H132V252.8H277.4V227.8Z" fill="#D95496"/>
-		<path d="M417.2 227.8H302.7V252.8H417.2V227.8Z" fill="#D95496"/>
-		<path d="M427.1 156H312.8V181H427.1V156Z" fill="#D95496"/>
-		<path d="M299.6 173.9C302.582 173.9 305 171.482 305 168.5C305 165.518 302.582 163.1 299.6 163.1C296.618 163.1 294.2 165.518 294.2 168.5C294.2 171.482 296.618 173.9 299.6 173.9Z" fill="white"/>
-		<path d="M246.8 209.3C249.782 209.3 252.2 206.882 252.2 203.9C252.2 200.918 249.782 198.5 246.8 198.5C243.818 198.5 241.4 200.918 241.4 203.9C241.4 206.882 243.818 209.3 246.8 209.3Z" fill="white"/>
-		<path d="M290 245.7C292.982 245.7 295.4 243.282 295.4 240.3C295.4 237.318 292.982 234.9 290 234.9C287.018 234.9 284.6 237.318 284.6 240.3C284.6 243.282 287.018 245.7 290 245.7Z" fill="white"/>
-	</g>
-	<g class="SVGelement SVGelement--growIn SVGelement--bob SVGelement--delay1">
-		<path d="M173.9 365.4H132.3V373.5H173.9V365.4Z" fill="#A88FD9"/>
-		<path d="M230.9 365.4H186.2V373.5H230.9V365.4Z" fill="#A88FD9"/>
-		<path d="M180.3 371.9C181.681 371.9 182.8 370.781 182.8 369.4C182.8 368.019 181.681 366.9 180.3 366.9C178.919 366.9 177.8 368.019 177.8 369.4C177.8 370.781 178.919 371.9 180.3 371.9Z" fill="#D95496"/>
-		<path d="M309 365.4H246.3V373.5H309V365.4Z" fill="#A88FD9"/>
-		<path d="M238.4 371.9C239.781 371.9 240.9 370.781 240.9 369.4C240.9 368.019 239.781 366.9 238.4 366.9C237.019 366.9 235.9 368.019 235.9 369.4C235.9 370.781 237.019 371.9 238.4 371.9Z" fill="#D95496"/>
-		<path d="M304.2 379.3H263.9V387.4H304.2V379.3Z" fill="#A88FD9"/>
-		<path d="M311.6 385.9C312.981 385.9 314.1 384.781 314.1 383.4C314.1 382.019 312.981 380.9 311.6 380.9C310.219 380.9 309.1 382.019 309.1 383.4C309.1 384.781 310.219 385.9 311.6 385.9Z" fill="#D95496"/>
-		<path d="M364.4 365.4H322.8V373.5H364.4V365.4Z" fill="#A88FD9"/>
-		<path d="M315.9 371.9C317.281 371.9 318.4 370.781 318.4 369.4C318.4 368.019 317.281 366.9 315.9 366.9C314.519 366.9 313.4 368.019 313.4 369.4C313.4 370.781 314.519 371.9 315.9 371.9Z" fill="#D95496"/>
-		<path d="M385.2 379.3H319.1V387.4H385.2V379.3Z" fill="#A88FD9"/>
-		<path d="M427.4 379.3H399.4V387.4H427.4V379.3Z" fill="#A88FD9"/>
-		<path d="M392 385.9C393.381 385.9 394.5 384.781 394.5 383.4C394.5 382.019 393.381 380.9 392 380.9C390.619 380.9 389.5 382.019 389.5 383.4C389.5 384.781 390.619 385.9 392 385.9Z" fill="#D95496"/>
-		<path d="M194.7 379.3H132V387.4H194.7V379.3Z" fill="#A88FD9"/>
-		<path d="M201.5 385.9C202.881 385.9 204 384.781 204 383.4C204 382.019 202.881 380.9 201.5 380.9C200.119 380.9 199 382.019 199 383.4C199 384.781 200.119 385.9 201.5 385.9Z" fill="#D95496"/>
-		<path d="M427.4 365.4H378.8V373.5H427.4V365.4Z" fill="#A88FD9"/>
-		<path d="M371.6 371.9C372.981 371.9 374.1 370.781 374.1 369.4C374.1 368.019 372.981 366.9 371.6 366.9C370.219 366.9 369.1 368.019 369.1 369.4C369.1 370.781 370.219 371.9 371.6 371.9Z" fill="#D95496"/>
-		<path d="M249.7 379.3H208.1V387.4H249.7V379.3Z" fill="#A88FD9"/>
-		<path d="M256.9 385.9C258.281 385.9 259.4 384.781 259.4 383.4C259.4 382.019 258.281 380.9 256.9 380.9C255.519 380.9 254.4 382.019 254.4 383.4C254.4 384.781 255.519 385.9 256.9 385.9Z" fill="#D95496"/>
-		<path d="M173.9 394.9H132.3V403H173.9V394.9Z" fill="#A88FD9"/>
-		<path d="M235.9 394.9H186.2V403H235.9V394.9Z" fill="#A88FD9"/>
-		<path d="M180.3 401.4C181.681 401.4 182.8 400.281 182.8 398.9C182.8 397.519 181.681 396.4 180.3 396.4C178.919 396.4 177.8 397.519 177.8 398.9C177.8 400.281 178.919 401.4 180.3 401.4Z" fill="#D95496"/>
-		<path d="M315.4 394.9H252.7V403H315.4V394.9Z" fill="#A88FD9"/>
-		<path d="M244.8 401.4C246.181 401.4 247.3 400.281 247.3 398.9C247.3 397.519 246.181 396.4 244.8 396.4C243.419 396.4 242.3 397.519 242.3 398.9C242.3 400.281 243.419 401.4 244.8 401.4Z" fill="#D95496"/>
-		<path d="M308.6 408.9H263.9V417H308.6V408.9Z" fill="#A88FD9"/>
-		<path d="M316.1 415.4C317.481 415.4 318.6 414.281 318.6 412.9C318.6 411.519 317.481 410.4 316.1 410.4C314.719 410.4 313.6 411.519 313.6 412.9C313.6 414.281 314.719 415.4 316.1 415.4Z" fill="#D95496"/>
-		<path d="M364.3 394.9H330.1V403H364.3V394.9Z" fill="#A88FD9"/>
-		<path d="M322.4 401.4C323.781 401.4 324.9 400.281 324.9 398.9C324.9 397.519 323.781 396.4 322.4 396.4C321.019 396.4 319.9 397.519 319.9 398.9C319.9 400.281 321.019 401.4 322.4 401.4Z" fill="#D95496"/>
-		<path d="M385.1 408.9H322.4V417H385.1V408.9Z" fill="#A88FD9"/>
-		<path d="M427.4 408.9H399.4V417H427.4V408.9Z" fill="#A88FD9"/>
-		<path d="M392 415.4C393.381 415.4 394.5 414.281 394.5 412.9C394.5 411.519 393.381 410.4 392 410.4C390.619 410.4 389.5 411.519 389.5 412.9C389.5 414.281 390.619 415.4 392 415.4Z" fill="#D95496"/>
-		<path d="M194.7 408.9H132V417H194.7V408.9Z" fill="#A88FD9"/>
-		<path d="M201.5 415.4C202.881 415.4 204 414.281 204 412.9C204 411.519 202.881 410.4 201.5 410.4C200.119 410.4 199 411.519 199 412.9C199 414.281 200.119 415.4 201.5 415.4Z" fill="#D95496"/>
-		<path d="M427.4 394.9H378.8V403H427.4V394.9Z" fill="#A88FD9"/>
-		<path d="M371.6 401.4C372.981 401.4 374.1 400.281 374.1 398.9C374.1 397.519 372.981 396.4 371.6 396.4C370.219 396.4 369.1 397.519 369.1 398.9C369.1 400.281 370.219 401.4 371.6 401.4Z" fill="#D95496"/>
-		<path d="M249.7 408.9H208.1V417H249.7V408.9Z" fill="#A88FD9"/>
-		<path d="M256.9 415.4C258.281 415.4 259.4 414.281 259.4 412.9C259.4 411.519 258.281 410.4 256.9 410.4C255.519 410.4 254.4 411.519 254.4 412.9C254.4 414.281 255.519 415.4 256.9 415.4Z" fill="#D95496"/>
-	</g>
-	<g class="SVGelement SVGelement--growIn SVGelement--bob SVGelement--delay2">
-		<path d="M238.2 275.6H132V292.4H238.2V275.6Z" fill="#3AA8E4"/>
-		<path d="M331.7 275.6H259.7V292.4H331.7V275.6Z" fill="#3AA8E4"/>
-		<path d="M367.7 328.8H295.7V345.6H367.7V328.8Z" fill="#3AA8E4"/>
-		<path d="M427.1 275.6H358.1V292.4H427.1V275.6Z" fill="#3AA8E4"/>
-		<path d="M249 288.6C251.485 288.6 253.5 286.585 253.5 284.1C253.5 281.615 251.485 279.6 249 279.6C246.515 279.6 244.5 281.615 244.5 284.1C244.5 286.585 246.515 288.6 249 288.6Z" fill="#B569B8"/>
-		<path d="M343.6 288.6C346.085 288.6 348.1 286.585 348.1 284.1C348.1 281.615 346.085 279.6 343.6 279.6C341.115 279.6 339.1 281.615 339.1 284.1C339.1 286.585 341.115 288.6 343.6 288.6Z" fill="#B569B8"/>
-		<path d="M206.7 302.2H132V319H206.7V302.2Z" fill="#3AA8E4"/>
-		<path d="M299.6 302.2H227.6V319H299.6V302.2Z" fill="#3AA8E4"/>
-		<path d="M407.3 302.2H326V319H407.3V302.2Z" fill="#3AA8E4"/>
-		<path d="M216.9 315.1C219.385 315.1 221.4 313.085 221.4 310.6C221.4 308.115 219.385 306.1 216.9 306.1C214.415 306.1 212.4 308.115 212.4 310.6C212.4 313.085 214.415 315.1 216.9 315.1Z" fill="#B569B8"/>
-		<path d="M188.3 328.8H132V345.6H188.3V328.8Z" fill="#3AA8E4"/>
-		<path d="M430.4 328.8H392.6V345.6H430.4V328.8Z" fill="#3AA8E4"/>
-		<path d="M200.3 341.7C202.785 341.7 204.8 339.685 204.8 337.2C204.8 334.715 202.785 332.7 200.3 332.7C197.815 332.7 195.8 334.715 195.8 337.2C195.8 339.685 197.815 341.7 200.3 341.7Z" fill="#B569B8"/>
-		<path d="M268.9 328.8H212.6V345.6H268.9V328.8Z" fill="#3AA8E4"/>
-		<path d="M280.9 341.7C283.385 341.7 285.4 339.685 285.4 337.2C285.4 334.715 283.385 332.7 280.9 332.7C278.415 332.7 276.4 334.715 276.4 337.2C276.4 339.685 278.415 341.7 280.9 341.7Z" fill="#B569B8"/>
-		<path d="M379.8 341.7C382.285 341.7 384.3 339.685 384.3 337.2C384.3 334.715 382.285 332.7 379.8 332.7C377.315 332.7 375.3 334.715 375.3 337.2C375.3 339.685 377.315 341.7 379.8 341.7Z" fill="#B569B8"/>
-		<path d="M312.8 315.1C315.285 315.1 317.3 313.085 317.3 310.6C317.3 308.115 315.285 306.1 312.8 306.1C310.315 306.1 308.3 308.115 308.3 310.6C308.3 313.085 310.315 315.1 312.8 315.1Z" fill="#B569B8"/>
-	</g>
-
-</svg>
-                    </div>
-
-                    <div class="cards__textWrap">
-
-                        <h5 class="cards__title growIn">Completely free Plot site for the first year</h5>
-
-                        <p class="growIn"></p>
-
-                    </div>
-
-                </div>
-
-            
-                <div class="cards__item" data-plot-smooth-scroll-element>
-
-                    <div class="cards__svgWrap">
-
                         <svg width="277" height="218" viewBox="0 0 277 218" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="277" height="218" rx="8" fill="#2E2E2B"/>
 <circle class="SVGelement SVGelement__1" cx="138" cy="68" r="41" fill="#F5D93D"/>
 <g class="SVGelement SVGelement__1"><rect x="66.6924" y="109" width="77" height="77" rx="9" transform="rotate(11 66.6924 109)" fill="#EAB8D1"/></g>
 <path class="SVGelement SVGelement__1" d="M165.835 120.638C167.27 111.268 178.492 107.184 185.615 113.438L229.111 151.636C235.963 157.652 233.866 168.81 225.297 171.929L173.033 190.952C164.465 194.07 155.686 186.871 157.067 177.858L165.835 120.638Z" fill="#7DEDBB"/>
 </svg>
+
                     </div>
 
                     <div class="cards__textWrap">
 
-                        <h5 class="cards__title growIn">Ongoing promotion on our social channels</h5>
+                        <h5 class="cards__title growIn">Your dedicated Plot design team</h5>
 
-                        <p class="growIn"></p>
-
-                    </div>
-
-                </div>
-
-            
-                <div class="cards__item" data-plot-smooth-scroll-element>
-
-                    <div class="cards__svgWrap">
-
-                        <svg width="277" height="218" viewBox="0 0 277 218" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="277" height="218" rx="8" fill="#2E2E2B"></rect>
-<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="34" y="32" width="119" height="118">
-<ellipse cx="93.5" cy="91" rx="59.5" ry="59" fill="#3AA8E4"></ellipse>
-</mask>
-<g class="SVGelement SVGelement__4" mask="url(#mask0)">
-<ellipse cx="93.5" cy="91" rx="59.5" ry="59" fill="#3AA8E4"></ellipse>
-<path d="M68.4514 78.9151L91.7997 99.4983L85.7893 130.42L56.4305 140.758L33.0822 120.174L39.0927 89.2531L68.4514 78.9151Z" fill="#7DEDBB"></path>
-<path d="M102.183 44.8836L116.907 47.7457L121.791 61.9285L111.95 73.2491L97.2254 70.387L92.3419 56.2042L102.183 44.8836Z" fill="#7DEDBB"></path>
-<path d="M135.388 83.1428L154.063 90.9837L156.101 110.377L139.464 121.929L120.789 114.088L118.751 94.6951L135.388 83.1428Z" fill="#7DEDBB"></path>
-</g>
-<g class="SVGelement SVGelement__3">
-    <path d="M205.687 181.174C204.747 178.192 207.135 175.254 210.028 175.833L218.118 177.45C221.067 178.04 222.325 181.826 220.37 184.231L214.907 190.953C212.953 193.358 209.271 192.554 208.313 189.514L205.687 181.174Z" fill="white"></path>
-    <rect width="11.7798" height="5.90351" rx="2.95176" transform="matrix(0.744323 0.667819 -0.61711 0.786877 216.675 182.963)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M237.219 156.128C235.792 154.267 236.721 151.584 238.909 151.25L248.556 149.775C250.785 149.434 252.643 151.78 251.883 153.976L248.529 163.659C247.769 165.855 244.968 166.233 243.513 164.336L237.219 156.128Z" fill="white"></path>
-    <rect width="10.7814" height="5.40316" rx="2.70158" transform="matrix(0.927843 0.372971 -0.310766 0.950486 247.928 155.138)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M222.543 114.958C221.119 113.119 222.075 110.446 224.281 110.097L232.74 108.76C234.989 108.404 236.843 110.722 236.06 112.91L233.06 121.299C232.277 123.487 229.453 123.884 228.002 122.009L222.543 114.958Z" fill="white"></path>
-    <rect width="10.0904" height="5.05334" rx="2.52667" transform="matrix(0.931548 0.363618 -0.320275 0.947324 232.439 113.699)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M171.905 97.826C170.13 96.3231 170.509 93.5093 172.595 92.7095L187.118 87.1396C189.243 86.3243 191.539 88.206 191.228 90.5093L189.066 106.546C188.756 108.849 186.075 109.824 184.266 108.292L171.905 97.826Z" fill="white"></path>
-    <rect width="13.8663" height="6.94434" rx="3" transform="matrix(0.986792 0.161993 -0.116316 0.993212 186.323 94.5559)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M184.858 138.399C183.467 136.535 184.47 133.879 186.682 133.569L204.971 131.004C207.225 130.688 209.039 133.038 208.218 135.212L201.434 153.187C200.613 155.362 197.782 155.709 196.364 153.809L184.858 138.399Z" fill="white"></path>
-    <rect width="15.4403" height="7.73257" rx="3" transform="matrix(0.92506 0.37982 -0.336759 0.941591 201.672 138.933)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M161.671 165.551C161.558 162.489 164.714 160.399 167.41 161.75L181.262 168.692C184.011 170.07 184.219 173.975 181.636 175.687L168.366 184.476C165.782 186.187 162.369 184.404 162.254 181.283L161.671 165.551Z" fill="white"></path>
-    <rect width="15.5582" height="7.78403" rx="3.89201" transform="matrix(0.551674 0.834059 -0.823951 0.566661 175.411 173.992)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M129.818 117.846C129.064 114.901 131.741 112.224 134.686 112.979L154.275 117.996C157.277 118.765 158.302 122.509 156.11 124.7L141.54 139.271C139.348 141.462 135.605 140.437 134.836 137.435L129.818 117.846Z" fill="white"></path>
-    <rect x="147.816" y="125.059" width="18" height="9" rx="4" transform="rotate(44 147.816 125.059)" fill="white"></rect>
-</g>
-
-<g class="SVGelement SVGelement__3">
-    <path d="M118.608 155.85C118.523 153.554 120.89 151.986 122.912 152.999L139.818 161.472C141.88 162.505 142.036 165.434 140.098 166.718L123.903 177.444C121.965 178.728 119.406 177.391 119.319 175.05L118.608 155.85Z" fill="white"></path>
-    <rect width="15.5582" height="7.78403" rx="3.89201" transform="matrix(0.551674 0.834059 -0.823951 0.566661 132.411 165.992)" fill="white"></rect>
-</g>
-</svg>
-                    </div>
-
-                    <div class="cards__textWrap">
-
-                        <h5 class="cards__title growIn">Superstar Plot Hosting included</h5>
-
-                        <p class="growIn"></p>
+                        <p class="growIn">Our Design team take your brand and create a bespoke Plot website for your music festival, Venue or live event.</p>
 
                     </div>
 
@@ -609,36 +321,85 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
                         <svg width="277" height="218" viewBox="0 0 277 218" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="277" height="218" rx="8" fill="#2E2E2B"/>
-<g class="SVGelement SVGelement__18" >
-<rect x="25" y="38" width="147" height="60" rx="5" fill="#7DEDBB"/>
-<rect x="40" y="52" width="117" height="6" fill="#3AA8E4"/>
-<rect x="40" y="64" width="117" height="6" fill="#3AA8E4"/>
-<rect x="40" y="77" width="117" height="6" fill="#3AA8E4"/>
+<rect class="SVGelement SVGelement__2--bottom" x="52" y="86" width="131" height="92" rx="15" fill="#F55252"/>
+<rect class="SVGelement SVGelement__2--middle" x="73" y="64" width="131" height="92" rx="15" fill="#A88FD9"/>
+<rect class="SVGelement SVGelement__2--top" x="93" y="40" width="131" height="92" rx="15" fill="#7DEDBB"/>
+</svg>
+                    </div>
+
+                    <div class="cards__textWrap">
+
+                        <h5 class="cards__title growIn">Stacked with powerful features</h5>
+
+                        <p class="growIn">Packed with features designed for music events and venues , including schedule calendars, lineup generators and holding pages.</p>
+
+                    </div>
+
+                </div>
+
+            
+                <div class="cards__item" data-plot-smooth-scroll-element>
+
+                    <div class="cards__svgWrap">
+
+                        <svg width="277" height="218" viewBox="0 0 277 218" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="277" height="218" rx="8" fill="#2E2E2B"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="34" y="32" width="119" height="118">
+<ellipse cx="93.5" cy="91" rx="59.5" ry="59" fill="#3AA8E4"/>
+</mask>
+<g class="SVGelement SVGelement__4" mask="url(#mask0)">
+<ellipse cx="93.5" cy="91" rx="59.5" ry="59" fill="#3AA8E4"/>
+<path d="M68.4514 78.9151L91.7997 99.4983L85.7893 130.42L56.4305 140.758L33.0822 120.174L39.0927 89.2531L68.4514 78.9151Z" fill="#7DEDBB"/>
+<path d="M102.183 44.8836L116.907 47.7457L121.791 61.9285L111.95 73.2491L97.2254 70.387L92.3419 56.2042L102.183 44.8836Z" fill="#7DEDBB"/>
+<path d="M135.388 83.1428L154.063 90.9837L156.101 110.377L139.464 121.929L120.789 114.088L118.751 94.6951L135.388 83.1428Z" fill="#7DEDBB"/>
 </g>
-<g class="SVGelement SVGelement__18" >
-    <g class="SVGelement SVGelement__19" >
-<path d="M39.1887 127.759L67.3111 121.127L86.8558 142.086L78.2782 169.677L50.1558 176.309L30.6111 155.35L39.1887 127.759Z" fill="#A88FD9"/>
+<g class="SVGelement SVGelement__3">
+    <path d="M205.687 181.174C204.747 178.192 207.135 175.254 210.028 175.833L218.118 177.45C221.067 178.04 222.325 181.826 220.37 184.231L214.907 190.953C212.953 193.358 209.271 192.554 208.313 189.514L205.687 181.174Z" fill="white"/>
+    <rect width="11.7798" height="5.90351" rx="2.95176" transform="matrix(0.744323 0.667819 -0.61711 0.786877 216.675 182.963)" fill="white"/>
 </g>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M237.219 156.128C235.792 154.267 236.721 151.584 238.909 151.25L248.556 149.775C250.785 149.434 252.643 151.78 251.883 153.976L248.529 163.659C247.769 165.855 244.968 166.233 243.513 164.336L237.219 156.128Z" fill="white"/>
+    <rect width="10.7814" height="5.40316" rx="2.70158" transform="matrix(0.927843 0.372971 -0.310766 0.950486 247.928 155.138)" fill="white"/>
 </g>
-<g class="SVGelement SVGelement__18" >
-<rect x="102" y="118" width="147" height="60" rx="5" fill="#7DEDBB"/>
-<rect x="117" y="132" width="117" height="6" fill="#3AA8E4"/>
-<rect x="117" y="144" width="117" height="6" fill="#3AA8E4"/>
-<rect x="117" y="157" width="117" height="6" fill="#3AA8E4"/>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M222.543 114.958C221.119 113.119 222.075 110.446 224.281 110.097L232.74 108.76C234.989 108.404 236.843 110.722 236.06 112.91L233.06 121.299C232.277 123.487 229.453 123.884 228.002 122.009L222.543 114.958Z" fill="white"/>
+    <rect width="10.0904" height="5.05334" rx="2.52667" transform="matrix(0.931548 0.363618 -0.320275 0.947324 232.439 113.699)" fill="white"/>
 </g>
-<g class="SVGelement SVGelement__18" >
-<g class="SVGelement SVGelement__19" >
-<path d="M193.189 45.7588L221.311 39.1268L240.856 60.0859L232.278 87.6771L204.156 94.3092L184.611 73.35L193.189 45.7588Z" fill="#D95496"/>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M171.905 97.826C170.13 96.3231 170.509 93.5093 172.595 92.7095L187.118 87.1396C189.243 86.3243 191.539 88.206 191.228 90.5093L189.066 106.546C188.756 108.849 186.075 109.824 184.266 108.292L171.905 97.826Z" fill="white"/>
+    <rect width="13.8663" height="6.94434" rx="3" transform="matrix(0.986792 0.161993 -0.116316 0.993212 186.323 94.5559)" fill="white"/>
 </g>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M184.858 138.399C183.467 136.535 184.47 133.879 186.682 133.569L204.971 131.004C207.225 130.688 209.039 133.038 208.218 135.212L201.434 153.187C200.613 155.362 197.782 155.709 196.364 153.809L184.858 138.399Z" fill="white"/>
+    <rect width="15.4403" height="7.73257" rx="3" transform="matrix(0.92506 0.37982 -0.336759 0.941591 201.672 138.933)" fill="white"/>
+</g>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M161.671 165.551C161.558 162.489 164.714 160.399 167.41 161.75L181.262 168.692C184.011 170.07 184.219 173.975 181.636 175.687L168.366 184.476C165.782 186.187 162.369 184.404 162.254 181.283L161.671 165.551Z" fill="white"/>
+    <rect width="15.5582" height="7.78403" rx="3.89201" transform="matrix(0.551674 0.834059 -0.823951 0.566661 175.411 173.992)" fill="white"/>
+</g>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M129.818 117.846C129.064 114.901 131.741 112.224 134.686 112.979L154.275 117.996C157.277 118.765 158.302 122.509 156.11 124.7L141.54 139.271C139.348 141.462 135.605 140.437 134.836 137.435L129.818 117.846Z" fill="white"/>
+    <rect x="147.816" y="125.059" width="18" height="9" rx="4" transform="rotate(44 147.816 125.059)" fill="white"/>
+</g>
+
+<g class="SVGelement SVGelement__3">
+    <path d="M118.608 155.85C118.523 153.554 120.89 151.986 122.912 152.999L139.818 161.472C141.88 162.505 142.036 165.434 140.098 166.718L123.903 177.444C121.965 178.728 119.406 177.391 119.319 175.05L118.608 155.85Z" fill="white"/>
+    <rect width="15.5582" height="7.78403" rx="3.89201" transform="matrix(0.551674 0.834059 -0.823951 0.566661 132.411 165.992)" fill="white"/>
 </g>
 </svg>
                     </div>
 
                     <div class="cards__textWrap">
 
-                        <h5 class="cards__title growIn">Bespoke consultation with our design team</h5>
+                        <h5 class="cards__title growIn">A flexible admin that doesn't suck</h5>
 
-                        <p class="growIn"></p>
+                        <p class="growIn">Admin areas don't have to be depressing. With Plot, you have a gorgeous easy to use admin that makes managing your site fun.</p>
 
                     </div>
 
@@ -648,67 +409,105 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
         </div>
 
         
+            <div class="button__wrap cards_button">
+                <a href="http://builtwithplot.local/features" class="button button--X">
+                    <span>
+                        View All Features                    </span>
+                </a>
+            </div>
+
+        
     </div>
 
 </section> 
-</div>
 
-<section class="countdownTimer plotLayout" >
-    <div class="maxWidth">
-        <div 
-            class="JS--countdownTimer countdownTimer__innerWrap"
-                                        data-custom-next-date="2023-10-17 15:00:00"
-                    >  
-            <h4 class="countdownTimer__title">Countdown to our next winner!</h4>
-            <ul>
-                <li><span id="months" class="countdownTimer__unit">00</span><span>Month<span class="countdownTimer__unitPlural">s</span></span></li>
-                <li class="countdownTimer__unitSeperator">:</li>
-                <li><span id="days" class="countdownTimer__unit">00</span><span>Day<span class="countdownTimer__unitPlural">s</span></span></li>
-                <li class="countdownTimer__unitSeperator">:</li>
-                <li><span id="hours" class="countdownTimer__unit">00</span><span>Hour<span class="countdownTimer__unitPlural">s</span></span></li>
-                <li class="countdownTimer__unitSeperator">:</li>
-                <li><span id="minutes" class="countdownTimer__unit">00</span><span>Minute<span class="countdownTimer__unitPlural">s</span></span></li>
-                <!-- <li><span id="seconds">0</span>Seconds</li> -->
-            </ul>
+<section class="testimonial sectionPadding" data-plot-smooth-scroll-element>
+
+    <div class="maxWidth">    
+
+        <div class="testimonial__innerWrap JS--testimonials">
+
+            
+                <div class="testimonial__item">
+
+                    <p class="testimonial__title growIn">What people are saying about Plot.</p>
+
+                    <p class="testimonial__quote growIn">“Plot has saved us loads of time, effort and money, whilst creating an amazing looking website for Africa Oye. A great system, and the team have been a pleasure to work with. Highly recommended!”</p>
+
+                    <div class="testimonial__imageWrap growIn">
+
+                        
+    <div class="plotLazyLoadFrame"> 
+
+        
+            <img style="opacity: 1" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'%3E%3C/svg%3E"
+                data-src="https://builtwithplot.local/wp-content/uploads/2020/06/DavidMcTague_2017_CreditClaireStevens-1-150x150.png"
+                
+                class="JS--lazyLoad testimonial__image" 
+                alt=""
+                            />
+
+        
+    </div> 
+
+    
+                    </div>
+
+                    <p class="testimonial__author growIn">Dave McTague - Africa Oye</p>
+
+                </div>
+
+            
+                <div class="testimonial__item">
+
+                    <p class="testimonial__title growIn">What people are saying about Plot.</p>
+
+                    <p class="testimonial__quote growIn">“We have been using Plot for the last few years across all our festivals as it's the quickest, best, no hassle way to make sure we get things done on time. Our audiences know exactly how to use it and it's been a real benefit when it comes to selling tickets. It's a brilliant product.”</p>
+
+                    <div class="testimonial__imageWrap growIn">
+
+                        
+    <div class="plotLazyLoadFrame"> 
+
+        
+            <img style="opacity: 1" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'%3E%3C/svg%3E"
+                data-src="https://builtwithplot.local/wp-content/uploads/2022/05/jami_etagg-150x150.jpeg"
+                
+                class="JS--lazyLoad testimonial__image" 
+                alt=""
+                            />
+
+        
+    </div> 
+
+    
+                    </div>
+
+                    <p class="testimonial__author growIn">Jamie Tagg - Mighty Hoopla</p>
+
+                </div>
+
+            
         </div>
+
+
     </div>
-</section>
 
-	     	
-                    
-        	<section class="plotLayoutForm plotLayout">
+    <div class="testimonial__crossWrap">
 
-    <div class="maxWidth">
-
-        <div class="plotLayoutForm__textWrap">
-
-            
-                <h2 class="plotLayoutForm__heading">Enter now for your chance to win  a free website worth £3000</h2>
-
-            
-            
-            <div class="wpforms-container " id="wpforms-3011"><form id="wpforms-form-3011" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="3011" method="post" enctype="multipart/form-data" action="/spotlights/" data-token="7f78d9a00192c20870dcc04571b61611"><noscript class="wpforms-error-noscript">Please enable JavaScript in your browser to complete this form.</noscript><div class="wpforms-field-container"><div id="wpforms-3011-field_1-container" class="wpforms-field wpforms-field-text" data-field-id="1"><label class="wpforms-field-label" for="wpforms-3011-field_1">Name</label><input type="text" id="wpforms-3011-field_1" class="wpforms-field-medium" name="wpforms[fields][1]" placeholder="Enter name" ></div><div id="wpforms-3011-field_2-container" class="wpforms-field wpforms-field-email" data-field-id="2"><label class="wpforms-field-label" for="wpforms-3011-field_2">Email <span class="wpforms-required-label">*</span></label><input type="email" id="wpforms-3011-field_2" class="wpforms-field-medium wpforms-field-required" name="wpforms[fields][2]" placeholder="example@gmail.com" spellcheck="false" required></div><div id="wpforms-3011-field_3-container" class="wpforms-field wpforms-field-text" data-field-id="3"><label class="wpforms-field-label" for="wpforms-3011-field_3">Event name or venue</label><input type="text" id="wpforms-3011-field_3" class="wpforms-field-medium" name="wpforms[fields][3]" placeholder="Fun Festival" ></div><div id="wpforms-3011-field_4-container" class="wpforms-field wpforms-field-text" data-field-id="4"><label class="wpforms-field-label" for="wpforms-3011-field_4">Business name</label><input type="text" id="wpforms-3011-field_4" class="wpforms-field-medium" name="wpforms[fields][4]" placeholder="Business name" ></div><div id="wpforms-3011-field_5-container" class="wpforms-field wpforms-field-textarea" data-field-id="5"><label class="wpforms-field-label" for="wpforms-3011-field_5">What kind of cultural impact will you make?</label><textarea id="wpforms-3011-field_5" class="wpforms-field-medium" name="wpforms[fields][5]" ></textarea></div><div id="wpforms-3011-field_6-container" class="wpforms-field wpforms-field-textarea" data-field-id="6"><label class="wpforms-field-label" for="wpforms-3011-field_6">How can a free plot website help you?</label><textarea id="wpforms-3011-field_6" class="wpforms-field-medium" name="wpforms[fields][6]" ></textarea></div><div id="wpforms-3011-field_7-container" class="wpforms-field wpforms-field-checkbox checkboxAgree" data-field-id="7"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-3011-field_7">Terms &amp; Conditions <span class="wpforms-required-label">*</span></label><ul id="wpforms-3011-field_7" class="wpforms-field-required"><li class="choice-1 depth-1"><input type="checkbox" id="wpforms-3011-field_7_1" name="wpforms[fields][7][]" value="I agree to the Terms &amp; Conditions" required ><label class="wpforms-field-label-inline" for="wpforms-3011-field_7_1">I agree to the Terms &amp; Conditions</label></li></ul></div><div id="wpforms-3011-field_8-container" class="wpforms-field wpforms-field-checkbox checkboxAgree" data-field-id="8"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-3011-field_8">Email signup <span class="wpforms-required-label">*</span></label><ul id="wpforms-3011-field_8" class="wpforms-field-required"><li class="choice-1 depth-1"><input type="checkbox" id="wpforms-3011-field_8_1" name="wpforms[fields][8][]" value="I am happy to receive emails regarding future updates from Built With Plot (we promise we won’t spam you, and we’ll never sell your data)." required ><label class="wpforms-field-label-inline" for="wpforms-3011-field_8_1">I am happy to receive emails regarding future updates from Built With Plot (we promise we won’t spam you, and we’ll never sell your data).</label></li></ul></div></div><!-- .wpforms-field-container --><div class="wpforms-submit-container" ><input type="hidden" name="wpforms[id]" value="3011">			<input
-				type="hidden"
-				name="wpforms[nonce]"
-				value="7d2105209b"
-			/>
-			<input type="hidden" name="wpforms[author]" value="1"><input type="hidden" name="wpforms[post_id]" value="2961"><button type="submit" name="wpforms[submit]" id="wpforms-submit-3011" class="wpforms-submit" data-alt-text="Sending..." data-submit-text="Submit" aria-live="assertive" value="wpforms-submit">Submit</button><img src="https://builtwithplot.local/wp-content/plugins/wpforms/assets/images/submit-spin.svg" class="wpforms-submit-spinner" style="display: none;" width="26" height="26" alt="Loading"></div></form></div>  <!-- .wpforms-container -->
-        </div>
-
-        <div class="plotLayoutForm__callUs">
-            <p>Look forward to speaking with you</p>
-        </div>
+        <svg viewBox="0 0 310 313" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path opacity="0.1" d="M310 74.4196L237.958 0L155 85.3637L72.0423 0L0 72.2308L82.9578 157.594L0 240.769L72.0423 313L155 229.825L237.958 313L310 240.769L227.042 157.594L310 74.4196Z" />
+</svg>
 
     </div>
 
 </section>
-                    
-        	<section class="carouselSection">
+<section class="carouselSection">
 
     <div class="maxWidth">
 
         
-            <h2 class="growIn">Check out Plot in action</h2>
+            <h2 class="growIn">Some recent Clients</h2>
 
         
         
@@ -721,41 +520,87 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 	    
             
+                <a target="_blank" href="https://southfacingfestival.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2021/04/southfacing-1634x1200.png" />
+
+                </a>
+
+            
+		
+            
+                <a target="_blank" href="https://mightyhoopla.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap is-initial-select">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2021/11/mighty-hoopla-1634x1200.png" />
+
+                </a>
+
+            
+		
+            
                 <div class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
 
-                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2023/10/slider-2-plot-in-action-min-1643x1200.png" />
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2020/11/ilmc-carousel-1634x1200.png" />
 
                 </div>
 
             
 		
             
-                <div class="carousel__imageWrap carousel__slide JS--carousel__slideWrap is-initial-select">
+                <a target="_blank" href="https://theoneinthewoods.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2021/11/one-in-the-woods-1634x1200.png" />
 
-                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2023/10/slider-1-plot-in-action-min-1642x1200.png" />
-
-                </div>
+                </a>
 
             
 		
             
-                <div class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                <a target="_blank" href="https://christmasatbutepark.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2021/11/christmas-at-bute-prk-1634x1200.png" />
 
-                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2023/10/slider-3-plot-in-action-min-1643x1200.png" />
+                </a>
 
-                </div>
+            
+		
+            
+                <a target="_blank" href="https://brockwell-bounce.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2022/05/brokwell-bounce-1615x1200.png" />
+
+                </a>
+
+            
+		
+            
+                <a target="_blank" href="https://claphamgrand.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2022/05/clapham-grand-1615x1200.png" />
+
+                </a>
+
+            
+		
+            
+                <a target="_blank" href="https://jubilationfestival.com/" class="carousel__imageWrap carousel__slide JS--carousel__slideWrap ">
+                        
+                    <img class="imageCarousel__image" data-flickity-lazyload="https://builtwithplot.local/wp-content/uploads/2022/05/Jubilation-1615x1200.png" />
+
+                </a>
 
             
 		
 	</div>
+
     
         <div class="carouselSection__buttonWrap button__wrap growIn">
-            <a href="#" class="button button--X">
-                <span>View full gallery</span>
+            <a href="http://builtwithplot.local/gallery" class="button button--X">
+                <span>View all examples</span>
             </a>
         </div>
 
-        
+    
     <div class="carouselSection__asset carouselSection__asset--1">
 
         <svg viewBox="0 0 373 429" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -773,9 +618,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
     </div>
 
 </section>
-    
-  
-
 <footer class="footer" id="mainSiteFooter" data-plot-smooth-scroll-element>
 
 	<div class="footer__cta">
@@ -871,10 +713,29 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 </footer>
 
 
-<!-- page-spotlights -->
+<div id="preload">
 
+    <!-- South Facing -->
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/south-facing/Screen.jpg" width="1" height="1" alt="south facing image Screen" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/south-facing/Left.jpg" width="1" height="1" alt="south facing image Left" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/south-facing/Right.jpg" width="1" height="1" alt="south facing image Right" />
 
+    <!-- Brock Well -->
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/brock-well/Screen.jpg" width="1" height="1" alt="Brock Well image Screen" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/brock-well/Left.jpg" width="1" height="1" alt="Brock Well image Left" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/brock-well/Right.jpg" width="1" height="1" alt="Brock Well image Right" />
 
+    <!-- Mighty Hoopla -->
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/mighty-hoopla/Screen.jpg" width="1" height="1" alt="Image 01" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/mighty-hoopla/Left.jpg" width="1" height="1" alt="Image 01" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/mighty-hoopla/Right.jpg" width="1" height="1" alt="Image 01" />
+
+    <!-- Africa oye -->
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/africa-oye/Screen.jpg" width="1" height="1" alt="Image 01" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/africa-oye/Left.jpg" width="1" height="1" alt="Image 01" />
+    <img src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/img/heros/africa-oye/Right.jpg" width="1" height="1" alt="Image 01" />
+
+</div>
 
         </div>
 
@@ -984,7 +845,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
     var au          = "https://builtwithplot.local/wp-admin/admin-ajax.php";
 </script> 
 
-    <script src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/js/main.js?v=20231016075719"></script>
+    <script src="https://builtwithplot.local/wp-content/themes/plot-custom/assets/js/main.js?v=20231015053946"></script>
 
 <script>Main.init();</script>
 
@@ -1018,59 +879,6 @@ var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/","classPr
 /* ]]> */
 </script>
 <script type='text/javascript' src='https://builtwithplot.local/wp-includes/js/mediaelement/wp-mediaelement.min.js?ver=6.3.1' id='wp-mediaelement-js'></script>
-<script type='text/javascript' src='https://builtwithplot.local/wp-content/plugins/wpforms/assets/lib/jquery.validate.min.js?ver=1.19.5' id='wpforms-validation-js'></script>
-<script type='text/javascript' src='https://builtwithplot.local/wp-content/plugins/wpforms/assets/lib/mailcheck.min.js?ver=1.1.2' id='wpforms-mailcheck-js'></script>
-<script type='text/javascript' src='https://builtwithplot.local/wp-content/plugins/wpforms/assets/lib/punycode.min.js?ver=1.0.0' id='wpforms-punycode-js'></script>
-<script type='text/javascript' src='https://builtwithplot.local/wp-content/plugins/wpforms/assets/js/utils.min.js?ver=1.8.4' id='wpforms-generic-utils-js'></script>
-<script type='text/javascript' src='https://builtwithplot.local/wp-content/plugins/wpforms/assets/js/wpforms.min.js?ver=1.8.4' id='wpforms-js'></script>
-<script>
-				( function() {
-					function wpforms_js_error_loading() {
-
-						if ( typeof window.wpforms !== 'undefined' ) {
-							return;
-						}
-
-						const forms = document.querySelectorAll( '.wpforms-form' );
-
-						if ( ! forms.length ) {
-							return;
-						}
-
-						const error = document.createElement( 'div' );
-
-						error.classList.add( 'wpforms-error-container' );
-						error.setAttribute( 'role', 'alert' );
-						error.innerHTML = 'Heads up! WPForms has detected an issue with JavaScript on this page. JavaScript is required for this form to work properly, so this form may not work as expected. See our <a href="https://wpforms.com/docs/getting-support-wpforms/" target="_blank" rel="noopener noreferrer">troubleshooting guide</a> to learn more or contact support.<p>This message is only displayed to site administrators.</p>';
-
-						forms.forEach( function( form ) {
-
-							if ( form.querySelector( '.wpforms-error-container' ) ) {
-								return;
-							}
-							
-							const formError = error.cloneNode( true ),
-								formErrorId = form.id + '-error';
-							
-							formError.setAttribute( 'id', formErrorId );
-							
-							form.insertBefore( formError, form.firstChild );
-							form.setAttribute( 'aria-invalid', 'true' );
-							form.setAttribute( 'aria-errormessage', formErrorId );
-						} );
-					}
-
-					if ( document.readyState === 'loading' ) {
-						document.addEventListener( 'DOMContentLoaded', wpforms_js_error_loading );
-					} else {
-						wpforms_js_error_loading();
-					}
-				}() );
-			</script><script type='text/javascript'>
-/* <![CDATA[ */
-var wpforms_settings = {"val_required":"This field is required.","val_email":"Please enter a valid email address.","val_email_suggestion":"Did you mean {suggestion}?","val_email_suggestion_title":"Click to accept this suggestion.","val_email_restricted":"This email address is not allowed.","val_number":"Please enter a valid number.","val_number_positive":"Please enter a valid positive number.","val_confirm":"Field values do not match.","val_checklimit":"You have exceeded the number of allowed selections: {#}.","val_limit_characters":"{count} of {limit} max characters.","val_limit_words":"{count} of {limit} max words.","val_recaptcha_fail_msg":"Google reCAPTCHA verification failed, please try again later.","val_turnstile_fail_msg":"Cloudflare Turnstile verification failed, please try again later.","val_inputmask_incomplete":"Please fill out the field in required format.","uuid_cookie":"1","locale":"en","wpforms_plugin_url":"https:\/\/builtwithplot.local\/wp-content\/plugins\/wpforms\/","gdpr":"","ajaxurl":"https:\/\/builtwithplot.local\/wp-admin\/admin-ajax.php","mailcheck_enabled":"1","mailcheck_domains":[],"mailcheck_toplevel_domains":["dev"],"is_ssl":"1","page_title":"Spotlights","page_id":"2961","currency_code":"USD","currency_thousands":",","currency_decimals":"2","currency_decimal":".","currency_symbol":"$","currency_symbol_pos":"left","val_requiredpayment":"Payment is required.","val_creditcard":"Please enter a valid credit card number.","val_post_max_size":"The total size of the selected files {totalSize} MB exceeds the allowed limit {maxSize} MB.","val_time12h":"Please enter time in 12-hour AM\/PM format (eg 8:45 AM).","val_time24h":"Please enter time in 24-hour format (eg 22:45).","val_time_limit":"Please enter time between {minTime} and {maxTime}.","val_url":"Please enter a valid URL.","val_fileextension":"File type is not allowed.","val_filesize":"File exceeds max size allowed. File was not uploaded.","post_max_size":"104857600","val_password_strength":"A stronger password is required. Consider using upper and lower case letters, numbers, and symbols.","val_phone":"Please enter a valid phone number.","richtext_add_media_button":"","entry_preview_iframe_styles":["https:\/\/builtwithplot.local\/wp-includes\/js\/tinymce\/skins\/lightgray\/content.min.css?ver=6.3.1","https:\/\/builtwithplot.local\/wp-includes\/css\/dashicons.min.css?ver=6.3.1","https:\/\/builtwithplot.local\/wp-includes\/js\/tinymce\/skins\/wordpress\/wp-content.css?ver=6.3.1"]}
-/* ]]> */
-</script>
 
     
 
@@ -1088,5 +896,5 @@ var wpforms_settings = {"val_required":"This field is required.","val_email":"Pl
 
 </html>
 
-<!-- Cache served by breeze CACHE - Last modified: Mon, 16 Oct 2023 07:57:19 GMT -->
-";s:7:"headers";a:3:{i:0;a:2:{s:4:"name";s:14:"Content-Length";s:5:"value";i:91850;}i:1;a:2:{s:4:"name";s:12:"Content-Type";s:5:"value";s:24:"text/html; charset=utf-8";}i:2;a:2:{s:4:"name";s:13:"Last-Modified";s:5:"value";s:29:"Mon, 16 Oct 2023 07:57:19 GMT";}}}
+<!-- Cache served by breeze CACHE - Last modified: Sun, 15 Oct 2023 17:39:46 GMT -->
+";s:7:"headers";a:3:{i:0;a:2:{s:4:"name";s:14:"Content-Length";s:5:"value";i:65563;}i:1;a:2:{s:4:"name";s:12:"Content-Type";s:5:"value";s:24:"text/html; charset=utf-8";}i:2;a:2:{s:4:"name";s:13:"Last-Modified";s:5:"value";s:29:"Sun, 15 Oct 2023 17:39:46 GMT";}}}

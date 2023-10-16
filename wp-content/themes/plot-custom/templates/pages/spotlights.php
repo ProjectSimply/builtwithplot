@@ -10,13 +10,13 @@
             <div class="fixedFiftyFifty__images">
                 <div class="fixedFiftyFifty__imagesInner">
                     <div class="fixedFiftyFifty__imageWrap">
-                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-4.jpg' ?>" alt="spotlights-example">
+                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-artist-performance.jpg' ?>" alt="spotlights-example">
                     </div>
                     <div class="fixedFiftyFifty__imageWrap">
-                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-2.jpg' ?>" alt="spotlights-example">
+                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-event.jpg' ?>" alt="spotlights-example">
                     </div>
                     <div class="fixedFiftyFifty__imageWrap">
-                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-3.jpg' ?>" alt="spotlights-example">
+                        <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-festival-dancing.jpg' ?>" alt="spotlights-example">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="fixedFiftyFifty__images">
                     <div class="fixedFiftyFifty__imagesInner">
                         <div class="fixedFiftyFifty__imageWrap">
-                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-4.jpg' ?>" alt="spotlights-example">
+                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-artist-performance.jpg' ?>" alt="spotlights-example">
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="fixedFiftyFifty__images">
                     <div class="fixedFiftyFifty__imagesInner">
                         <div class="fixedFiftyFifty__imageWrap">
-                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-2.jpg' ?>" alt="spotlights-example">
+                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-event.jpg' ?>" alt="spotlights-example">
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="fixedFiftyFifty__images">
                     <div class="fixedFiftyFifty__imagesInner">
                         <div class="fixedFiftyFifty__imageWrap">
-                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/fifty-asset-3.jpg' ?>" alt="spotlights-example">
+                            <img src="<?= get_stylesheet_directory_uri() . '/assets/img/spotlights/music-festival-dancing.jpg' ?>" alt="spotlights-example">
                         </div>
                     </div>
                 </div>
