@@ -49,6 +49,7 @@
     "flickity": "^2.2.1",
     "flickity-imagesloaded": "^2.0.0",
     "gsap": "^3.12.2",
-    "normalize-wheel": "^1.0.1"
+    "normalize-wheel": "^1.0.1",
+    "ogl": "^1.0.3"
   }
 }

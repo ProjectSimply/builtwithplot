@@ -11,9 +11,6 @@
 
 <script>Main.init();</script>
 
-<!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/3393359.js"></script>
-<!-- End of HubSpot Embed Code -->
 
 <?php while(has_sub_field('other_snippets','option')) : ?>
 

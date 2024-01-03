@@ -21,6 +21,10 @@
 
     <div data-plot-smooth-scroll>
 
+
+
+      <div class="plotEffectBanner" data-bg="/brag.png"></div>
+
         <div class="siteWrap">
 
                <?php get_template_part('router'); ?>
@@ -50,12 +54,6 @@
 
     <script type="text/javascript"> _linkedin_partner_id = "2354756"; window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || []; window._linkedin_data_partner_ids.push(_linkedin_partner_id); </script><script type="text/javascript"> (function(){var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script"); b.type = "text/javascript";b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js"; s.parentNode.insertBefore(b, s);})(); </script> <noscript> <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2354756&fmt=gif" /> </noscript>
 
-    <script type="text/javascript" src="https://static.leaddyno.com/js"></script>
-    <script>
-      LeadDyno.key = "a707867c49630b66341d10d32da9dcee5a6d65b0";
-      LeadDyno.recordVisit();
-      LeadDyno.autoWatch();
-    </script>
 
     
 </body>

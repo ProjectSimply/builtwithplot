@@ -15,8 +15,9 @@
 		Artists			= require('./pages/artists'),
 		Testimonials	= require('./components/testimonials'),
 		Schedule		= require('./pages/schedule'),
+		EffectBanner	= require('./effect-banner'),
 		News 			= require('./pages/news'),
-		Spotlights 		= require('./pages/spotlights'),
+		// Spotlights 		= require('./pages/spotlights'),
 		FixedFiftyFifty = require('./components/fixed-fifty-fifty'),
 		Tickers 		= require('./components/ticker'),
 	    Main
@@ -35,9 +36,6 @@
 			RollerText.init()
 			Main.fireConversionSnippetsIfOnThankYouPage()
 
-			//Pages
-        	if(Plot.isPage('home'))
-				Home.init()
 
         	if(Plot.isPage('schedule'))
 				Schedule.init()

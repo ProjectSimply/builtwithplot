@@ -14,18 +14,17 @@
 
 				<?php if(plotShowMainTicketsButton()) : ?>
 
-					<a href="<?= get_field('main_tickets_button_link','option') ?>" class="plotButton mainBuyTickets--desktop mainBuyTickets"><?= get_field('main_tickets_button_text','option') ?></a>
+					<div class="siteMainHeader__cta">
+
+						<a href="<?= get_field('main_tickets_button_link','option') ?>" class="plotButton mainBuyTickets--desktop mainBuyTickets"><?= get_field('main_tickets_button_text','option') ?></a>
+					
+					</div>
 
 				<?php endif; ?>
 
 			</div>
 
-			<div class="siteMainHeader__cta">
-				<a class="button siteMainHeader__ctaLink" href="<?= get_field('call_to_action_link', 'options') ?>">
-					<?= get_field('call_to_action_text', 'options') ?>
-				</a>
-			</div>
-
+	
 			<button class="JS--menuTrigger menuToggle__container">
 
 				<?php plotGetTemplatePart('parts/menu-toggle') ?>

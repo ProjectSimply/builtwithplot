@@ -40,8 +40,8 @@
     <link rel="shortcut icon" href="/favicon.ico">
 
     <?php wp_head(); ?>
-
-    <link rel="stylesheet" href="https://use.typekit.net/tms6vqx.css">
+    
+    <link rel="stylesheet" href="https://use.typekit.net/dmq8mvo.css">
 
     <?php if(strpos($_SERVER['HTTP_HOST'],'test') !== false || strpos($_SERVER['HTTP_HOST'],'local') !== false || strpos($_SERVER['HTTP_HOST'],'pleasecheck') !== false)  : ?>
         <link href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.css?v=<?= date('ymdhis') ?>" rel="stylesheet" media="all">

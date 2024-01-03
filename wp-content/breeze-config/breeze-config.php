@@ -1,7 +1,7 @@
 <?php 
 defined( 'ABSPATH' ) || exit;
 return array (
-  'homepage' => 'https://builtwithplot.local',
+  'homepage' => 'http://builtwithplot.test',
   'cache_options' => 
   array (
     'breeze-active' => '1',
@@ -13,8 +13,6 @@
       'author' => 0,
       'contributor' => 0,
       'subscriber' => 0,
-      'wpseo_manager' => 0,
-      'wpseo_editor' => 0,
     ),
     'breeze-gzip-compression' => '1',
     'breeze-browser-cache' => '1',
@@ -95,10 +93,6 @@
     array (
     ),
     'breeze-wp-emoji' => '0',
-    'breeze-control-heartbeat' => '0',
-    'breeze-heartbeat-front' => '',
-    'breeze-heartbeat-postedit' => '',
-    'breeze-heartbeat-backend' => '',
     'cdn-active' => '0',
     'cdn-relative-path' => '1',
     'cdn-url' => '',
@@ -121,8 +115,6 @@
     'author' => 0,
     'contributor' => 0,
     'subscriber' => 0,
-    'wpseo_manager' => 0,
-    'wpseo_editor' => 0,
   ),
   'exclude_url' => 
   array (
@@ -134,8 +126,6 @@
     2 => 'author',
     3 => 'contributor',
     4 => 'subscriber',
-    5 => 'wpseo_manager',
-    6 => 'wpseo_editor',
   ),
   'enabled-lazy-load' => '0',
   'use-lazy-load-native' => '0',

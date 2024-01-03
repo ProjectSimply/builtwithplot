@@ -1,3 +1,9 @@
+.plotEffectBanner {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+}
+
 .homeBanner {
     position: relative;
     @include vh(100, 'min-height');
@@ -57,15 +63,11 @@
         @include large {
             text-align: left;
             margin: 5rem 0 5rem;
-            display: grid;
+            display: flex;
             
             height: calc(100% - 10rem); 
             align-items: center;
             justify-content: center;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas: 
-            "titleWrap mobile"
-            "titleWrap mobile"; 
         }
     }
 
@@ -76,6 +78,10 @@
 
         .homeBanner__item {
 
+            @include large {
+                width: 50%;
+            }
+
 
             &.homeBanner__item--titleWrap {
                 grid-area: titleWrap; 
@@ -83,7 +89,9 @@
                 margin: 0 auto;
                 padding: 0 1rem;
 
-                
+                p {
+                    margin: 0;
+                }
             }
 
             &.homeBanner__item--mobile3D {
@@ -126,7 +134,6 @@
                 transition: color .7s ease-in;
 
                 @include large {
-                    margin-top: 1rem;
                     text-align: left; 
                 }
             }
@@ -205,3 +212,8 @@
             transform: translate3d(0,0,0);
         }
     }
+
+.homeBanner__item--imageWrap {
+    border-radius: 1rem;
+    overflow: hidden;
+}
