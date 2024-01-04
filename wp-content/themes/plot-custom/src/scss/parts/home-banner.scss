@@ -1,4 +1,4 @@
-.plotEffectBanner {
+#blurryGuys {
     height: 100vh;
     width: 100%;
     position: fixed;
@@ -62,11 +62,11 @@
         height: calc(100% - 10rem);
         @include large {
             text-align: left;
-            margin: 5rem 0 5rem;
+            margin: 5rem 0 1rem;
             display: flex;
             
-            height: calc(100% - 10rem); 
-            align-items: center;
+            height: calc(100% - 6rem); 
+            align-items: flex-end;
             justify-content: center;
         }
     }
@@ -87,11 +87,31 @@
                 grid-area: titleWrap; 
                 max-width: 42rem;
                 margin: 0 auto;
+                height:100%;
                 padding: 0 1rem;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
 
                 p {
                     margin: 0;
                 }
+
+                .perfectFor {
+                    p {
+                        margin-bottom: 1rem;
+                    }
+                    span {
+                        padding-right: 1rem;
+                    }
+                }
+            }
+
+            .vCentered {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
             &.homeBanner__item--mobile3D {
@@ -214,6 +234,27 @@
     }
 
 .homeBanner__item--imageWrap {
-    border-radius: 1rem;
-    overflow: hidden;
+    .plotLazyLoadFrame {
+        overflow: hidden;
+        border-radius: 1rem;
+        max-width: 70vw;
+        height: 80vh;
+        margin: 2rem auto 0;
+        aspect-ratio: 1.2;
+        img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+        @include large {
+            width: 120%;
+            max-width: none;
+            transform: translateX(5%);
+
+        }
+        @include xlarge {
+            width: 100%;
+            transform: translate3d(0,0,0);
+        }
+    }
 }

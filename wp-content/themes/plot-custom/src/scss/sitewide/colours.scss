@@ -1,11 +1,11 @@
 body {
 	--darkBlack : #111;
-	--primaryColor: #5050cc; 
 	--secondaryColor: green;
 	--black: #2E2E2B;
 	--white: #FFFFFF;
 	--yellow:#F5D93D;
 	--mint:  #7DEDBB;
+	--primaryColor: var(--mint); 
 	--purple:#A88FD9;
 	--green: #21B573;
 	--pink:  #EAB8D1;

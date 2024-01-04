@@ -1,4 +1,12 @@
+.siteMainHeader__logo {
+    path {
+        fill: white;
+    }
+}
+
 .mainMenu {
+
+
 
     li {
 
@@ -8,21 +16,36 @@
 	}
 
     a {
+
+        font-family: var(--headingFont);
         display: inline-block;
         text-transform: uppercase;
-        font-family: var(--bodyFont);
-        color: var(--black);
-        margin: 0 1.5rem 0 0;
+        color: white;
+        margin: 0 2rem 0 0;
         padding: .25rem 0;
-        transition: color .7s ease-in;
+        font-size: .9rem;
 
-        &:hover,
-        &:focus {
-            
+        &:hover {
+            color: var(--mint);
         }
     }
+
 }
 
+
+.siteMainHeader__cta .plotButton {
+    font-size: .9rem;
+}
+
+.menu-main-menu-container {
+    display: flex;
+    justify-content: center;
+}
+
+#menu-main-menu {
+    display: flex;
+    align-items: center;
+}
 
 
 .menuToggle--burger path {

@@ -6,9 +6,26 @@
 
             <div class="homeBanner__item homeBanner__item--titleWrap">
 
-                <h1 class="homeBanner__title"><?= get_field('home_title') ?></h1>
+                <div class="vCentered">
 
-                <p class="homeBanner__subtitle"><?= get_field('home_banner_subheading') ?></p>
+                    <h1 class="homeBanner__title"><?= get_field('home_title') ?></h1>
+
+                    <p class="homeBanner__subtitle"><?= get_field('home_banner_subheading') ?></p>
+
+                </div>
+
+                <div class="perfectFor">
+
+                    <p>Perfect for:</p>
+
+                    <div class="meta">
+                        <span>venues</span>
+                        <span>festivals</span>
+                        <span>promoters</span>
+                        <span>events</span>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -22,7 +39,6 @@
 					]); ?>
             </div>
 
-            
         
         </div>
     

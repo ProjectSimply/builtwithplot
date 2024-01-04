@@ -1,9 +1,12 @@
 .plotButton {
 	background: var(--primaryColor);
-	color: white;
-	padding: 0.6rem 1rem;
+	color: var(--black);
+	padding: 0.7rem 1rem;
+	font-family: var(--headingFont);
 	display: inline-block;
 	text-align: center;
+	border-radius: .8rem;
+	text-transform: uppercase;
 	&.selected {
 		background: grey;
 	}

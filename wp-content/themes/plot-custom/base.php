@@ -22,8 +22,7 @@
     <div data-plot-smooth-scroll>
 
 
-
-      <div class="plotEffectBanner" data-bg="/brag.png"></div>
+        <canvas id="blurryGuys"></canvas>
 
         <div class="siteWrap">
 

@@ -3,7 +3,8 @@
 //Loading up our include files from includes
 $psIncludes = array(
   'setup.php',
-  'includes/custom.php'
+  'includes/custom.php',
+  'includes/acf.php'
 );
 
 foreach ($psIncludes as $file) {

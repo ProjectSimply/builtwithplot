@@ -1,6 +1,38 @@
+
+
+@font-face {
+    font-family: 'aktiv_grotesk_exregular';
+    src: url('../fonts/aktiv-grotesk-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'aktiv_grotesk_exmedium';
+    src: url('../fonts/aktiv-grotesk-medium-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'aktiv_grotesk_exbold';
+    src: url('../fonts/aktiv-grotesk-bold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 :root {
-	--bodyFont: "aktiv-grotesk-extended", sans-serif;
-	--headingFont: "aktiv-grotesk-extended", sans-serif;
+	--bodyFont: "aktiv_grotesk_exregular", sans-serif;
+	--headingFont: "aktiv_grotesk_exbold", sans-serif;
 }
 
 html {
@@ -9,6 +41,7 @@ html {
 	font-style: normal;
 	font-weight: 400;
 	font-size: 13px;
+	letter-spacing: .2px;
 	text-align: center;
 
 	@include medium {
@@ -26,6 +59,11 @@ html {
 	@include xxlarge {
 		font-size: 22px;
 	}
+}
+
+.meta {
+	font-family: 'DM Mono', monospace;
+	text-transform: uppercase;
 }
 
 h1, h2, h3, h4, h5, h6 {
